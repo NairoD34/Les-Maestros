@@ -71,6 +71,7 @@ class HomePageController extends AbstractController
             $request->query->get('libelle', ''),
 
         );
+        $dataCate = [];
         foreach ($categories as $cate) {
 
             $photoCate = $photoRepo->searchPhotoByCategorie($cate);
