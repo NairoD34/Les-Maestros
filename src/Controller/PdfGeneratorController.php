@@ -22,6 +22,7 @@ class PdfGeneratorController extends AbstractController
         CommandeRepository $commandeRepo,
         AdresseRepository $adresseRepo
     ): Response {
+
         $dataProduit = $ligneRepo->findByIdCommande($id);
         $dataCommande = $commandeRepo->findById($id);
 
@@ -47,11 +48,10 @@ class PdfGeneratorController extends AbstractController
             $pdfOutput = $dompdf->output();
 
 
-
+        }
             return new Response($pdfOutput, 200, [
                 'Content-Type' => 'application/pdf',
             ]);
-        }
     }
 
     private function imageToBase64($path)
