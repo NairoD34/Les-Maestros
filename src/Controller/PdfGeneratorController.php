@@ -48,6 +48,7 @@ class PdfGeneratorController extends AbstractController
             $pdfOutput = $dompdf->output();
 
 
+
         }
             return new Response($pdfOutput, 200, [
                 'Content-Type' => 'application/pdf',

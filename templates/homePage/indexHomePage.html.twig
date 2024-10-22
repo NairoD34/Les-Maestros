@@ -1,71 +1,73 @@
 {% extends 'base.html.twig' %}
 
-
+   {% block stylesheet %}
+       <link rel="stylesheet" href="{{ asset('styles/pages/home.scss') }}"> {# Fichier CSS principal #}
+   {% endblock %}
 {% block title %} {{ title }} {% endblock %}   
 {% block main %}
-<style>
-/* Ajustez la taille des icônes des boutons */
-.carousel-control-prev-icon, .carousel-control-next-icon {
-    width: 30px;
-    height: 30px;
-}
+    <style>
+        /* Ajustez la taille des icônes des boutons */
+        .carousel-control-prev-icon, .carousel-control-next-icon {
+            width: 30px;
+            height: 30px;
+        }
 
-/* Centrez les boutons sur l'image */
-.carousel-control-prev, .carousel-control-next {
-   
-    background: none;
-    border: none; 
-}
+        /* Centrez les boutons sur l'image */
+        .carousel-control-prev, .carousel-control-next {
 
-.carousel-item {
-    transition: opacity 1s ease-in-out !important;
-}
-</style>
-<div class="row">
-<div class ="container-fluid d-flex ">
-    <div class="title col-12 col-md-6 d-flex flex-column align-items-center justify-content-center mb-5">
-        <h1 class="mr-5">Les Maestros de la <span style="color:var(--main);">Symfony</span></h1>
-        <h3 class="ml-5">la musique à portée de clic</h3>
+            background: none;
+            border: none;
+        }
+
+        .carousel-item {
+            transition: opacity 1s ease-in-out !important;
+        }
+    </style>
+    <div class="row">
+        <div class="container-fluid d-flex ">
+            <div class="title col-12 col-md-6 d-flex flex-column align-items-center justify-content-center mb-5">
+                <h1 class="mr-5">Les Maestros de la <span style="color:var(--main);">Symfony</span></h1>
+                <h3 class="ml-5">la musique à portée de clic</h3>
+            </div>
+            <div class="img-block col-12 col-md-6">
+                <img src="{{ asset('images/mecquidance.png') }}" alt="image acceuil">
+            </div>
+        </div>
     </div>
-    <div class="img-block col-12 col-md-6">
-    <img src= "{{ asset('images/mecquidance.png') }}" alt="image acceuil" >
+    <div id="carouselCategorie" class="carousel-slider">
+        <div class="carousel-container">
+
+            {% for cate in dataCate %}
+
+                <div class="carousel-items {% if loop.first %}active{% endif %}">
+                    <a href='{{ path('app_categorie_show', { 'id': cate.categorie.id }) }}'><img src="{{ cate.photos }}"
+                                                                                                 class="img-carousel"
+                                                                                                 alt="{{ cate.categorie.libelle }}"/></a>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button class="carousel-prev" type="button">
+            <span class="carousel-prev-icon" aria-hidden="true"></span>
+
+        </button>
+        <button class="carousel-next" type="button">
+            <span class="carousel-next-icon" aria-hidden="true"></span>
+
+        </button>
     </div>
-</div>
-</div>
-<div id="carouselCategorie" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-  <div class="carousel-inner">
-{% set isFirst = true %}
-{% for cate in dataCate %}
-  
-  <div class="carousel-item {% if isFirst %}active{% endif %}">
-      <a href='{{ path('app_categorie_show', { 'id': cate.categorie.id })}}'><img src="{{ cate.photos }}" class="d-block h-75 w-100" alt="{{ cate.categorie.libelle }}"/></a>
-    </div>
-    
-  {% set isFirst = false %}
-{% endfor %}
-
-</div>
-
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselCategorie" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-   
-  </button>
-  <button class="carousel-control-next " type="button" data-bs-target="#carouselCategorie" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    
-  </button>
-</div>
 
 
 
 
-<section class="promo-section m-5">
-<h2 class="text-center mb-3">Votre <span style="color:var(--main);"> passion </span>, nos promotions</h2>
-<h4 class="text-center mb-5">La musique, c'est notre passion, les promotions, c'est notre métier</h4>
-    <div class="row mt-5">
-        {% for productData in data %}
-            <div class="col-12  col-md-3 main-content d-flex flex-column mx-auto mb-4 d-flex  align-items-stretch ">
-                
+    <section class="promo-section m-5">
+        <h2 class="text-center mb-3">Votre <span style="color:var(--main);"> passion </span>, nos promotions</h2>
+        <h4 class="text-center mb-5">La musique, c'est notre passion, les promotions, c'est notre métier</h4>
+        <div class="row mt-5">
+            {% for productData in data %}
+                <div class="col-12  col-md-3 main-content d-flex flex-column mx-auto mb-4 d-flex  align-items-stretch ">
+
                     <div class=" flag-promo p-2 mb-3 text-center">
                         <p style="margin:0; font-size:18px;"> Promotions </p>
                     </div>
@@ -73,95 +75,102 @@
                         <div class="flag-percent">
                             <span>{{ productData.produit.Promotion.libelle }}</span>
                         </div>
-                    <a href="{{ path('app_show_produit', { 'id': productData.produit.id }) }}" class="text-center text-decoration-none flex-fill">
-                    {% for photo in productData.photos %}
-                        <img src='{{ photo.URLPhoto }}' alt='{{ productData.produit.libelle }}' class='img-product p-2'/>
-                    {% endfor %} 
-                    <p style="font-size:20px; ">{{ productData.produit.libelle }}</p>
-                        <div class="d-flex justify-content-center">
-                        <p class="old-price">{{ productData.oldPrice }}€</p>
-                        <p class="new-price">{{ productData.prixTTC }}€</p>
-                        </div>
+                        <a href="{{ path('app_show_produit', { 'id': productData.produit.id }) }}"
+                           class="text-center text-decoration-none flex-fill">
+                            {% for photo in productData.photos %}
+                                <img src='{{ photo.URLPhoto }}' alt='{{ productData.produit.libelle }}'
+                                     class='img-product p-2'/>
+                            {% endfor %}
+                            <p style="font-size:20px; ">{{ productData.produit.libelle }}</p>
+                            <div class="d-flex justify-content-center">
+                                <p class="old-price">{{ productData.oldPrice }}€</p>
+                                <p class="new-price">{{ productData.prixTTC }}€</p>
+                            </div>
                     </div>
-                </a>
-            </div>
-        {% else %}
-        <div class="d-flex w-100 text-align-center justify-content-center mt-5">
-            <p class="text-align-center"> Aucun produit en promotion </p>
+                    </a>
+                </div>
+            {% else %}
+                <div class="d-flex w-100 text-align-center justify-content-center mt-5">
+                    <p class="text-align-center"> Aucun produit en promotion </p>
+                </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-</section>
- 
+    </section>
 
 
-<div class="vertical-line"> </div>
+
+    <div class="vertical-line"></div>
 
 
-<section class="news-section m-5">
-<h2 class="text-center mb-3"> La <span style="color:var(--main);">musique</span> de demain, aujourd'hui</h2>
-<h4 class="text-center mb-5">La musique évolue constamment, et nous nous engageons à vous proposer les dernières nouveautés.</h4>
-    <div class="row d-flex justify-content-around align-items-center ">
-    {% for productData in dataNew %}
-        <div class="col-12 col-md-3 mb-5">
-            <div class="main-content-news  mx-auto bg-light align-items-stretch">
-                
-                    
+    <section class="news-section m-5">
+        <h2 class="text-center mb-3"> La <span style="color:var(--main);">musique</span> de demain, aujourd'hui</h2>
+        <h4 class="text-center mb-5">La musique évolue constamment, et nous nous engageons à vous proposer les dernières
+            nouveautés.</h4>
+        <div class="row d-flex justify-content-around align-items-center ">
+            {% for productData in dataNew %}
+            <div class="col-12 col-md-3 mb-5">
+                <div class="main-content-news  mx-auto bg-light align-items-stretch">
+
+
                     {% if productData.produit.Promotion is not empty %}
-                    <div class="flag-promo p-2 mb-3 text-center">
-                        <p style="margin:0; font-size:18px;">Promotions</p>
-                    </div>
+                        <div class="flag-promo p-2 mb-3 text-center">
+                            <p style="margin:0; font-size:18px;">Promotions</p>
+                        </div>
                     {% else %}
-                     <div class="flag-promo p-2 mb-3 text-center">
-                        <p style="margin:0; font-size:18px;">Nouveautés</p>
-                    </div>
+                        <div class="flag-promo p-2 mb-3 text-center">
+                            <p style="margin:0; font-size:18px;">Nouveautés</p>
+                        </div>
                     {% endif %}
-                    <a href="{{ path('app_show_produit', { 'id': productData.produit.id }) }}" class="d-block text-center text-decoration-none flex-fill">
-                    {% for photo in productData.photos %}
-                        <img src='{{ photo.URLPhoto }}' alt='{{ productData.produit.libelle }}' class='img-product p-2'/>
-                    {% endfor %} 
-                    
-                    <p style="font-size:20px;">{{ productData.produit.libelle }}</p>
-                    
-                    <div class="d-flex justify-content-center">
-                        {% if productData.produit.Promotion is not empty %}
-                        <div class="flag-percent">
-                            <span>{{ productData.produit.Promotion.libelle }}</span>
-                        </div>
-                        {% endif %}
-                        
-                        <div class="d-flex mb-3">
-                        {% if productData.produit.Promotion is not empty %}
-                            <p class="old-price">{{ productData.oldPrice }}€</p>
+                    <a href="{{ path('app_show_produit', { 'id': productData.produit.id }) }}"
+                       class="d-block text-center text-decoration-none flex-fill">
+                        {% for photo in productData.photos %}
+                            <img src='{{ photo.URLPhoto }}' alt='{{ productData.produit.libelle }}'
+                                 class='img-product p-2'/>
+                        {% endfor %}
+
+                        <p style="font-size:20px;">{{ productData.produit.libelle }}</p>
+
+                        <div class="d-flex justify-content-center">
+                            {% if productData.produit.Promotion is not empty %}
+                                <div class="flag-percent">
+                                    <span>{{ productData.produit.Promotion.libelle }}</span>
+                                </div>
                             {% endif %}
-                            <p class="new-price">{{ productData.prixTTC }}€</p>
+
+                            <div class="d-flex mb-3">
+                                {% if productData.produit.Promotion is not empty %}
+                                    <p class="old-price">{{ productData.oldPrice }}€</p>
+                                {% endif %}
+                                <p class="new-price">{{ productData.prixTTC }}€</p>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
+
+            {% if loop.index is divisible by(3) %}
         </div>
+        <div class="row d-flex justify-content-around align-items-center">
+            {% endif %}
+            {% endfor %}
+        </div>
+    </section>
 
-        {% if loop.index is divisible by(3) %}
-            </div><div class="row d-flex justify-content-around align-items-center">
-        {% endif %}
-    {% endfor %}
-</div>
-</section>
-
-<section class="newsletters-section">
-    <div class="container-fluid main-content-nl bg-light ">
-        <div class="row">
-            <div class="col-12 col-md-6 d-flex flex-column nl-content-left justify-content-center  p-5">
-                <h2 style="color:var(--main)";>Newsletter</h2>
-                <h5>Laissez-vous inspirer par la musique ! Suivez nos différentes actualités </h5>
-            </div>
-            <div class="col-12 col-md-6 d-flex justify-content-center nl-content-right align-items-center mt-3">
-                <div class="block">
-                    <input type="text" style="border:1px solid var(--main);" placeholder="adresse mail" name="newsletter">
-                    <button type="submit" class="button-nl ml-2" value="Abonnez-vous">Abonnez vous</button>
+    <section class="newsletters-section">
+        <div class="container-fluid main-content-nl bg-light ">
+            <div class="row">
+                <div class="col-12 col-md-6 d-flex flex-column nl-content-left justify-content-center  p-5">
+                    <h2 style="color:var(--main)" ;>Newsletter</h2>
+                    <h5>Laissez-vous inspirer par la musique ! Suivez nos différentes actualités </h5>
+                </div>
+                <div class="col-12 col-md-6 d-flex justify-content-center nl-content-right align-items-center mt-3">
+                    <div class="block">
+                        <input type="text" style="border:1px solid var(--main);" placeholder="adresse mail"
+                               name="newsletter">
+                        <button type="submit" class="button-nl ml-2" value="Abonnez-vous">Abonnez vous</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock %}

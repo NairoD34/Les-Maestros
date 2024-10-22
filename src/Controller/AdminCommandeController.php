@@ -30,7 +30,7 @@ class AdminCommandeController extends AbstractController
     public function list(
         CommandeRepository $commandeRepo,
         Security $security,
-        ?commande $commande,
+        ?Commande $commande,
         Request $request
     ): Response {
 

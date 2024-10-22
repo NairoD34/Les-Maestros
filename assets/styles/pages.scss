@@ -1,0 +1,27 @@
+@import "pages/home.scss";
+@import "pages/base.scss";
+
+
+:root {
+  --main: #dfbe31;
+  --second: #e9d88f;
+}
+body {
+  background-color: white;
+  width: 100%;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
+h1,
+h2,
+h3 {
+  font-family: "Libre Bodoni", sans-serif;
+}
+a {
+  text-decoration: none !important;
+  color: #000;
+}
+a:hover {
+  color: black;
+  text-decoration: underline;
+}
