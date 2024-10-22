@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "es6",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "importHelpers": true,
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "outDir": "./public/build",
+    "rootDir": "./assets"
+  },
+  "include": [
+    "./assets/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

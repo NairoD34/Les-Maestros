@@ -48,10 +48,10 @@ class PdfGeneratorController extends AbstractController
 
 
 
+        }
             return new Response($pdfOutput, 200, [
                 'Content-Type' => 'application/pdf',
             ]);
-        }
     }
 
     private function imageToBase64($path)

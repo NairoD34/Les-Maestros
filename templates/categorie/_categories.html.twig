@@ -1,9 +1,7 @@
-
-
 {% block main %}
-{% for item in cate %}
-<li class="nav-item ml-5  col-auto " style="white-space: nowrap;" >
-    <a href="{{ path('app_categorie_show',{ 'id': item.id })}}"> {{ item.libelle }} </a> 
-    </li>
-{% endfor %}
+    {% for item in cate %}
+        <li class="nav-li" style="white-space: nowrap;">
+            <a href="{{ path('app_categorie_show',{ 'id': item.id }) }}"> {{ item.libelle }} </a>
+        </li>
+    {% endfor %}
 {% endblock %}

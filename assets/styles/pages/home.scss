@@ -1,0 +1,149 @@
+.size {
+  font-size: 30px !important;
+}
+
+.banner {
+  background-color: black;
+  height: 462px;
+  width: 100%;
+}
+
+.banner-item {
+  width: 40%;
+}
+
+#logo {
+  width: 80%;
+}
+
+.linav {
+  text-align: center;
+  font-family: Jost, serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding-inline: 5vw;
+  padding-top: 1%;
+  display: flex;
+  align-items: center;
+}
+
+#TitreSymfony {
+  color: rgba(223, 190, 49, 1);
+}
+
+.deco {
+  width: 3vw;
+}
+
+#icone a svg {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s ease;
+}
+
+#icone a:hover svg {
+  transform: scale(1.2);
+}
+
+#icone-panier {
+  border-radius: 50%;
+  background-color: var(--second);
+  width: 55px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+#icone-panier a svg {
+  width: 25px;
+  height: 25px;
+  transition: transform 0.3s ease;
+}
+
+#icone-panier a:hover svg {
+  transform: scale(1.2);
+}
+
+#rondjaune {
+  position: absolute;
+
+  top: 8%;
+  margin-inline-start: 3%;
+}
+
+#dropmenu {
+  position: inherit;
+}
+
+#dropmenu li {
+  text-align: center;
+}
+
+nav {
+  font-family: "Libre Bodoni", sans-serif;
+}
+
+
+.navlinks ul li a {
+  position: relative;
+}
+
+.navlinks ul li a::before {
+  content: "";
+  width: 0;
+  height: 2px;
+  background-color: var(--main);
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  transition: 0.5s ease;
+}
+
+.navlinks ul li a:hover::before {
+  width: 100%;
+}
+
+#dance {
+  width: 49vw;
+  display: flex;
+  margin-inline-start: 60vw;
+}
+
+#spanHome {
+  display: flex;
+}
+
+.titreHome {
+  color: #000;
+  text-align: center;
+  font-family: Libre Bodoni;
+  font-size: 36px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: normal;
+  position: absolute;
+  left: 29%;
+  top: 46%;
+}
+
+.PHome {
+  color: #000;
+  text-align: center;
+  font-family: Libre Bodoni;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.carousel-items {
+  display: none;
+}
+
+.active {
+  display: block;
+}
