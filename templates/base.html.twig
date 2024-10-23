@@ -32,7 +32,6 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
     {{ encore_entry_script_tags('app') }}
-    {{ encore_entry_script_tags('adresse') }}
     {% endblock %}
 </head>
 <body>
@@ -55,17 +54,9 @@
 
                     <!-- Contenu de la navbar -->
                     <div class="nav-content" id="navbarSupportedContent">
-                        <ul class="nav-ul">
+                        <ul class="nav-ul isActive">
                             <!-- Lien Accueil -->
-                            <li class="nav-li"
-                                style="white-space: nowrap;">
-                                <a style='color: rgba(223, 190, 49, 1)!important' aria-current="page"
-                                   href="{{ path('app_index') }}">Accueil</a>
-                            </li>
-
                             {{ render(controller('App\\Controller\\CategorieController::list')) }}
-
-
                         </ul>
                         <!-- Déconnexion et profil pour la version de bureau -->
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -153,60 +144,58 @@
     <footer class="footer">
         <div class="footer-container">
             <div class="content">
-                <div class="box">
-                    <h3>Un problème? contactez<span style="color:var(--main);"> nous</span></h3>
-                    <form>
-                        <input type="text" style="border:2px solid var(--main);" placeholder="Nom"
-                               name="name">
-                        <input type="text" style="border:2px solid var(--main);" placeholder="Prénom"
-                               name="surname">
-                        <input type="text" style="border:2px solid var(--main);" placeholder="adresse mail"
-                               name="mail">
-                        <input type="text" style="border:2px solid var(--main);" placeholder="Téléphone"
-                               name="phone">
-                        <textarea id="story" name="story" style="border:2px solid var(--main);"
-                                  placeholder="Entrer votre message..."></textarea>
-                        <div class="submit-container">
-                            <button type="submit">Envoyez</button>
-                        </div>
-                    </form>
+                <div class="content-title">
+                    <h3>Suivez <span>nous</span></h3>
+                    <h3>Navigation</h3>
+                    <h3>Un problème ? contactez <span>nous !</span></h3>
                 </div>
-                <div class="box">
-                    <div class="box-content">
-                        <li style="white-space: nowrap;">
-                            <a style='color: rgba(223, 190, 49, 1)!important' aria-current="page"
-                               href="{{ path('app_index') }}">Accueil</a>
-                            {{ render(controller('App\\Controller\\CategorieController::list')) }}
-                        </li>
-
-                    </div>
-                </div>
-                <div class="box">
-                    <h3>Suivez <span style="color:var(--main);">nous</span></h3>
-                    <div class="box-social-media">
-                        <div>
-                            <i class="fa fa-instagram"></i>
-                            <p class="insta">MSymfony</p>
+                <div class="content-block">
+                    <div class="content-social">
+                        <div class="logo">
+                            <a class="nav-logo" href="{{ path('app_index') }}">
+                                <img src="{{ asset('images/logo.png') }}" alt="Logo" id="logo">
+                            </a>
                         </div>
-                        <div>
-                            <i class="fa fa-facebook"></i>
-                            <p class="fb">MSymfony</p>
-                        </div>
-                        <div>
-                            <i class="fa fa-whatsapp"></i>
-                            <p class="wa">+33 7 30 90 07 67</p>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="40" width="35" fill="#DFBE31"
-                                 viewBox="0 0 512 512">
-                                <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
-                            </svg>
-                            <p class="twitter">MSymfony</p>
+                        <div class="icon">
+                            <div>
+                                <i class="fa fa-instagram"></i>
+                            </div>
+                            <div>
+                                <i class="fa fa-facebook"></i>
+                            </div>
+                            <div>
+                                <i class="fa fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="25.72" width="30" fill="var(--second)"
+                                     viewBox="0 0 512 512">
+                                    <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                    <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
+                                </svg>
+                            </div>
                         </div>
                     </div>
+                    <ul class="content-list isActive">
+                        {{ render(controller('App\\Controller\\CategorieController::list')) }}
+                    </ul>
+                    <div class="content-form">
+                        <form>
+                            <div class="identity">
+                                <input type="text" placeholder="Nom"
+                                       name="name">
+                                <input type="text" placeholder="Prénom"
+                                       name="surname">
+                            </div>
+                            <input type="text" placeholder="Adresse mail"
+                                   name="mail">
+                            <textarea id="story" name="story"
+                                      placeholder="Entrez votre message..."></textarea>
+                            <div class="submit-container">
+                                <button type="submit">Envoyez</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-
             </div>
         </div>
 

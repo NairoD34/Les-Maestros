@@ -61,13 +61,12 @@ class CommandeController extends AbstractController
                 'prixTTC' => $lignePanier->getProduit()->getPrixHT() + ($lignePanier->getProduit()->getPrixHT() * $lignePanier->getProduit()->getTVA()->getTauxTva() / 100),
             ];
             $total += ($lignePanier->getProduit()->getPrixHT() + ($lignePanier->getProduit()->getPrixHT() * $lignePanier->getProduit()->getTVA()->getTauxTva() / 100)) * $lignePanier->getQuantite();
-            $total = number_format($total,2,'.','');
+            $total = number_format($total, 2, '.', '');
         }
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $data = $form->getData();
             $commande->setLivraison($data->getLivraison());
             $commande->setPaiement($data->getPaiement());
@@ -90,7 +89,7 @@ class CommandeController extends AbstractController
                 $ligneCommande->setPrixTotal($total);
 
                 $utilisateur = $commande->getUsers();
-                if($utilisateur){
+                if ($utilisateur) {
                     $ligneCommande->setNomUtilisateur($utilisateur->getNom());
                     $ligneCommande->setPrenomUtilisateur($utilisateur->getPrenom());
                     $ligneCommande->setEmailUtilisateur($utilisateur->getEmail());
@@ -111,5 +110,5 @@ class CommandeController extends AbstractController
         ]);
     }
 
-    
+
 }

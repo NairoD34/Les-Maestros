@@ -1,13 +1,18 @@
 <?php
 
-namespace App\Service\CategorieService;
+namespace App\Service\FrontOffice\CategorieService;
 
 use App\Repository\PhotosRepository;
 
 class CategorieService
 {
+//    private $photosRepository;
+    public function __construct(private readonly PhotosRepository $photosRepo)
+    {
+//            $this->photosRepository = $photosRepo;
+    }
 
-    public function getProducts(array $products, PhotosRepository $photoRepo): array
+    public function getProducts(array $products): array
     {
 
         $productsData = [];
@@ -22,7 +27,7 @@ class CategorieService
 
             $oldPrice = $product->getPrixHT() + ($product->getPrixHT() * $product->getTVA()->getTauxTva() / 100);
             $oldPrice = number_format($oldPrice, 2, '.', '');
-            $photosProducts = $photoRepo->searchPhotoByProduit($product);
+            $photosProducts = $this->photosRepo->searchPhotoByProduit($product);
             $productsData[] = [
                 'produit' => $product,
                 'prixTTC' => $prixTTC,

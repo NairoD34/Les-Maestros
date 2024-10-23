@@ -1,27 +1,46 @@
 @import "pages/home.scss";
 @import "pages/base.scss";
+@import "pages/cardProduct.scss";
 
 
 :root {
-  --main: #dfbe31;
-  --second: #e9d88f;
+  --main: #D2AC62;
+  --second: #D2AC62;
+  --header: #201e1a;
+  --background: #e8e5d6;
+  --text: #c3bca6;
+
 }
+
 body {
-  background-color: white;
+  background-color: var(--background);
   width: 100%;
   margin: 0;
   font-family: "Roboto", sans-serif;
 }
+
 h1,
 h2,
 h3 {
   font-family: "Libre Bodoni", sans-serif;
 }
+
 a {
   text-decoration: none !important;
   color: #000;
 }
+
+header {
+  font-family: "Libre Bodoni", sans-serif;
+
+}
+
 a:hover {
   color: black;
   text-decoration: underline;
 }
+
+p {
+  margin: 0;
+}
+

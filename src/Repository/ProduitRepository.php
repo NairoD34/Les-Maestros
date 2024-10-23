@@ -62,7 +62,6 @@ class ProduitRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->join('p.promotion', 'pr')
             ->orderBy('pr.Taux_promotion', 'ASC')
-            ->setMaxResults(3) // Pour limiter à 3 produits
             ->getQuery()
             ->getResult();
     }

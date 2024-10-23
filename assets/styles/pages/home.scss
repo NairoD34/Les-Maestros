@@ -1,149 +1,149 @@
-.size {
-  font-size: 30px !important;
+@media screen and (max-width: 802px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+  }
+  h3 {
+    font-size: 1.4rem;
+  }
+  h4 {
+    font-size: 1.2rem;
+  }
 }
 
-.banner {
-  background-color: black;
-  height: 462px;
-  width: 100%;
+.first-section {
+  color: var(--header);
+
+  &-container {
+
+    @media screen and (max-width: 1368px) {
+      height: 300px;
+    }
+    @media screen and (max-width: 802px) {
+      height: 500px;
+    }
+
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      @media screen and (max-width: 1368px) {
+        height: 100%;
+      }
+      @media screen and (max-width: 802px) {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly !important;
+        .title-box {
+          width: 100% !important;
+
+        }
+      }
+
+      .title-box {
+        width: 60%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+
+        span {
+          color: var(--second);
+        }
+
+        @media screen and (max-width: 802px) {
+          margin: 10px 0 0 0;
+        }
+      }
+
+      .img-box {
+        width: 40%;
+        height: 100%;
+        @media screen and (max-width: 802px) {
+          width: 80% !important;
+        }
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
 }
 
-.banner-item {
-  width: 40%;
+.promo-section, .news-section {
+  margin: 20px 0 20px 0;
+
+  h2 {
+    text-align: center;
+    color: var(--header);
+
+    span {
+      color: var(--second);
+    }
+  }
+
+  h4 {
+    text-align: center;
+    color: var(--header);
+    padding: 5px;
+  }
+
+  .promo-card {
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    width: 70%;
+    gap: 30px;
+
+    .scroll-container {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      gap: 30px;
+    }
+
+    .prev-btn {
+      z-index: 999;
+    }
+
+    .card-container {
+      min-width: calc(100% / 3);
+      box-sizing: border-box;
+      flex-shrink: 0;
+
+    }
+  }
+
+  .news-card {
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    width: 70%;
+    @media screen and (max-width: 1368px) {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 20px;
+    }
+  }
 }
 
-#logo {
-  width: 80%;
-}
-
-.linav {
-  text-align: center;
-  font-family: Jost, serif;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  padding-inline: 5vw;
-  padding-top: 1%;
-  display: flex;
-  align-items: center;
-}
-
-#TitreSymfony {
-  color: rgba(223, 190, 49, 1);
-}
-
-.deco {
-  width: 3vw;
-}
-
-#icone a svg {
-  width: 40px;
-  height: 40px;
-  transition: transform 0.3s ease;
-}
-
-#icone a:hover svg {
-  transform: scale(1.2);
-}
-
-#icone-panier {
-  border-radius: 50%;
-  background-color: var(--second);
-  width: 55px;
-  height: 55px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-
-#icone-panier a svg {
-  width: 25px;
-  height: 25px;
-  transition: transform 0.3s ease;
-}
-
-#icone-panier a:hover svg {
-  transform: scale(1.2);
-}
-
-#rondjaune {
-  position: absolute;
-
-  top: 8%;
-  margin-inline-start: 3%;
-}
-
-#dropmenu {
-  position: inherit;
-}
-
-#dropmenu li {
-  text-align: center;
-}
-
-nav {
-  font-family: "Libre Bodoni", sans-serif;
-}
-
-
-.navlinks ul li a {
-  position: relative;
-}
-
-.navlinks ul li a::before {
-  content: "";
+.vertical-line {
   width: 0;
-  height: 2px;
-  background-color: var(--main);
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  transition: 0.5s ease;
-}
-
-.navlinks ul li a:hover::before {
-  width: 100%;
-}
-
-#dance {
-  width: 49vw;
-  display: flex;
-  margin-inline-start: 60vw;
-}
-
-#spanHome {
-  display: flex;
-}
-
-.titreHome {
-  color: #000;
-  text-align: center;
-  font-family: Libre Bodoni;
-  font-size: 36px;
-  font-style: italic;
-  font-weight: 500;
-  line-height: normal;
-  position: absolute;
-  left: 29%;
-  top: 46%;
-}
-
-.PHome {
-  color: #000;
-  text-align: center;
-  font-family: Libre Bodoni;
-  font-size: 18px;
-  font-style: italic;
-  font-weight: 500;
-  line-height: normal;
-}
-
-.carousel-items {
-  display: none;
-}
-
-.active {
-  display: block;
+  height: 80px;
+  border-right: 2px solid var(--main);
+  margin: 10px auto;
 }

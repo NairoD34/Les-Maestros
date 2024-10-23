@@ -28,9 +28,23 @@ export default class Burger {
                 burgerInputId.style.display = changeSize < size ? "block" : "none";
             }
         };
+        const checkFooterSize = (): void => {
+            const changeSize: number = window.innerWidth;
+            const ul: HTMLUListElement = document.querySelector(".content-list") as HTMLUListElement;
+            const divTitle: HTMLDivElement = document.querySelector(".content-title") as HTMLDivElement;
+            const navTitle: HTMLHeadingElement = divTitle.getElementsByTagName("h3")[1] as HTMLHeadingElement;
+            const followTitle: HTMLHeadingElement = divTitle.getElementsByTagName("h3")[0] as HTMLHeadingElement;
+            if (ul) {
+                ul.style.display = changeSize < size ? "none" : "flex";
+                navTitle.style.display = changeSize < size ? "none" : "block";
+                followTitle.style.display = changeSize < size ? "none" : "block";
+            }
+        };
         if (size) {
             checkSize();
+            checkFooterSize();
             window.addEventListener("resize", () => checkSize());
+            window.addEventListener("resize", () => checkFooterSize());
 
         }
     }

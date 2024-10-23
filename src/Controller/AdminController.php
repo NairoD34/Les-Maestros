@@ -47,11 +47,12 @@ class AdminController extends AbstractController
 
     #[Route('new', name: 'app_new_admin')]
     public function new(
-        Request $request,
-        EntityManagerInterface $em,
-        Security $security,
+        Request                     $request,
+        EntityManagerInterface      $em,
+        Security                    $security,
         UserPasswordHasherInterface $adminPasswordHasher
-    ): Response {
+    ): Response
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
@@ -71,7 +72,6 @@ class AdminController extends AbstractController
             $em->persist($admin);
             $em->flush();
             return $this->redirectToRoute('app_list_admin');
-            var_dump($admin);
         }
         return $this->render('admin/new.html.twig', [
             'title' => 'Création d\'un nouvel administrateur',
@@ -81,11 +81,12 @@ class AdminController extends AbstractController
 
     #[Route('update/{id}', name: 'app_update_admin')]
     public function update(
-        Request $request,
+        Request                $request,
         EntityManagerInterface $em,
-        ?Admin $admin,
-        Security $security
-    ) {
+        ?Admin                 $admin,
+        Security               $security
+    )
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
@@ -109,10 +110,11 @@ class AdminController extends AbstractController
 
     #[Route('delete/{id}', name: 'app_delete_admin', methods: ['POST'])]
     public function delete(
-        Request $request,
-        Admin $admin,
+        Request                $request,
+        Admin                  $admin,
         EntityManagerInterface $entityManager
-    ): Response {
+    ): Response
+    {
         if ($this->isCsrfTokenValid('delete' . $admin->getId(), $request->request->get('_token'))) {
             $entityManager->remove($admin);
             $entityManager->flush();

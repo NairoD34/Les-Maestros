@@ -39,8 +39,6 @@ class CommandeAdresseController extends AbstractController
     {
         $message = '';
 
-      
-        
         if (isset($_POST['submitAdresse'])) {
             $adresse->setNumVoie($request->request->get('num_voie'));
             $adresse->setRue($request->request->get('rue'));
@@ -87,5 +85,5 @@ class CommandeAdresseController extends AbstractController
         return $this->formCommandeAdresse($adresse, $adresseRepo, $codePostalRepo, $request, $users, $villeRepo, false);
     }
 
-    
+
 }
