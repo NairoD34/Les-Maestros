@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\CategorieService;
+namespace App\Service\FrontOffice;
 
 use App\Repository\PhotosRepository;
 

@@ -7,8 +7,7 @@ use App\Entity\Produit;
 use App\Repository\CategorieRepository;
 use App\Repository\PhotosRepository;
 use App\Repository\ProduitRepository;
-use App\Service\CategorieService\CategorieService;
-use ContainerMVcjxsa\getPhotosRepositoryService;
+use App\Service\FrontOffice\CategorieService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,50 +76,7 @@ class CategorieController extends AbstractController
         $products = $produitRepo->findProduitsByCategorieId($categorieId);
         $newsProducts = $produitRepo->searchNew();
         $photos = $photoRepo->searchPhotoByCategorie($categories);
-//        $productsData = [];
 
-//        foreach ($produits as $produit) {
-//            $prixTTC = $produit->getPrixHT() + ($produit->getPrixHT() * $produit->getTVA()->getTauxTva() / 100);
-//
-//            if ($produit->getPromotion() !== null) {
-//                $prixTTC = $prixTTC * $produit->getPromotion()->getTauxPromotion();
-//
-//            }
-//            $prixTTC = number_format($prixTTC, 2, '.', '');
-//
-//            $oldPrice = $produit->getPrixHT() + ($produit->getPrixHT() * $produit->getTVA()->getTauxTva() / 100);
-//            $oldPrice = number_format($oldPrice, 2, '.', '');
-//            $photosProducts = $photoRepo->searchPhotoByProduit($produit);
-//            $productsData[] = [
-//                'produit' => $produit,
-//                'prixTTC' => $prixTTC,
-//                'oldPrice' => $oldPrice,
-//                'photos' => $photosProducts,
-//            ];
-//        }
-
-//        $productsDataNew = [];
-//
-//        foreach ($newsProducts as $newsProduct) {
-//            $prixTTC = $newsProduct->getPrixHT() + ($newsProduct->getPrixHT() * $newsProduct->getTVA()->getTauxTva() / 100);
-//
-//            if ($newsProduct->getPromotion() !== null) {
-//                $prixTTC = $prixTTC * $newsProduct->getPromotion()->getTauxPromotion();
-//            }
-//            $prixTTC = number_format($prixTTC, 2, '.', '');
-//
-//            $oldPrice = $newsProduct->getPrixHT() + ($newsProduct->getPrixHT() * $newsProduct->getTVA()->getTauxTva() / 100);
-//            $oldPrice = number_format($oldPrice, 2, '.', '');
-//            $photosProducts = $photoRepo->searchPhotoByProduit($produit);
-//            $productsDataNew[] = [
-//                'produit' => $newsProduct,
-//                'prixTTC' => $prixTTC,
-//                'oldPrice' => $oldPrice,
-//                'photos' => $photosProducts,
-//
-//            ];
-//
-//        }
         $productData = $categorieService->getProducts($products, $photoRepo);
         $productNewData = $categorieService->getProducts($newsProducts, $photoRepo);
 

@@ -22,6 +22,7 @@ use App\Repository\PhotosRepository;
 use App\Repository\RegionRepository;
 use App\Repository\UsersRepository;
 use App\Repository\VilleRepository;
+use App\Service\FrontOffice\CommandeService\CommandeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +36,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommandeController extends AbstractController
 {
     #[Route('/commande', name: 'app_commande')]
-    public function NewCommande(Security $security, Request $request, EntityManagerInterface $em, EtatRepository $etatRepo, PanierRepository $panierRepo, PhotosRepository $photoRepo, AdresseRepository $adresseRepo): Response
+    public function NewCommande(
+    Security $security,
+    PanierRepository $panierRepo,
+    AdresseRepository $adresseRepo,
+    CommandeService $commandeService,
+    Request $request,
+    ): Response
     {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_index');
@@ -49,9 +56,8 @@ class CommandeController extends AbstractController
         ]);
 
         $panier = $panierRepo->getLastPanier($id);
-
-        $total = 0;
-        foreach ($panier->getPanierProduits() as $lignePanier) {
+        $total = $commandeService->CalculTotalPanier($panier);
+/*         foreach ($panier->getPanierProduits() as $lignePanier) {
 
             $produits[] = [
                 'id' => $lignePanier->getId(),
@@ -62,11 +68,10 @@ class CommandeController extends AbstractController
             ];
             $total += ($lignePanier->getProduit()->getPrixHT() + ($lignePanier->getProduit()->getPrixHT() * $lignePanier->getProduit()->getTVA()->getTauxTva() / 100)) * $lignePanier->getQuantite();
             $total = number_format($total,2,'.','');
-        }
+        } */
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if($commandeService->FormCommandeValidation($form, $commande, $panier, $request)){
+        /* if ($form->isSubmitted() && $form->isValid()) {
 
             $data = $form->getData();
             $commande->setLivraison($data->getLivraison());
@@ -100,6 +105,7 @@ class CommandeController extends AbstractController
             $em->persist($commande);
 
             $em->flush();
+             */
             $this->addFlash('success', 'Votre commande a bien été validée.');
             return $this->redirectToRoute('app_index');
         }
