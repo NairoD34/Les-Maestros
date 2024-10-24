@@ -80,6 +80,8 @@
 
 .promo-section, .news-section {
   margin: 20px 0 20px 0;
+  position: relative;
+
 
   h2 {
     text-align: center;
@@ -103,24 +105,43 @@
     align-items: center;
     overflow: hidden;
     width: 70%;
-    gap: 30px;
 
     .scroll-container {
       display: flex;
       transition: transform 0.5s ease-in-out;
       gap: 30px;
+      @media screen and (max-width: 768px) {
+        gap: 60px;
+      }
     }
 
-    .prev-btn {
-      z-index: 999;
-    }
 
     .card-container {
-      min-width: calc(100% / 3);
       box-sizing: border-box;
+      flex-wrap: nowrap;
       flex-shrink: 0;
+      @media (min-width: 769px) and (max-width: 1200px) {
+        width: calc(50% - 60px); /* Pour 2 cartes côte à côte sur tablette */
+      }
 
+      @media screen and (max-width: 768px) {
+        width: calc(100% - 30px);
+      }
     }
+  }
+
+  .prev-btn {
+    z-index: 999;
+    position: absolute;
+    top: 50%;
+    right: 90%;
+  }
+
+  .next-btn {
+    z-index: 999;
+    position: absolute;
+    top: 50%;
+    left: 90%;
   }
 
   .news-card {

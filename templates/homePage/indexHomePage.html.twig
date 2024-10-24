@@ -36,7 +36,6 @@
         <h2>Votre <span>passion</span>, nos promotions</h2>
         <h4>La musique, c'est notre passion, les promotions, c'est notre métier</h4>
         <div class="promo-card">
-            <button class="prev-btn"> <</button>
             <div class="scroll-container">
                 {% for productData in data %}
                     <div class="card-container">
@@ -50,9 +49,11 @@
                                          class='img-product'/>
                                 {% endfor %}
                                 <div class="price-container">
-                                    <p>{{ productData.produit.libelle }}</p>
-                                    <p class="old-price">{{ productData.oldPrice }}€</p>
-                                    <p class="new-price">{{ productData.prixTTC }}€</p>
+                                    <p class="title">{{ productData.produit.libelle }}</p>
+                                    <p class="price-content">
+                                        <span class="old-price">{{ productData.oldPrice }}€</span>
+                                        <span class="new-price"> {{ productData.prixTTC }}€</span>
+                                    </p>
                                 </div>
                             </a>
                         </div>
@@ -63,8 +64,9 @@
                     </div>
                 {% endfor %}
             </div>
-            <button class="next-btn"> ></button>
         </div>
+        <button class="prev-btn"> <</button>
+        <button class="next-btn"> ></button>
     </section>
 
     <div class="vertical-line"></div>
@@ -89,11 +91,13 @@
                             {% endfor %}
 
                             <div class="price-container">
-                                <p>{{ productData.produit.libelle }}</p>
-                                {% if productData.produit.Promotion is not empty %}
-                                    <p class="old-price">{{ productData.oldPrice }}€</p>
-                                {% endif %}
-                                <p class="new-price">{{ productData.prixTTC }}€</p>
+                                <p class="title">{{ productData.produit.libelle }}</p>
+                                <p class="price-content">
+                                    {% if productData.produit.Promotion is not empty %}
+                                        <span class="old-price">{{ productData.oldPrice }}€</span>
+                                    {% endif %}
+                                    <span class="new-price">{{ productData.prixTTC }}€</span>
+                                </p>
                             </div>
                         </a>
                     </div>

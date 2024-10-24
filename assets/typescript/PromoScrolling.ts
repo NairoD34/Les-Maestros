@@ -1,6 +1,6 @@
 export default class PromoScrolling {
     private indexCards: number;
-    private readonly cardsNumber: number;
+    private cardsNumber: number;
     private datas: { totalCards: number, sizeCard: number };
     private selectors;
     private readonly cardsTotal: number;
@@ -11,7 +11,7 @@ export default class PromoScrolling {
         this.datas = this.getData();
         this.cardsTotal = this.datas.totalCards;
         this.selectors = this.setListeners();
-
+        this.updateCardsNumber();
         this.stopProcess();
     }
 
@@ -44,25 +44,31 @@ export default class PromoScrolling {
 
         prevButton.addEventListener("click", () => this.prev());
         nextButton.addEventListener("click", () => this.next());
-
+        window.addEventListener('resize', () => {
+            this.updateCardsNumber();
+            this.scroll();
+        });
         return {prevButton, nextButton};
     }
 
     scroll(): void {
-        const cardWidthWithMargin = this.datas.sizeCard + 40;
+        const gap = this.cardsNumber === 1 ? 60 : 30;
+        const cardWidthWithMargin = this.datas.sizeCard + gap;
+
         const offset = -(this.indexCards * cardWidthWithMargin);
         const container = document.querySelector(".scroll-container") as HTMLDivElement;
         container.style.transform = `translateX(${offset}px)`;
-        if (this.indexCards > this.datas.totalCards - this.cardsNumber) {
-            const newoffset = offset + this.datas.sizeCard;
-            container.style.transform = `translateX(${newoffset}px)`;
-        }
+
         this.stopProcess();
     }
 
     next(): void {
-        if (this.indexCards < this.datas.totalCards - this.cardsNumber) {
+        const maxIndex = this.datas.totalCards - 1;
+        if (this.indexCards < maxIndex) {
             this.indexCards += this.cardsNumber;
+            if (this.indexCards > maxIndex) {
+                this.indexCards = maxIndex;
+            }
             this.scroll()
         }
     }
@@ -75,4 +81,15 @@ export default class PromoScrolling {
         }
     }
 
+    updateCardsNumber(): void {
+        const screenWidth = window.innerWidth;
+
+        if (screenWidth > 1200) {
+            this.cardsNumber = 3;
+        } else if (screenWidth > 768) {
+            this.cardsNumber = 2;
+        } else {
+            this.cardsNumber = 1;
+        }
+    }
 }
