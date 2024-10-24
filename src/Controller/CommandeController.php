@@ -22,7 +22,7 @@ class CommandeController extends AbstractController
             return $this->redirectToRoute('app_index');
         }
 
-        $total = $panierService->CalculTotalPanier();
+        $total = $panierService->CalculPanier()['total'];
 
         if($panierService->FormCommandeValidation($request)){
         

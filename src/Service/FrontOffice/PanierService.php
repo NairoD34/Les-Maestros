@@ -48,10 +48,15 @@ class PanierService
         return $result;
     }
 
-    public function CalculTotalPanier()
+    /**
+     * returns an array with cart's price and products datas
+     */
+
+    public function CalculPanier()
     {
         $panier = $this->GetUserData()['cart'];
         $total = 0;
+        $produits = [];
         foreach ($panier->getPanierProduits() as $lignePanier) {
 
             $produits[] = [
@@ -64,7 +69,10 @@ class PanierService
             $total += ($lignePanier->getProduit()->getPrixHT() + ($lignePanier->getProduit()->getPrixHT() * $lignePanier->getProduit()->getTVA()->getTauxTva() / 100)) * $lignePanier->getQuantite();
             $total = number_format($total,2,'.','');
         }
-        return $total;
+        return [
+            'total' => $total,
+            'produits' => $produits,
+        ];
     }
 
     public function FormCommandeValidation($request)
@@ -72,7 +80,7 @@ class PanierService
         $panier = $this->GetUserData()['cart'];
         $commande = $this->GetUserData()['commande'];
         $form = $this->GetUserData()['form'];
-        $total = $this->CalculTotalPanier($panier);
+        $total = $this->CalculPanier($panier)['total'];
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 

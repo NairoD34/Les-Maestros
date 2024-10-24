@@ -36,7 +36,12 @@ class ResetPasswordController extends AbstractController
 
 
     #[Route('/reset-password/{id}', name: 'app_reset_password_form')]
-    public function resetPassword(Users $users, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em): response
+    public function resetPassword(
+        Users $users, 
+        Request $request, 
+        UserPasswordHasherInterface $userPasswordHasher, 
+        EntityManagerInterface $em
+        ): response
     {
         $form = $this->createForm(ResetPasswordFormType::class, $users);
         $form->handleRequest($request);

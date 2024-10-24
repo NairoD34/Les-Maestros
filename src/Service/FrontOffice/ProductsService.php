@@ -6,8 +6,13 @@ use App\Repository\PhotosRepository;
 
 class ProductsService
 {
+    public function __construct(
+        private PhotosRepository $photoRepo,
+    ) {
+    
+    }
 
-    public function getProducts(array $products, PhotosRepository $photoRepo): array
+    public function getProducts(array $products): array
     {
         $productsData = [];
         foreach ($products as $product) {
@@ -21,7 +26,7 @@ class ProductsService
 
             $oldPrice = $product->getPrixHT() + ($product->getPrixHT() * $product->getTVA()->getTauxTva() / 100);
             $oldPrice = number_format($oldPrice, 2, '.', '');
-            $photosProducts = $photoRepo->searchPhotoByProduit($product);
+            $photosProducts = $this->photoRepo->searchPhotoByProduit($product);
             $productsData[] = [
                 'produit' => $product,
                 'prixTTC' => $prixTTC,

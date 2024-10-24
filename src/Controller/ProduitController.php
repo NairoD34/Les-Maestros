@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Categorie;
 use App\Entity\Panier;
 use App\Entity\Produit;
 use App\Repository\CategorieRepository;
@@ -31,14 +30,16 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/produit/{id}', name: 'app_show_produit')]
-    public function showProducts(PhotosRepository $photoRepo, ?Produit $produit,
-    CategorieRepository $categorieRepo): Response
+    public function showProducts(
+        PhotosRepository $photoRepo, 
+        ?Produit $produit,
+        CategorieRepository $categorieRepo
+        ): Response
     {
     
         if ($produit === null) {
             return $this->redirectToRoute('app_produit');
         }
-    
 
         $prixTTC = $produit->getPrixHT() + ($produit->getPrixHT() * $produit->getTVA()->getTauxTva() / 100);
         $prixTTC = number_format($prixTTC, 2, '.', '');
