@@ -15,11 +15,16 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\VarDumper\VarDumper;
 
 class PanierController extends AbstractController
 {
     #[Route('/panier', name: 'app_panier')]
-    public function index(PanierRepository $panierRepo, EntityManagerInterface $em, Security $security, PhotosRepository $photos): Response
+    public function index(
+        PanierRepository $panierRepo, 
+        Security $security, 
+        PhotosRepository $photos,
+        ): Response
     {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->render('panier/emptyPanier.html.twig');
@@ -33,7 +38,6 @@ class PanierController extends AbstractController
         $produits = [];
         $total = 0;
         foreach ($panier->getPanierProduits() as $lignePanier) {
-
             $produits[] = [
                 'id' => $lignePanier->getId(),
                 'produit' => $lignePanier->getProduit(),

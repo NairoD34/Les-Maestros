@@ -1,26 +1,56 @@
 <?php
 
-namespace App\Service\FrontOffice\CommandeService;
+namespace App\Service\FrontOffice;
 
+use App\Entity\Commande;
 use App\Entity\LigneDeCommande;
+use App\Form\CommandeFormType;
+use App\Repository\AdresseRepository;
 use App\Repository\EtatRepository;
+use App\Repository\PanierRepository;
 use App\Repository\PhotosRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Form\FormFactoryInterface;
 
-class CommandeService
+class PanierService
 {
-
     public function __construct(
         private EntityManagerInterface $em,
         private EtatRepository $etatRepo,
         private Security $security,
         private PhotosRepository $photoRepo,
+        private AdresseRepository $adresseRepo,
+        private FormFactoryInterface $formFactory,
+        private PanierRepository $panierRepo,
         ) {
     }
 
-    public function CalculTotalPanier($panier)
+    /**
+     * Return array with specific user's id, command object and a form with user's adresses
+     */
+    public function GetUserData()
+    {        
+        $user = $this->security->getUser();
+        $id = $user->getId();
+        $commande = new Commande();
+        $adressesUtilisateur = $this->adresseRepo->findBy(['users' => $user]);
+        $form = $this->formFactory->create(CommandeFormType::class, $commande, [
+            'adressesUtilisateur' => $adressesUtilisateur,
+        ]);
+        $panier = $this->panierRepo->getLastPanier($id);
+        $result = [
+            'form' => $form,
+            'commande' => $commande,
+            'id' => $id,
+            'cart' => $panier,
+        ];
+        return $result;
+    }
+
+    public function CalculTotalPanier()
     {
+        $panier = $this->GetUserData()['cart'];
         $total = 0;
         foreach ($panier->getPanierProduits() as $lignePanier) {
 
@@ -37,8 +67,11 @@ class CommandeService
         return $total;
     }
 
-    public function FormCommandeValidation($form, $commande, $panier, $request)
+    public function FormCommandeValidation($request)
     {
+        $panier = $this->GetUserData()['cart'];
+        $commande = $this->GetUserData()['commande'];
+        $form = $this->GetUserData()['form'];
         $total = $this->CalculTotalPanier($panier);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

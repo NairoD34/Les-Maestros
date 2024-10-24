@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Produit;
 use App\Repository\CategorieRepository;
 use App\Repository\PhotosRepository;
 use App\Repository\ProduitRepository;

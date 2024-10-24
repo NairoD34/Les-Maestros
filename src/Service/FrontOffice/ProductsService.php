@@ -4,12 +4,11 @@ namespace App\Service\FrontOffice;
 
 use App\Repository\PhotosRepository;
 
-class CategorieService
+class ProductsService
 {
 
     public function getProducts(array $products, PhotosRepository $photoRepo): array
     {
-
         $productsData = [];
         foreach ($products as $product) {
             $prixTTC = $product->getPrixHT() + ($product->getPrixHT() * $product->getTVA()->getTauxTva() / 100);
@@ -30,9 +29,6 @@ class CategorieService
                 'photos' => $photosProducts,
             ];
         }
-
         return $productsData;
     }
-
-
 }

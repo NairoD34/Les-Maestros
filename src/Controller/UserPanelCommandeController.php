@@ -2,31 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Adresse;
-use App\Entity\CodePostal;
 use App\Entity\Commande;
-use App\Entity\Region;
-use App\Entity\Users;
-use App\Form\AdresseFormType;
-use App\Form\UserFormType;
-use App\Repository\AdresseRepository;
-use App\Repository\CodePostalRepository;
 use App\Repository\CommandeRepository;
-use App\Repository\DepartementRepository;
-use App\Repository\RegionRepository;
-use App\Repository\UsersRepository;
-use App\Repository\VilleRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-
-
 
 class UserPanelCommandeController extends AbstractController
 {
@@ -34,7 +16,6 @@ class UserPanelCommandeController extends AbstractController
     public function list(
         CommandeRepository $commandeRepo,
         Security $security,
-        ?Commande $commande,
         Request $request
     ): Response {
 

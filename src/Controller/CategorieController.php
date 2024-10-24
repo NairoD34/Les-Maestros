@@ -3,11 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Categorie;
-use App\Entity\Produit;
 use App\Repository\CategorieRepository;
 use App\Repository\PhotosRepository;
 use App\Repository\ProduitRepository;
-use App\Service\FrontOffice\CategorieService;
+use App\Service\FrontOffice\ProductsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,8 +65,7 @@ class CategorieController extends AbstractController
         ProduitRepository   $produitRepo,
         CategorieRepository $categorieRepo,
         PhotosRepository    $photoRepo,
-        Produit             $produit,
-        CategorieService    $categorieService
+        ProductsService    $productsService
     ): Response
     {
         $categorieId = $categories->getId();
@@ -77,8 +75,8 @@ class CategorieController extends AbstractController
         $newsProducts = $produitRepo->searchNew();
         $photos = $photoRepo->searchPhotoByCategorie($categories);
 
-        $productData = $categorieService->getProducts($products, $photoRepo);
-        $productNewData = $categorieService->getProducts($newsProducts, $photoRepo);
+        $productData = $productsService->getProducts($products, $photoRepo);
+        $productNewData = $productsService->getProducts($newsProducts, $photoRepo);
 
         return $this->render('categorie/produit_categorie.html.twig', [
             'produits' => $productData,
