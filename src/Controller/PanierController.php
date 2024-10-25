@@ -6,7 +6,6 @@ use App\Entity\PanierProduit;
 use App\Entity\Produit;
 use App\Repository\PanierProduitRepository;
 use App\Repository\PanierRepository;
-use App\Repository\PhotosRepository;
 use App\Service\FrontOffice\PanierService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,16 +58,15 @@ class PanierController extends AbstractController
         if ($panierProduit === null) {
             return $this->redirectToRoute('app_index');
         }
+
         if ($this->isCsrfTokenValid('delete' . $panierProduit->getId(), $request->request->get('_token'))) {
             if ($this->isCsrfTokenValid('delete' . $panierProduit->getId(), $request->request->get('_token'))) {
-
                 $entityManager->remove($panierProduit);
 
                 // Vérifiez si le panier est maintenant vide
                 $panier = $panierRepo->findOneBy(['id' => $panierProduit->getPanier()->getId()]);
 
                 if ($panier && $panier->getPanierProduits()->isEmpty()) {
-
                     $entityManager->remove($panier);
                 }
                 $entityManager->flush();
@@ -89,17 +87,21 @@ class PanierController extends AbstractController
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_index');
         }
+
         if ($produit === null) {
             return $this->redirectToRoute('app_index');
         }
+
         $idProduit = $produit->getId();
         $Panier = $panierRepo->getLastPanierCommande($security->getUser()->getId());
         $idPanier = $Panier->getId();
         $produitInPanier = $panierProduitRepo->getPanierProduitbyId($produit, $Panier);
+
         if (!$produitInPanier) {
             // Si le produit n'est pas trouvé dans le panier, redirigez vers empty.html.twig
             return $this->render('panier/emptyPanier.html.twig');
         }
+        
         if ($this->isCsrfTokenValid('removeToPanier' . $produit->getId(), $request->request->get('_token'))) {
             if ($this->isCsrfTokenValid('removeToPanier' . $produit->getId(), $request->request->get('_token'))) {
                 $qte = $produitInPanier->getQuantite();
@@ -114,6 +116,7 @@ class PanierController extends AbstractController
             return $this->redirectToRoute('app_panier', [], Response::HTTP_SEE_OTHER);
         }
     }
+
     #[Route('add_qte_produit_panier/{id}', name: 'app_add_qte_produit_panier', methods: ['POST'])]
     public function addQuantite(
         Security $security,
@@ -125,13 +128,16 @@ class PanierController extends AbstractController
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_index');
         }
+
         if ($produit === null) {
             return $this->redirectToRoute('app_index');
         }
+
         $idProduit = $produit->getId();
         $Panier = $panierRepo->getLastPanierCommande($security->getUser()->getId());
         $idPanier = $Panier->getId();
         $produitInPanier = $panierProduitRepo->getPanierProduitbyId($produit, $Panier);
+
         if ($this->isCsrfTokenValid('addQteToPanier' . $produit->getId(), $request->request->get('_token'))) {
             if ($this->isCsrfTokenValid('addQteToPanier' . $produit->getId(), $request->request->get('_token'))) {
                 $qte = $produitInPanier->getQuantite();

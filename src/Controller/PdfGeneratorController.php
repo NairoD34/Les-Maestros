@@ -44,9 +44,9 @@ class PdfGeneratorController extends AbstractController
             $pdfOutput = $dompdf->output();
         }
 
-            return new Response($pdfOutput, 200, [
-                'Content-Type' => 'application/pdf',
-            ]);
+        return new Response($pdfOutput, 200, [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 
     private function imageToBase64($path)

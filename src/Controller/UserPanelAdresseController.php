@@ -4,9 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Adresse;
 use App\Entity\Users;
-use App\Repository\AdresseRepository;
-use App\Repository\CodePostalRepository;
 use App\Repository\VilleRepository;
+use App\Service\FrontOffice\AdressService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,38 +13,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
-
 class UserPanelAdresseController extends AbstractController
 {
-
     #[Route('/user/list_adresse', name: 'app_list_adresse')]
-    public function listAdresse(AdresseRepository $adresseRepo, Request $request): Response
+    public function listAdresse(
+        Request $request,
+        Users $users,
+        AdressService $adressService,
+        ): Response
     {
-        // Récupérer l'utilisateur actuellement authentifié
-        $user = $this->getUser();
+        $result = $adressService->AdressList($request, $users);
 
-        // Récupérer toutes les adresses de l'utilisateur
-        $allAdresses = $adresseRepo->findBy(['users' => $user]);
-
-        // Filtrer les adresses par nom de rue si une valeur est fournie
-        $filteredAdresses = [];
-        $rue = $request->query->get('rue', '');
-        if ($rue) {
-            foreach ($allAdresses as $adresse) {
-                if (stripos($adresse->getRue(), $rue) !== false) {
-                    $filteredAdresses[] = $adresse;
-                }
-            }
-        } else {
-            $filteredAdresses = $allAdresses;
-        }
         return $this->render('user/list.html.twig', [
             'title' => 'Liste de vos adresses',
-            'adresses' => $filteredAdresses,
-            'rue' => $rue,
+            'adresses' => $result['$filteredAdresses'],
+            'rue' => $result['rue'],
         ]);
     }
+
     #[Route('/user/adresse/{id}', name: 'app_show_adresse')]
     public function showAdresse(?Adresse $adresse)
     {
@@ -95,6 +80,7 @@ class UserPanelAdresseController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('app_list_adresse');
     }
+
     #[Route('/user/reactivate_adresse/{id}', name: 'app_reactivate_adresse')]
     public function reactivateAdresse(
         Adresse $adresse,
@@ -117,32 +103,19 @@ class UserPanelAdresseController extends AbstractController
 
         return $this->redirectToRoute('app_list_adresse'); 
 }
+
     //Affichage Formulaire pour l'entité Adresse
     private function formAdresse(
         Adresse $adresse, 
-        AdresseRepository $adresseRepo, 
-        CodePostalRepository $codePostalRepo, 
         Request $request, 
         Users $users, 
-        VilleRepository $villeRepo, 
-        $isUpdate = false
+        $isUpdate = false,
+        AdressService $adressService,
         )
     {
         $message = '';
 
-        if (isset($_POST['submitAdresse'])) {
-            $adresse->setNumVoie($request->request->get('num_voie'));
-            $adresse->setRue($request->request->get('rue'));
-            $adresse->setComplement($request->request->get('complement'));
-            $adresse->setIsActive(true);
-            $users = $this->getUser();
-            $adresse->setUsers($users);
-            $ville = $villeRepo->find($request->request->get('villeId'));
-            $adresse->setVille($ville);
-            $codePostalId = $codePostalRepo->find($request->request->get('selectedPostalCodesId'));
-            $adresse->setCodePostal($codePostalId);
-
-            $adresseRepo->save($adresse, true);
+        if ($adressService->SaveAdressForm($adresse, $users, $request)) {
 
             if ($request->get('id')) {
                 $this->addFlash("succes","l\'adresse a bien été modifiée");
@@ -168,37 +141,33 @@ class UserPanelAdresseController extends AbstractController
     //Page de création d'adresse
     #[Route('/user/create_adresse', name: 'app_create_adresse')]
     public function createAdresse(
-        AdresseRepository $adresseRepo, 
-        CodePostalRepository $codePostalRepo, 
-        Request $request, 
-        VilleRepository $villeRepo
+        Request $request,
+        AdressService $adressService,
         ): Response
     {
         $users = $this->getUser();
         $adresse = new Adresse();
-        return $this->formAdresse($adresse, $adresseRepo, $codePostalRepo, $request, $users, $villeRepo, false);
+        return $this->formAdresse($adresse, $request, $users, false, $adressService);
     }
 
     //Page de modification d'adresse
     #[Route('/user/update_adresse/{id}', name: 'app_update_adresse')]
     public function updateAdresse(
         Adresse $adresse, 
-        AdresseRepository $adresseRepo, 
-        CodePostalRepository $codePostalRepo, 
         Request $request, 
-        VilleRepository $villeRepo
+        AdressService $adressService,
         ): Response
     {
         $users = $this->getUser();
-        return $this->formAdresse($adresse, $adresseRepo, $codePostalRepo, $request, $users,  $villeRepo, true);
+        return $this->formAdresse($adresse, $request, $users, true, $adressService);
     }
 
     #[Route('/adresse/ajax/ville/{name}', name: 'ajax_ville')]
     public function ajaxCity(
-        VilleRepository $cityRepo, 
-        Request $request
+        Request $request,
+        AdressService $adressService,
         ): Response
-    {
+    {/* 
         $string = $request->get('name');
         $cities = $cityRepo->searchByName($string);
         $json = [];
@@ -218,8 +187,8 @@ class UserPanelAdresseController extends AbstractController
                 'region' => $city->getDepartement()->getRegion()->getNom(),
                 'codePostaux' => $codesPostauxArray,
             ];
-        }
+        } */
 
-        return new JsonResponse($json, 200);
+        return new JsonResponse($adressService->ReturnJsonCity($request), 200);
     }
 }

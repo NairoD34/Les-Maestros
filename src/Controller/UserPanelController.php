@@ -4,13 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Adresse;
 use App\Entity\Users;
-use App\Form\UserFormType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\FrontOffice\UsersService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserPanelController extends AbstractController
@@ -33,24 +31,22 @@ class UserPanelController extends AbstractController
     public function userAccount(
         ?Users $users, 
         Request $request, 
-        EntityManagerInterface $em
+        UsersService $usersService,
         ): Response
     {
         if ($users === null) {
             return $this->redirectToRoute('app_index');
         }
-
-        $form = $this->createForm(UserFormType::class, $users);
-        $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            $em->persist($users);
-            $em->flush();
+        
+        $result = $usersService->UsersForm($users, $request);
+        if ($result['validate']) {
             return $this->redirectToRoute('app_user');
         }
+
         return $this->render('user/updateAccount.html.twig', [
             'title' => 'Vos informations' . ' ' . $users->getPrenom(),
             'users' => $users,
-            'form' => $form,
+            'form' => $result['form'],
         ]);
     }
    
