@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class UserPanelCommandeController extends AbstractController
+class UserPanelOrderController extends AbstractController
 {
     #[Route('/user/commande_list', name: 'app_commande_list')]
     public function list(

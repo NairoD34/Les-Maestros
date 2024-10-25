@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Adresse;
 use App\Entity\Users;
-use App\Repository\VilleRepository;
 use App\Service\FrontOffice\AdressService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

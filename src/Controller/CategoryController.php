@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CategorieController extends AbstractController
+class CategoryController extends AbstractController
 {
 
     #[Route('/categorie', name: 'app_categorie')]
@@ -20,13 +20,17 @@ class CategorieController extends AbstractController
     {
         $category = $caterepo->findAll();
         return $this->render('categorie/index.html.twig', [
-            'controller_name' => 'CategorieController',
-            'categories' => $category
+            'controller_name' => 'CategoryController',
+            'categories' => $category,
         ]);
     }
 
-    #[Route('/maincategorie/id={id}', name: 'app_categorie_show')]
-    public function showCategorieParente(Categorie $cate, CategorieRepository $cateRepo, PhotosRepository $photoRepo)
+    #[Route('/maincategory/id={id}', name: 'app_categorie_show')]
+    public function showCategorieParente(
+        Categorie $cate, 
+        CategorieRepository $cateRepo, 
+        PhotosRepository $photoRepo
+        )
 
     {
         if ($cate === null) {
@@ -34,12 +38,12 @@ class CategorieController extends AbstractController
         }
         $photo = $photoRepo->searchPhotoByCategorie($cate);
 
-        $enfants = $cateRepo->searchCategorieEnfant($cate);
+        $children = $cateRepo->searchCategorieEnfant($cate);
 
         return $this->render('categorie/showparent.html.twig', [
             'title' => 'Catégorie',
             'cate' => $cate,
-            'enfants' => $enfants,
+            'enfants' => $children,
             'photos' => $photo
         ]);
     }
