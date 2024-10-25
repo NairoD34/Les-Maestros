@@ -50,8 +50,17 @@ class OrderController extends AbstractController
         )
     {
         $message = '';
-        
-        $adressService->SaveAdressForm($adress, $users, $request);
+
+        if ($adressService->SaveAdressForm($adress, $users, $request)) {
+            $message = 'L\'adresse a bien été créée';
+            if ($this->getUser()) {
+                return $this->redirectToRoute('app_commande', [
+                    'message' => '1'
+                ]);
+            } else {
+                return $this->redirectToRoute('app_login');
+            }
+        }
 
         return $this->render('commande/new.html.twig', [
             'title' => 'adresse',
