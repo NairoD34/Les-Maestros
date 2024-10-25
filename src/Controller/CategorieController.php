@@ -18,10 +18,10 @@ class CategorieController extends AbstractController
     #[Route('/categorie', name: 'app_categorie')]
     public function index(CategorieRepository $caterepo): Response
     {
-        $categories = $caterepo->findAll();
+        $category = $caterepo->findAll();
         return $this->render('categorie/index.html.twig', [
             'controller_name' => 'CategorieController',
-            'categories' => $categories
+            'categories' => $category
         ]);
     }
 
@@ -61,28 +61,28 @@ class CategorieController extends AbstractController
 
     #[Route('/produit_categorie/{id}', name: 'app_produit_categorie')]
     public function afficherProduitParCategorie(
-        Categorie           $categories,
-        ProduitRepository   $produitRepo,
-        CategorieRepository $categorieRepo,
+        Categorie           $category,
+        ProduitRepository   $productRepo,
+        CategorieRepository $categoryRepo,
         PhotosRepository    $photoRepo,
         ProductsService    $productsService
     ): Response
     {
-        $categorieId = $categories->getId();
-        $categorie = $categorieRepo->find($categorieId);
-        $categorie_parente = $categorieRepo->findParentCategoryIdByChildId($categorieId);
-        $products = $produitRepo->findProduitsByCategorieId($categorieId);
-        $newsProducts = $produitRepo->searchNew();
-        $photos = $photoRepo->searchPhotoByCategorie($categories);
+        $categoryId = $category->getId();
+        $category = $categoryRepo->find($categoryId);
+        $category_parente = $categoryRepo->findParentCategoryIdByChildId($categoryId);
+        $products = $productRepo->findProduitsByCategorieId($categoryId);
+        $newProducts = $productRepo->searchNew();
+        $photos = $photoRepo->searchPhotoByCategorie($category);
 
         $productData = $productsService->getProducts($products, $photoRepo);
-        $productNewData = $productsService->getProducts($newsProducts, $photoRepo);
+        $productNewData = $productsService->getProducts($newProducts, $photoRepo);
 
         return $this->render('categorie/produit_categorie.html.twig', [
             'produits' => $productData,
-            'categorieParente' => $categorie_parente,
+            'categorieParente' => $category_parente,
             'newsProducts' => $productNewData,
-            'categorie' => $categorie,
+            'categorie' => $category,
             'photos' => $photos,
         ]);
     }

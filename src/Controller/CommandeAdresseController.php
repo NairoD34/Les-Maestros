@@ -14,22 +14,22 @@ class CommandeAdresseController extends AbstractController
 {
     //Affichage Formulaire pour l'entité Adresse
     private function formCommandeAdresse(
-        ?Adresse $adresse, 
+        ?Adresse $adress, 
         Request $request, 
         Users $users, 
         $isUpdate = false,
-        AdressService $adresseService,
+        AdressService $adressService,
         )
     {
         $message = '';
         
-        $adresseService->SaveAdressForm($adresse, $users, $request);
+        $adressService->SaveAdressForm($adress, $users, $request);
 
         return $this->render('commande/new.html.twig', [
             'title' => 'adresse',
             'message' => $message,
             'flag' => $isUpdate,
-            'adresse' => $adresse,
+            'adresse' => $adress,
             'users' => $users,
         ]);        
     }
@@ -38,11 +38,11 @@ class CommandeAdresseController extends AbstractController
     #[Route('/commande/create_adresse', name: 'app_create_adresse_commande')]
     public function createCommandeAdresse(
         Request $request,
-        AdressService $adresseService,
+        AdressService $adressService,
         ): Response
     {
         $users = $this->getUser();
-        $adresse = new Adresse();
-        return $this->formCommandeAdresse($adresse, $request, $users, false, $adresseService);
+        $adress = new Adresse();
+        return $this->formCommandeAdresse($adress, $request, $users, false, $adressService);
     }
 }
