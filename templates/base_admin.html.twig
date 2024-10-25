@@ -70,7 +70,7 @@
                         <a style='color: rgba(223, 190, 49, 1)!important' aria-current="page" href="{{ path('app_admin_dashboard') }}" >Accueil</a>
                         </li>
                         {% if  is_granted('IS_AUTHENTICATED_FULLY')  %}
-                        <span class="m-3">{{ app.user.username}}</span>
+                        <span class="m-3">Administrateur authentifié : {{ app.user.username}}</span>
                             {% endif %}
 
 

@@ -19,10 +19,10 @@ class Photos
     private ?string $URL_photo = null;
 
     #[ORM\ManyToOne(inversedBy: 'Photos')]
-    private ?Categorie $categorie = null;
+    private ?Category $category = null;
 
     #[ORM\ManyToOne(inversedBy: 'Photos')]
-    private ?Produit $produit = null;
+    private ?Product $product = null;
 
     public function getId(): ?int
     {
@@ -43,26 +43,26 @@ class Photos
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
+    public function getCategory(): ?Category
     {
-        return $this->categorie;
+        return $this->category;
     }
 
-    public function setCategorie(?Categorie $categorie): static
+    public function setCategory(?Category $category): static
     {
-        $this->categorie = $categorie;
+        $this->category = $category;
 
         return $this;
     }
 
-    public function getProduit(): ?Produit
+    public function getProduct(): ?Product
     {
-        return $this->produit;
+        return $this->product;
     }
 
-    public function setProduit(?Produit $produit): static
+    public function setProduct(?Product $product): static
     {
-        $this->produit = $produit;
+        $this->product = $product;
 
         return $this;
     }

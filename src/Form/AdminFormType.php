@@ -27,8 +27,8 @@ class AdminFormType extends AbstractType
                 'multiple' => true,  // Pour permettre la sélection multiple
                 'expanded' => true,  // Pour afficher les choix comme des cases à cocher
             ])
-            ->add('nom')
-            ->add('prenom')
+            ->add('lastname')
+            ->add('firstname')
             ->add('email')
             ->add('username')
             ->add('plainPassword', PasswordType::class, [

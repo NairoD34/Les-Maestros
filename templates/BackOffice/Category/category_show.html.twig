@@ -1,0 +1,21 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block main %}
+    <h2>{{ title }}</h2>
+<div class="row mt-4">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body ">
+                            <strong>ID:</strong> {{ category.id }} <br>
+                            <strong>Libellé:</strong> {{ category.title }} <br>
+                            <strong>Description:</strong>  {{ category.description }}<br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<a href="{{ path('app_category_list_admin') }}" class="btn btn-secondary">Retour</a>
+{% endblock %}

@@ -10,9 +10,9 @@ class FileUploaderProduit
 {
     private $targetDirectory;
     private $slugger;
-    public function __construct($targetDirectoryProduit, SluggerInterface $slugger)
+    public function __construct($targetDirectoryProduct, SluggerInterface $slugger)
     {
-        $this->targetDirectory = $targetDirectoryProduit;
+        $this->targetDirectory = $targetDirectoryProduct;
         $this->slugger = $slugger;
     }
     public function upload(UploadedFile $file)

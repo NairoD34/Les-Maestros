@@ -1,0 +1,24 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block main %}
+    <h2>{{ title }}</h2>
+             <div class="row mt-4">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body ">
+                            <strong>Nom:</strong> {{ product.title }} <br>
+                            <strong>Description de l'article:</strong> {{ product.description }} <br>
+                            <strong>Prix:</strong>  {{ product.TaxFreePrice }} € HT<br>
+                            <div class="card border p-3 bg-light d-flex flex-wrap align-items-center m-2" style="width: 27rem; height: 27rem;">
+                            <img src="{% for photo in product.photos %} {{ photo.urlPhoto }} {% endfor %} " class="card-img-top" alt="..." style="width: 24rem; height: 24rem;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<a href="{{ path('app_product_list_admin') }}" class="btn btn-secondary">Retour</a>            
+{% endblock %}

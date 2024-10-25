@@ -2,12 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Adresse;
-use App\Entity\Commande;
-use App\Entity\Etat;
-use App\Entity\Livraison;
-use App\Entity\Paiement;
-use App\Entity\Panier;
+use App\Entity\Adress;
+use App\Entity\Order;
+use App\Entity\Sales;
+use App\Entity\Delivery;
+use App\Entity\Payment;
+use App\Entity\Cart;
 use App\Entity\Users;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -24,34 +24,34 @@ class CommandeFormType extends AbstractType
         $adressesUtilisateur = $options['adressesUtilisateur'];
         $builder
 
-            ->add('Livraison', EntityType::class, [
-                'class' => Livraison::class,
-                'choice_label' => 'libelle',
+            ->add('Sales', EntityType::class, [
+                'class' => Sales::class,
+                'choice_label' => 'title',
 
             ])
-            ->add('Paiement', EntityType::class, [
-                'class' => Paiement::class,
+            ->add('Payment', EntityType::class, [
+                'class' => Payment::class,
 
-                'choice_label' => 'libelle',
+                'choice_label' => 'title',
             ])
-            ->add('est_facture', EntityType::class, [
-                'class' => Adresse::class,
+            ->add('billed', EntityType::class, [
+                'class' => Adress::class,
                 'choices' => $adressesUtilisateur,
-                'choice_label' => 'rue',
+                'choice_label' => 'street',
 
 
             ])
-            ->add('est_livre', EntityType::class, [
-                'class' => Adresse::class,
+            ->add('delivered', EntityType::class, [
+                'class' => Adress::class,
                 'choices' => $adressesUtilisateur,
-                'choice_label' => 'rue',
+                'choice_label' => 'street',
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Commande::class,
+            'data_class' => Order::class,
             'adressesUtilisateur' => [],
         ]);
     }

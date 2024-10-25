@@ -16,14 +16,14 @@ class Region
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nom = null;
+    private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'region', targetEntity: Departement::class)]
-    private Collection $Departement;
+    #[ORM\OneToMany(mappedBy: 'region', targetEntity: County::class)]
+    private Collection $County;
 
     public function __construct()
     {
-        $this->Departement = new ArrayCollection();
+        $this->County = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -31,14 +31,14 @@ class Region
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getName(): ?string
     {
-        return $this->nom;
+        return $this->name;
     }
 
-    public function setNom(string $nom): static
+    public function setName(string $name): static
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
@@ -46,27 +46,27 @@ class Region
     /**
      * @return Collection<int, Departement>
      */
-    public function getDepartement(): Collection
+    public function getCounty(): Collection
     {
-        return $this->Departement;
+        return $this->County;
     }
 
-    public function addDepartement(Departement $departement): static
+    public function addCounty(County $county): static
     {
-        if (!$this->Departement->contains($departement)) {
-            $this->Departement->add($departement);
-            $departement->setRegion($this);
+        if (!$this->County->contains($county)) {
+            $this->County->add($county);
+            $county->setRegion($this);
         }
 
         return $this;
     }
 
-    public function removeDepartement(Departement $departement): static
+    public function removeCounty(County $county): static
     {
-        if ($this->Departement->removeElement($departement)) {
+        if ($this->County->removeElement($county)) {
             // set the owning side to null (unless already changed)
-            if ($departement->getRegion() === $this) {
-                $departement->setRegion(null);
+            if ($county->getRegion() === $this) {
+                $county->setRegion(null);
             }
         }
 

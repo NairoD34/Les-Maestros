@@ -1,0 +1,28 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block main %}
+    <h2>{{ title }} {{ order.id }}</h2>
+<div class="row mt-4">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body ">
+                            <strong>Commande n°</strong> {{ order.id }} <br>
+                            <strong>Client n°</strong> {{ order.users.id }}, {{ order.users.lastname }} {{ order.users.firstname }} <br>
+                            <strong>Panier n°</strong>  {{ order.cart.id }}<br>
+                            <strong>Date de la commande:</strong>  {{ order.orderDate?order.orderDate|date('Y-m-d') : ''  }}<br>
+                            <strong>Total de la commande :</strong>  {{ order.TIOrderPrice }}€ TTC<br>
+                             <strong>Addresse de livraison :</strong>  {{ order.delivered.number }}  {{ order.delivered.street }},  {{ order.delivered.city.name }}<br> 
+                             <strong>Addresse de facturation :</strong>  {{ order.billed.number}} {{ order.billed.street}}, {{ order.billed.city.name}}<br>  
+                            <strong>Moyen de paiement :</strong>  {{ order.payment.title }}<br>
+                            <strong>Mode de livraison :</strong>  {{ order.delivery.title }}<br>
+                            <strong>Etat de la commande :</strong>  {{ order.state.title }}<br>
+                        </div>
+                    </div>
+                </div>
+    </div>
+    <a href="{{ path('app_order_list_admin') }}" class="btn btn-secondary">Retour</a>
+{% endblock %}
