@@ -23,12 +23,12 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     #[Assert\Regex('/^\w+/')]
     #[Assert\NotBlank]
-    private ?string $nom = null;
+    private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Regex('/^\w+/')]
     #[Assert\NotBlank]
-    private ?string $prenom = null;
+    private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
@@ -44,21 +44,21 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
    
 
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Commande::class)]
-    private Collection $Commande;
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Orders::class)]
+    private Collection $Order;
 
-    #[ORM\OneToMany(mappedBy: 'Users', targetEntity: Panier::class)]
-    private Collection $paniers;
+    #[ORM\OneToMany(mappedBy: 'Users', targetEntity: Cart::class)]
+    private Collection $carts;
 
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Adresse::class)]
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Adress::class)]
     private Collection $adresses;
 
    
 
     public function __construct()
     {
-        $this->Commande = new ArrayCollection();
-        $this->paniers = new ArrayCollection();
+        $this->Order = new ArrayCollection();
+        $this->carts = new ArrayCollection();
         $this->adresses = new ArrayCollection();
         
     }
@@ -68,26 +68,26 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getLastname(): ?string
     {
-        return $this->nom;
+        return $this->lastname;
     }
 
-    public function setNom(string $nom): static
+    public function setLastname(string $lastname): static
     {
-        $this->nom = $nom;
+        $this->lastname = $lastname;
 
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->prenom;
+        return $this->firstname;
     }
 
-    public function setPrenom(string $prenom): static
+    public function setFirstname(string $firstname): static
     {
-        $this->prenom = $prenom;
+        $this->firstname = $firstname;
 
         return $this;
     }
@@ -133,27 +133,27 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Commande>
      */
-    public function getCommande(): Collection
+    public function getOrder(): Collection
     {
-        return $this->Commande;
+        return $this->Order;
     }
 
-    public function addCommande(Commande $commande): static
+    public function addOrder(Orders $order): static
     {
-        if (!$this->Commande->contains($commande)) {
-            $this->Commande->add($commande);
-            $commande->setUsers($this);
+        if (!$this->Order->contains($order)) {
+            $this->Order->add($order);
+            $order->setUsers($this);
         }
 
         return $this;
     }
 
-    public function removeCommande(Commande $commande): static
+    public function removeOrder(Orders $order): static
     {
-        if ($this->Commande->removeElement($commande)) {
+        if ($this->Order->removeElement($order)) {
             // set the owning side to null (unless already changed)
-            if ($commande->getUsers() === $this) {
-                $commande->setUsers(null);
+            if ($order->getUsers() === $this) {
+                $order->setUsers(null);
             }
         }
 
@@ -163,27 +163,27 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Panier>
      */
-    public function getPaniers(): Collection
+    public function getCarts(): Collection
     {
-        return $this->paniers;
+        return $this->carts;
     }
 
-    public function addPanier(Panier $panier): static
+    public function addCart(Cart $cart): static
     {
-        if (!$this->paniers->contains($panier)) {
-            $this->paniers->add($panier);
-            $panier->setUsers($this);
+        if (!$this->carts->contains($cart)) {
+            $this->carts->add($cart);
+            $cart->setUsers($this);
         }
 
         return $this;
     }
 
-    public function removePanier(Panier $panier): static
+    public function removeCart(Cart $cart): static
     {
-        if ($this->paniers->removeElement($panier)) {
+        if ($this->carts->removeElement($cart)) {
             // set the owning side to null (unless already changed)
-            if ($panier->getUsers() === $this) {
-                $panier->setUsers(null);
+            if ($cart->getUsers() === $this) {
+                $cart->setUsers(null);
             }
         }
 
@@ -231,7 +231,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->adresses;
     }
 
-    public function addAdress(Adresse $adress): static
+    public function addAdress(Adress $adress): static
     {
         if (!$this->adresses->contains($adress)) {
             $this->adresses->add($adress);
@@ -241,7 +241,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeAdress(Adresse $adress): static
+    public function removeAdress(Adress $adress): static
     {
         if ($this->adresses->removeElement($adress)) {
             // set the owning side to null (unless already changed)

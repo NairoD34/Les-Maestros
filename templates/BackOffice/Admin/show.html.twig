@@ -1,0 +1,22 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block main %}
+    <h2>{{ title }}</h2>
+        <div class="row mt-4">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <strong>ID:</strong> {{ admin.id }} <br>
+                            <strong>Username:</strong> {{ admin.username }} <br>
+                            <strong>Nom:</strong> {{ admin.lastname }} <br>
+                            <strong>Prénom:</strong> {{ admin.firstname }} <br>
+                            <strong>Addresse mail:</strong> {{ admin.email }} <br>
+                        </div>
+                    </div>
+                </div>
+        </div>
+{% endblock %}

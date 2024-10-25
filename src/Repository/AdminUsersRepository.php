@@ -21,13 +21,13 @@ class AdminUsersRepository extends ServiceEntityRepository
         parent::__construct($registry, Users::class);
     }
 
-    public function searchByName(string $name, string $trinom, string $triprenom): ?array
+    public function searchByName(string $name, string $lastname, string $firstname): ?array
     {
         return $this->createQueryBuilder('s')
-            ->where('s.nom like :val')
+            ->where('s.lastname like :val')
             ->setParameter('val', '%' . $name . '%')
-            ->addOrderBy('s.nom', $trinom)
-            ->addOrderBy('s.prenom', $triprenom)
+            ->addOrderBy('s.lastname', $lastname)
+            ->addOrderBy('s.firstname', $firstname)
             ->getQuery()
             ->getResult();
     }

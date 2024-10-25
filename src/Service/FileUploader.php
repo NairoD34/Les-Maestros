@@ -9,15 +9,15 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class FileUploader
 {
     private $targetDirectory;
-    private $targetDirectoryProduit;
+    private $targetDirectoryProduct;
     private $slugger;
-    public function __construct($targetDirectory, $targetDirectoryProduit, SluggerInterface $slugger)
+    public function __construct($targetDirectory, $targetDirectoryProduct, SluggerInterface $slugger)
     {
         $this->targetDirectory = $targetDirectory;
-        $this->targetDirectoryProduit = $targetDirectoryProduit;
+        $this->targetDirectoryProduct = $targetDirectoryProduct;
         $this->slugger = $slugger;
     }
-    public function uploadCategorie(UploadedFile $file)
+    public function uploadCategory(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
@@ -31,13 +31,13 @@ class FileUploader
         return $fileName;
     }
 
-    public function uploadProduit(UploadedFile $file)
+    public function uploadProduct(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
         try {
-            $file->move($this->getTargetDirectoryProduit(), $fileName);
+            $file->move($this->getTargetDirectoryProduct(), $fileName);
         } catch (FileException $e) {
             // ... handle exception if something happens during file upload
             return null; // for example
@@ -48,8 +48,8 @@ class FileUploader
     {
         return $this->targetDirectory;
     }
-    public function getTargetDirectoryProduit()
+    public function getTargetDirectoryProduct()
     {
-        return $this->targetDirectoryProduit;
+        return $this->targetDirectoryProduct;
     }
 }

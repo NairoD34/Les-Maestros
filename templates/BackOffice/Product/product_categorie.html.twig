@@ -1,0 +1,21 @@
+
+
+{% extends 'base_admin.html.twig' %}
+
+{% block main %}
+    <h1>Produits de la catégorie {{ categorie.libelle }}</h1>
+    <div class='banner'>
+    {% for photo in photos %}
+    <img src='{{ asset(photo.URLPhoto) }}' alt='test' class='banner-item'/>
+    {% endfor %}
+    </div>
+    {% if products is empty %}
+        <p>Aucun produit trouvé pour cette catégorie.</p>
+    {% else %}
+        <ul>
+            {% for product in products %}
+                <li>{{ product.libelle }} - {{ product.prixHt }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
