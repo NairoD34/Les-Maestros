@@ -102,7 +102,9 @@
       justify-content: end;
       flex-direction: column;
       height: 100%;
-
+      @media screen and (max-width: 1368px) {
+        padding: 10px;
+      }
 
       h3 {
         color: var(--text);

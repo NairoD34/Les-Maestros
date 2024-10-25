@@ -8,9 +8,9 @@
   justify-content: space-evenly;
   align-items: center;
   background-color: #FFFFFF;
-  @media (min-width: 1201px) and (max-width: 1368px) {
-    width: 60% !important;
+  @media screen and (max-width: 1368px) {
     display: flex;
+    width: 80%;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
