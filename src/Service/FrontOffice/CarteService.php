@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller\FrontOffice;
-
+namespace App\Service\FrontOffice;
 use App\Entity\Commande;
 use App\Entity\LigneDeCommande;
 use App\Form\CommandeFormType;
@@ -15,50 +15,86 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormFactoryInterface;
 
-class CommandeController extends AbstractController
+class CarteService
 {
-    #[Route('/commande', name: 'app_commande')]
-    public function NewCommande(Security $security, Request $request, EntityManagerInterface $em, EtatRepository $etatRepo, PanierRepository $panierRepo, PhotosRepository $photoRepo, AdresseRepository $adresseRepo): Response
-    {
-        if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('app_index');
-        }
-        $user = $security->getUser();
+    public function __construct(
+        private EntityManagerInterface $em,
+        private EtatRepository $etatRepo,
+        private Security $security,
+        private PhotosRepository $photoRepo,
+        private AdresseRepository $adresseRepo,
+        private FormFactoryInterface $formFactory,
+        private PanierRepository $panierRepo,
+        ) {
+    }
+
+    /**
+     * Return array with specific user's id, command object and a form with user's adresses
+     */
+    public function GetUserData()
+    {        
+        $user = $this->security->getUser();
         $id = $user->getId();
         $commande = new Commande();
-        $adressesUtilisateur = $adresseRepo->findBy(['users' => $user]);
-        $form = $this->createForm(CommandeFormType::class, $commande, [
+        $adressesUtilisateur = $this->adresseRepo->findBy(['users' => $user]);
+        $form = $this->formFactory->create(CommandeFormType::class, $commande, [
             'adressesUtilisateur' => $adressesUtilisateur,
         ]);
+        $panier = $this->panierRepo->getLastPanier($id);
+        $result = [
+            'form' => $form,
+            'commande' => $commande,
+            'id' => $id,
+            'cart' => $panier,
+        ];
+        return $result;
+    }
 
-        $panier = $panierRepo->getLastPanier($id);
+    /**
+     * returns an array with cart's price and products datas
+     */
 
+    public function CalculPanier()
+    {
+        $panier = $this->GetUserData()['cart'];
         $total = 0;
+        $produits = [];
         foreach ($panier->getPanierProduits() as $lignePanier) {
 
             $produits[] = [
                 'id' => $lignePanier->getId(),
                 'produit' => $lignePanier->getProduit(),
                 'qte' => $lignePanier->getQuantite(),
-                'photo' => $photoRepo->searchOnePhotoByProduit($lignePanier->getProduit()->getId()),
+                'photo' => $this->photoRepo->searchOnePhotoByProduit($lignePanier->getProduit()->getId()),
                 'prixTTC' => $lignePanier->getProduit()->getPrixHT() + ($lignePanier->getProduit()->getPrixHT() * $lignePanier->getProduit()->getTVA()->getTauxTva() / 100),
             ];
             $total += ($lignePanier->getProduit()->getPrixHT() + ($lignePanier->getProduit()->getPrixHT() * $lignePanier->getProduit()->getTVA()->getTauxTva() / 100)) * $lignePanier->getQuantite();
             $total = number_format($total, 2, '.', '');
         }
+        return [
+            'total' => $total,
+            'produits' => $produits,
+        ];
+    }
 
+    public function FormCommandeValidation($request)
+    {
+        $panier = $this->GetUserData()['cart'];
+        $commande = $this->GetUserData()['commande'];
+        $form = $this->GetUserData()['form'];
+        $total = $this->CalculPanier($panier)['total'];
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $commande->setLivraison($data->getLivraison());
             $commande->setPaiement($data->getPaiement());
-            $etatUnique = $etatRepo->find(['id' => 1]);
+            $etatUnique = $this->etatRepo->find(['id' => 1]);
             $commande->setEstFacture($data->getEstFacture());
             $commande->setEstLivre($data->getEstLivre());
             $commande->setEtat($etatUnique);
-            $commande->setUsers($security->getUser());
+            $commande->setUsers($this->security->getUser());
             $commande->setPanier($panier);
             $commande->setDateCommande(new \DateTimeImmutable());
             $commande->setPrixTtcCommande($total);
@@ -78,21 +114,16 @@ class CommandeController extends AbstractController
                     $ligneCommande->setPrenomUtilisateur($utilisateur->getPrenom());
                     $ligneCommande->setEmailUtilisateur($utilisateur->getEmail());
                 }
-                $em->persist($ligneCommande);
+                $this->em->persist($ligneCommande);
             }
-            $em->persist($commande);
+            $this->em->persist($commande);
 
-            $em->flush();
-            $this->addFlash('success', 'Votre commande a bien été validée.');
-            return $this->redirectToRoute('app_index');
+            $this->em->flush();
+            return true;
         }
-
-        return $this->render('commande/index.html.twig', [
-            'controller_name' => 'CommandeController',
-            'form' => $form,
-            'totalttc' => $total,
-        ]);
+        return false;
     }
 
 
 }
+

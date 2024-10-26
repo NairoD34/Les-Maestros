@@ -3,31 +3,34 @@
 namespace App\Controller\FrontOffice;
 
 use App\Entity\Categorie;
-use App\Entity\Produit;
 use App\Repository\CategorieRepository;
 use App\Repository\PhotosRepository;
 use App\Repository\ProduitRepository;
-use App\Service\FrontOffice\CategoryService;
+use App\Service\FrontOffice\ProductsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CategorieController extends AbstractController
+class CategoryController extends AbstractController
 {
 
     #[Route('/categorie', name: 'app_categorie')]
     public function index(CategorieRepository $caterepo): Response
     {
-        $categories = $caterepo->findAll();
+        $category = $caterepo->findAll();
         return $this->render('categorie/index.html.twig', [
-            'controller_name' => 'CategorieController',
-            'categories' => $categories
+            'controller_name' => 'CategoryController',
+            'categories' => $category,
         ]);
     }
 
-    #[Route('/maincategorie/id={id}', name: 'app_categorie_show')]
-    public function showCategorieParente(Categorie $cate, CategorieRepository $cateRepo, PhotosRepository $photoRepo)
+    #[Route('/maincategory/id={id}', name: 'app_categorie_show')]
+    public function showCategorieParente(
+        Categorie $cate, 
+        CategorieRepository $cateRepo, 
+        PhotosRepository $photoRepo
+        )
 
     {
         if ($cate === null) {
@@ -35,12 +38,12 @@ class CategorieController extends AbstractController
         }
         $photo = $photoRepo->searchPhotoByCategorie($cate);
 
-        $enfants = $cateRepo->searchCategorieEnfant($cate);
+        $children = $cateRepo->searchCategorieEnfant($cate);
 
         return $this->render('categorie/showparent.html.twig', [
             'title' => 'Catégorie',
             'cate' => $cate,
-            'enfants' => $enfants,
+            'enfants' => $children,
             'photos' => $photo
         ]);
     }
@@ -62,29 +65,28 @@ class CategorieController extends AbstractController
 
     #[Route('/produit_categorie/{id}', name: 'app_produit_categorie')]
     public function afficherProduitParCategorie(
-        Categorie           $categories,
-        ProduitRepository   $produitRepo,
-        CategorieRepository $categorieRepo,
+        Categorie           $category,
+        ProduitRepository   $productRepo,
+        CategorieRepository $categoryRepo,
         PhotosRepository    $photoRepo,
-        Produit             $produit,
-        CategoryService $categorieService
+        ProductsService    $productsService
     ): Response
     {
-        $categorieId = $categories->getId();
-        $categorie = $categorieRepo->find($categorieId);
-        $categorie_parente = $categorieRepo->findParentCategoryIdByChildId($categorieId);
-        $products = $produitRepo->findProduitsByCategorieId($categorieId);
-        $newsProducts = $produitRepo->searchNew();
-        $photos = $photoRepo->searchPhotoByCategorie($categories);
+        $categoryId = $category->getId();
+        $category = $categoryRepo->find($categoryId);
+        $category_parente = $categoryRepo->findParentCategoryIdByChildId($categoryId);
+        $products = $productRepo->findProduitsByCategorieId($categoryId);
+        $newProducts = $productRepo->searchNew();
+        $photos = $photoRepo->searchPhotoByCategorie($category);
 
-        $productData = $categorieService->getProducts($products, $photoRepo);
-        $productNewData = $categorieService->getProducts($newsProducts, $photoRepo);
+        $productData = $productsService->getProducts($products, $photoRepo);
+        $productNewData = $productsService->getProducts($newProducts, $photoRepo);
 
         return $this->render('categorie/produit_categorie.html.twig', [
             'produits' => $productData,
-            'categorieParente' => $categorie_parente,
+            'categorieParente' => $category_parente,
             'newsProducts' => $productNewData,
-            'categorie' => $categorie,
+            'categorie' => $category,
             'photos' => $photos,
         ]);
     }

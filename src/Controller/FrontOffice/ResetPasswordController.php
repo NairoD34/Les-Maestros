@@ -3,15 +3,12 @@
 namespace App\Controller\FrontOffice;
 
 use App\Entity\Users;
-use App\Form\ResetPasswordFormType;
 use App\Repository\UsersRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\FrontOffice\PasswordService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 class ResetPasswordController extends AbstractController
 {
@@ -34,28 +31,22 @@ class ResetPasswordController extends AbstractController
         return $this->render('reset_password/check_email.html.twig');
     }
 
-
     #[Route('/reset-password/{id}', name: 'app_reset_password_form')]
-    public function resetPassword(Users $users, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em): response
+    public function resetPassword(
+        Users $users, 
+        Request $request, 
+        PasswordService $passwordService,
+        ): response
     {
-        $form = $this->createForm(ResetPasswordFormType::class, $users);
-        $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            $users->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $users,
-                    $form->get('Password')->getData()
-                )
-            );
-            $em->persist($users);
-            $em->flush();
-
+        $result = $passwordService->ResetPasswordForm($request, $users);
+        if ($result['validate']) {
             $this->addFlash("success", "mot de passe réinitialisé avec succès");
             return $this->redirectToRoute('app_login');
         }
+
         return $this->render('reset_password/reset-password.html.twig', [
             'title' => 'Changement de mot de passe',
-            'form' => $form,
+            'form' => $result['form'],
         ]);
     }
 }

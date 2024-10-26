@@ -2,7 +2,6 @@
 
 namespace App\Controller\FrontOffice;
 
-use App\Repository\AdresseRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\LigneDeCommandeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,8 +17,8 @@ class PdfGeneratorController extends AbstractController
         $id,
         LigneDeCommandeRepository $ligneRepo,
         CommandeRepository $commandeRepo,
-        AdresseRepository $adresseRepo
-    ): Response {
+    ): Response
+    {
         $dataProduit = $ligneRepo->findByIdCommande($id);
         $dataCommande = $commandeRepo->findById($id);
 
@@ -43,13 +42,11 @@ class PdfGeneratorController extends AbstractController
             $dompdf->render();
 
             $pdfOutput = $dompdf->output();
-
-
-
         }
-            return new Response($pdfOutput, 200, [
-                'Content-Type' => 'application/pdf',
-            ]);
+
+        return new Response($pdfOutput, 200, [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 
     private function imageToBase64($path)

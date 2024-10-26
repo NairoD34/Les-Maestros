@@ -10,15 +10,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
-
-class UserPanelCommandeController extends AbstractController
+class UserPanelOrderController extends AbstractController
 {
     #[Route('/user/commande_list', name: 'app_commande_list')]
     public function list(
         CommandeRepository $commandeRepo,
         Security $security,
-        ?Commande $commande,
         Request $request
     ): Response {
 
@@ -32,7 +29,6 @@ class UserPanelCommandeController extends AbstractController
         if (empty($commandes)) {
             return $this->render('user/emptyCommande.html.twig');
         }
-       
         return $this->render('user/commande_list.html.twig', [
             'title' => 'Liste des commandes',
             'commande' => $commandes,
