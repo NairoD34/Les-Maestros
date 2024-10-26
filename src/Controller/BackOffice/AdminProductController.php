@@ -17,31 +17,23 @@ use App\Service\BackOffice\FormHandlerService;
 #[Route('admin/')]
 class AdminProductController extends AbstractController
 {
-    #[Route('product', name: 'app_product')]
-    public function index(ProductRepository $productRepo): Response
-    {
-        $products = $productRepo->searchNew();
-        return $this->render('BackOffice/Product/index.html.twig', [
-            'controller_name' => 'ProductController',
-            'products' => $products
-        ]);
-    }
+
     #[Route('new_product', name: 'app_new_product')]
     public function new(
-        Request $request,
-        EntityManagerInterface $em,
-        Security $security,
-        PhotosRepository $photo,
-        ProductRepository $productRepo,
-        FormHandlerService $formHandler
-    ): Response {
+        Request                $request,
+        Security               $security,
+        PhotosRepository       $photo,
+        ProductRepository      $productRepo,
+        FormHandlerService     $formHandler
+    ): Response
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
         $product = new Product();
-        $formResult = $formHandler->handleProduct(false,$request, $product, $photo, $productRepo);
-        
-        if ($formResult === true) {
+        $formResult = $formHandler->handleProduct(false, $request, $product, $photo, $productRepo);
+
+        if ($formResult) {
             return $this->redirectToRoute('app_product_list_admin');
         }
         return $this->render('BackOffice/Product/product_new.html.twig', [
@@ -53,21 +45,22 @@ class AdminProductController extends AbstractController
     #[Route('product_list', name: 'app_product_list_admin')]
     public function list(
         AdminProductRepository $productRepo,
-        Security $security,
-        ?Product $product,
-        Request $request
-    ): Response {
+        Security               $security,
+        Request                $request
+    ): Response
+    {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
 
-        $product = $productRepo->searchByName($request->query->get('libelle', ''));
+        $products = $productRepo->findAll();
+        $title = $productRepo->searchByName($request->query->get('title', ''));
 
         return $this->render('BackOffice/Product/product_list.html.twig', [
             'title' => 'Liste des produits',
-            'product' => $product,
-            'libelle' => $request->query->get('libelle', ''),
+            'product' => $products,
+            'libelle' => $title,
         ]);
     }
 
@@ -75,7 +68,8 @@ class AdminProductController extends AbstractController
     public function showProducts(
         ?Product $product,
         Security $security,
-    ): Response {
+    ): Response
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
@@ -88,22 +82,24 @@ class AdminProductController extends AbstractController
 
     #[Route('update_product/{id}', name: 'app_update_product')]
     public function update(
-        Request $request,
-        ?Product $product,
-        Security $security,
-        PhotosRepository $photo,
+        Request            $request,
+        ?Product           $product,
+        Security           $security,
+        PhotosRepository   $photo,
         FormHandlerService $formHandler
-    ) {
+    )
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        if ($product === null) {
+
+        if (!$product) {
             return $this->redirectToRoute('app_admin_dashboard');
         }
 
-        $formResult = $formHandler->handleProduct(true,$request, $product, $photo,null);
-        
-        if ($formResult === true) {
+        $formResult = $formHandler->handleProduct(true, $request, $product, $photo, null);
+
+        if ($formResult) {
             return $this->redirectToRoute('app_product_list_admin');
         }
         return $this->render('BackOffice/Product/product_new.html.twig', [
@@ -114,26 +110,27 @@ class AdminProductController extends AbstractController
 
     #[Route('delete_product/{id}', name: 'app_delete_product', methods: ['POST'])]
     public function delete(
-        Product $product,
-        Security $security,
+        ?Product               $product,
+        Security               $security,
         EntityManagerInterface $em
-    ): Response {
-        if (!$security->isGranted('ROLE_AD  MIN')) {
+    ): Response
+    {
+        if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        if ($product === null) {
+        if (!$product) {
             return $this->redirectToRoute('app_admin_dashboard');
         }
         foreach ($product->getCartProduct() as $cartProduct) {
             $em->remove($cartProduct); // ou $em->detach($panierProduit);
         }
-        
-            $em->remove($product);
-            $em->flush();
-            return $this->redirectToRoute('app_product_list_admin');
-        }
 
-    
+        $em->remove($product);
+        $em->flush();
+        return $this->redirectToRoute('app_product_list_admin');
+    }
+
+
 }
     
    

@@ -35,7 +35,7 @@ class AdminController extends AbstractController
     #[Route('show/{id}', name: 'app_show_admin')]
     public function show(?Admin $admin): Response
     {
-        if ($admin === null) {
+        if (!$admin) {
             return $this->redirectToRoute('app_admin_dashboard');
         }
 
@@ -47,18 +47,19 @@ class AdminController extends AbstractController
 
     #[Route('new', name: 'app_new_admin')]
     public function new(
-        Request $request,
-        Security $security,
+        Request                     $request,
+        Security                    $security,
         UserPasswordHasherInterface $adminPasswordHasher,
-        FormHandlerService $formHandler
-    ): Response {
+        FormHandlerService          $formHandler
+    ): Response
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
         $admin = new Admin();
-        $formResult = $formHandler->handleAdmin(false,$request, $admin,$adminPasswordHasher);
+        $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher);
 
-        if ($formResult === true) {
+        if ($formResult) {
             return $this->redirectToRoute('app_list_admin');
         }
 
@@ -71,24 +72,27 @@ class AdminController extends AbstractController
 
     #[Route('update/{id}', name: 'app_update_admin')]
     public function update(
-        Request $request,
-        ?Admin $admin,
-        Security $security,
-        FormHandlerService $formHandler,
+        Request                     $request,
+        ?Admin                      $admin,
+        Security                    $security,
+        FormHandlerService          $formHandler,
         UserPasswordHasherInterface $adminPasswordHasher,
-    ) {
+    )
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        if ($admin === null) {
+        
+        if (!$admin) {
             return $this->redirectToRoute('app_list_admin');
         }
 
-        $formResult = $formHandler->handleAdmin(false,$request, $admin,$adminPasswordHasher);
+        $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher);
 
-        if ($formResult === true) {
+        if ($formResult) {
             return $this->redirectToRoute('app_list_admin');
         }
+
         return $this->render('BackOffice/Admin/new.html.twig', [
             'title' => 'Mise à jour d\'un administrateur',
             'form' => $formResult,
@@ -97,10 +101,11 @@ class AdminController extends AbstractController
 
     #[Route('delete/{id}', name: 'app_delete_admin', methods: ['POST'])]
     public function delete(
-        Request $request,
-        Admin $admin,
+        Request                $request,
+        Admin                  $admin,
         EntityManagerInterface $entityManager
-    ): Response {
+    ): Response
+    {
         if ($this->isCsrfTokenValid('delete' . $admin->getId(), $request->request->get('_token'))) {
             $entityManager->remove($admin);
             $entityManager->flush();

@@ -15,21 +15,13 @@ use Symfony\Bundle\SecurityBundle\Security;
 #[Route('admin/')]
 class AdminSalesController extends AbstractController
 {
-    #[Route('sales', name: 'app_sales')]
-    public function index(SalesRepository $salesRepo): Response
-    {
-        $sales = $salesRepo->searchNew();
-        return $this->render('admin/dashboard.html.twig', [
-            'controller_name' => 'AdminSalesController',
-            'sales' => $sales
-        ]);
-    }
 
     #[Route('sales_show/{id}', name: 'app_sales_show')]
     public function showSales(
-        ?Sales $sales,
+        ?Sales   $sales,
         Security $security,
-    ): Response {
+    ): Response
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
@@ -43,38 +35,39 @@ class AdminSalesController extends AbstractController
     #[Route('sales_list', name: 'app_sales_list')]
     public function list(
         SalesRepository $salesRepo,
-        Security $security,
-        ?Sales $sales,
-        Request $request
-    ): Response {
+        Security        $security,
+        Request         $request
+    ): Response
+    {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
 
-        $sales = $salesRepo->searchByName($request->query->get('libelle', ''));
+        $sales = $salesRepo->findAll();
+        $salesByName = $salesRepo->searchByName($request->query->get('title', ''));
 
         return $this->render('BackOffice/Sales/sales_list.html.twig', [
             'title' => 'Liste des promotions',
             'sales' => $sales,
-            'libelle' => $request->query->get('libelle', ''),
+            'libelle' => $salesByName,
         ]);
     }
 
     #[Route('new_sales', name: 'app_new_sales')]
     public function new(
-        Request $request,
-        EntityManagerInterface $em,
-        Security $security,
+        Request            $request,
+        Security           $security,
         FormHandlerService $formHandler
-    ): Response {
+    ): Response
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
         $sales = new Sales();
         $formResult = $formHandler->handleSales($request, $sales);
-        
-        if ($formResult === true) {
+
+        if ($formResult) {
             return $this->redirectToRoute('app_sales_list');
         }
         return $this->render('BackOffice/Sales/sales_new.html.twig', [
@@ -85,21 +78,22 @@ class AdminSalesController extends AbstractController
 
     #[Route('update_sales/{id}', name: 'app_update_sales')]
     public function update(
-        Request $request,
-        ?Sales $sales,
-        Security $security,
+        Request            $request,
+        ?Sales             $sales,
+        Security           $security,
         FormHandlerService $formHandler
-    ) {
+    )
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        if ($sales === null) {
+        if (!$sales) {
             return $this->redirectToRoute('app_admin_dashboard');
         }
 
         $formResult = $formHandler->handleSales($request, $sales);
-        
-        if ($formResult === true) {
+
+        if ($formResult) {
             return $this->redirectToRoute('app_sales_list');
         }
 
@@ -112,15 +106,16 @@ class AdminSalesController extends AbstractController
 
     #[Route('delete_sales/{id}', name: 'app_delete_sales', methods: ['POST'])]
     public function delete(
-        Request $request,
-        Sales $sales,
-        Security $security,
+        Request                $request,
+        ?Sales                 $sales,
+        Security               $security,
         EntityManagerInterface $entityManager
-    ): Response {
+    ): Response
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        if ($sales === null) {
+        if (!$sales) {
             return $this->redirectToRoute('app_admin_dashboard');
         }
         $products = $sales->getProduct();

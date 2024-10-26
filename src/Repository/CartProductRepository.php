@@ -9,12 +9,12 @@ use Doctrine\ORM\Query\Parameter;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<PanierProduit>
+ * @extends ServiceEntityRepository<CartProduct>
  *
- * @method PanierProduit|null find($id, $lockMode = null, $lockVersion = null)
- * @method PanierProduit|null findOneBy(array $criteria, array $orderBy = null)
- * @method PanierProduit[]    findAll()
- * @method PanierProduit[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CartProduct|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CartProduct|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CartProduct[]    findAll()
+ * @method CartProduct[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class CartProductRepository extends ServiceEntityRepository
 {
@@ -65,7 +65,7 @@ class CartProductRepository extends ServiceEntityRepository
 
 
     //    /**
-    //     * @return PanierProduit[] Returns an array of PanierProduit objects
+    //     * @return CartProduct[] Returns an array of CartProduct objects
     //     */
         public function findByCartId($value): array
         {
@@ -79,7 +79,7 @@ class CartProductRepository extends ServiceEntityRepository
             ;
         }
 
-    //    public function findOneBySomeField($value): ?PanierProduit
+    //    public function findOneBySomeField($value): ?CartProduct
     //    {
     //        return $this->createQueryBuilder('p')
     //            ->andWhere('p.exampleField = :val')

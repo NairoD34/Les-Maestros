@@ -42,13 +42,13 @@ class FormHandlerService
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($sales);
             $this->em->flush();
-            return true; // Formulaire traité avec succès
+            return true;
         }
 
-        return $form; // Retourne le formulaire si non soumis ou invalide
+        return $form;
     }
 
-    public function handleProduct($update,Request $request, Product $product,$photo, ?ProductRepository $productRepo)
+    public function handleProduct($update, Request $request, Product $product, $photo, ProductRepository $productRepo)
     {
         $form = $this->formFactory->create(AdminProductFormType::class, $product);
 
@@ -57,49 +57,43 @@ class FormHandlerService
             $file = $form['upload_file']->getData();
             if ($file) {
                 $file_name = $this->upload->uploadProduct($file);
-                if (null !== $file_name) // for example
+                if ($file_name) // for example
                 {
                     $directory = $this->upload->getTargetDirectory();
                     $full_path = $directory . '/' . $file_name;
                 } else {
                     $error = 'une erreur est survenue';
                 }
-            }if ($update === true){
-            $category = $form['category']->getData();
-            $product->getCategory($category);
-            $photos=$photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
-            $product->getPhotos($photos);
-            $this->em->persist($product);
-            $this->em->flush();
-        }else{
-                $category = $form['category']->getData();
-            $product->setCategory($category);
-            
-            $this->em->persist($product);
-            $this->em->flush();
-            $photo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $file_name);
             }
-           
+            $category = $form['category']->getData();
+            $product->setCategory($category);
+            if ($update) {
+                $photos = $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
+                foreach ($photos as $photoProduct) {
+                    $product->addPhoto($photoProduct);
+                }
+                $this->em->persist($product);
+                $this->em->flush();
+            } else {
+                $this->em->persist($product);
+                $this->em->flush();
+                $photo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $file_name);
+            }
+
             return true;
-            
+
         }
 
-        return $form; // Retourne le formulaire si non soumis ou invalide
+        return $form;
     }
-    public function handleAdmin(bool $update,Request $request, Admin $admin,UserPasswordHasherInterface $adminPasswordHasher )
+
+    public function handleAdmin(bool $update, Request $request, Admin $admin, UserPasswordHasherInterface $adminPasswordHasher)
     {
-        $form = $this->formFactory->create(AdminFormType::class, $admin );
+        $form = $this->formFactory->create(AdminFormType::class, $admin);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
-        if($update === true){
-            
-                $this->em->persist($admin);
-                $this->em->flush();
-            
-        }else{
-            
+            if ($update !== true) {
                 $selectedRoles = $form->get('roles')->getData();
                 $admin->setRoles($selectedRoles);
                 $admin->setPassword(
@@ -108,17 +102,18 @@ class FormHandlerService
                         $form->get('plainPassword')->getData()
                     )
                 );
-                $this->em->persist($admin);
-                $this->em->flush();
-        }
-       
+            }
+            $this->em->persist($admin);
+            $this->em->flush();
+
             return true;
         }
         return $form;
     }
-    public function handleOrder(Request $request, Orders $order )
+
+    public function handleOrder(Request $request, Orders $order)
     {
-    $form = $this->formFactory->create(AdminOrderFormType::class, $order);
+        $form = $this->formFactory->create(AdminOrderFormType::class, $order);
 
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
@@ -129,55 +124,51 @@ class FormHandlerService
         return $form;
     }
 
-    public function handleCategory(bool $update, Request $request, Category $category, $photo, $categoryRepo )
+    public function handleCategory(bool $update, Request $request, Category $category, $photo, $categoryRepo)
     {
-    $form = $this->formFactory->create(AdminCategoryFormType::class, $category);
+        $form = $this->formFactory->create(AdminCategoryFormType::class, $category);
 
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-            if($update === true){
-                $file = $form['upload_file']->getData();
-            if ($file) {
-                $file_name = $this->upload->uploadCategory($file);
+            $file = $form['upload_file']->getData();
+            if ($update) {
+                if ($file) {
+                    $file_name = $this->upload->uploadCategory($file);
 
-                if (null !== $file_name) // for example
-                {
-                    $directory = $this->upload->getTargetDirectory();
-                    $full_path = $directory . '/' . $file_name;
-                    if (!file_exists($full_path)) {
+                    if ($file_name) // for example
+                    {
+                        $directory = $this->upload->getTargetDirectory();
+                        $full_path = $directory . '/' . $file_name;
+                        if (file_exists($full_path)) {
+                            $error = 'une erreur est survenue';
+                        }
+                    }
+                    $photos = $photo->updatePhotoInCategory($category->getId(), '/upload/photo_category/' . $file_name);
+                    foreach ($photos as $photoProduct) {
+                        $category->addPhoto($photoProduct);
+                    }
+                    $this->em->persist($category);
+                    $this->em->flush();
+                }
+            } else {
+                if ($file) {
+                    $file_name = $this->upload->uploadCategory($file);
+                    if ($file_name) {
+                        $directory = $this->upload->getTargetDirectory();
+                        $full_path = $directory . '/' . $file_name;
                     } else {
                         $error = 'une erreur est survenue';
                     }
                 }
-                $photos = $photo->updatePhotoInCategory($category->getId(), '/upload/photo_category/' . $file_name);
-                $category->getPhotos($photos);
                 $this->em->persist($category);
                 $this->em->flush();
-            }}else{
-            $file = $form['upload_file']->getData();
-            if ($file) {
-                $file_name = $this->upload->uploadCategory($file);
-                if (null !== $file_name) // for example
-                {
-                    $directory = $this->upload->getTargetDirectory();
-                    $full_path = $directory . '/' . $file_name;
-                } else {
-                    $error = 'une erreur est survenue';
-                }
+                $photo->insertPhotoWithCategorie($categoryRepo->getLastId()->getId(), '/upload/photo_category/' . $file_name);
+
             }
-
-
-            $this->em->persist($category);
-
-            $this->em->flush();
-
-            $photo->insertPhotoWithCategorie($categoryRepo->getLastId()->getId(), '/upload/photo_category/' . $file_name);
+            return true;
 
         }
-        return true;
+        return $form;
 
-}
-return $form;
-
-}
+    }
 }

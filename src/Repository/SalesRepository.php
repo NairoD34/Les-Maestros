@@ -7,12 +7,12 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Promotion>
+ * @extends ServiceEntityRepository<Sales>
  *
- * @method Promotion|null find($id, $lockMode = null, $lockVersion = null)
- * @method Promotion|null findOneBy(array $criteria, array $orderBy = null)
- * @method Promotion[]    findAll()
- * @method Promotion[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Sales|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Sales|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Sales[]    findAll()
+ * @method Sales[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class SalesRepository extends ServiceEntityRepository
 {
@@ -31,7 +31,7 @@ class SalesRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Promotion[] Returns an array of Promotion objects
+//     * @return Sales[] Returns an array of Sales objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -45,7 +45,7 @@ class SalesRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Promotion
+//    public function findOneBySomeField($value): ?Sales
 //    {
 //        return $this->createQueryBuilder('p')
 //            ->andWhere('p.exampleField = :val')

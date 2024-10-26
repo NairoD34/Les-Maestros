@@ -20,38 +20,37 @@ class AdminUsersController extends AbstractController
     #[Route('user_list', name: 'app_user_list_admin')]
     public function list(
         AdminUsersRepository $usersRepo,
-        ?Users $users,
-        Security $security,
-        Request $request
-    ): Response {
+        Security             $security,
+        Request              $request
+    ): Response
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
         $triLastName = $request->query->get('trinom', 'asc');
         $triFirstName = $request->query->get('triprenom', 'asc');
-        $users = $usersRepo->searchByName($request->query->get('nom', ''), $triLastName, $triFirstName);
-        if ($users === null) {
-            return $this->redirectToRoute('app_admin_dashboard');
-        }
+        $users = $usersRepo->findAll();
+        $title = $usersRepo->searchByName($request->query->get('name', ''), $triLastName, $triFirstName);
 
         return $this->render('BackOffice/User/admin_user_list.html.twig', [
             'title' => 'Liste des utilisateurs',
             'users' => $users,
             'trinom' => $triLastName,
             'triprenom' => $triFirstName,
-            'nom' => $request->query->get('nom', ''),
+            'nom' => $title,
         ]);
     }
 
     #[Route('show_user/{id}', name: 'app_user_show_admin')]
     public function show(
-        ?Users $users,
+        ?Users   $users,
         Security $security,
-    ): Response {
+    ): Response
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        if ($users === null) {
+        if (!$users) {
             return $this->redirectToRoute('app_admin_dashboard');
         }
 
@@ -63,18 +62,19 @@ class AdminUsersController extends AbstractController
 
     #[Route('delete_user/{id}', name: 'app_delete_user', methods: ['POST'])]
     public function delete(
-        Request $request,
-        Users $users,
+        Request                $request,
+        Users                  $users,
         EntityManagerInterface $entityManager,
-        CartRepository $cartRepo,
-        CartProductRepository $cartProduct
-    ): Response {
+        CartRepository         $cartRepo,
+        CartProductRepository  $cartProduct
+    ): Response
+    {
         if ($this->isCsrfTokenValid('delete' . $users->getId(), $request->request->get('_token'))) {
             $cart = $cartRepo->findByUserId($users->getId());
-            if($cart != null){
-                $products = $cartProduct->findByPanierId($cart[0]->getId());
-                if($products !=null){
-                    foreach ($products as $product){
+            if ($cart) {
+                $products = $cartProduct->findByCartId($cart[0]->getId());
+                if ($products) {
+                    foreach ($products as $product) {
                         $entityManager->remove($product);
                     }
                 }

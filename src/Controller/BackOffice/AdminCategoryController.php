@@ -18,37 +18,23 @@ use App\Service\BackOffice\FormHandlerService;
 class AdminCategoryController extends AbstractController
 {
 
-    #[Route('category', name: 'app_category')]
-    public function index(CategoryRepository $categoryRepo, Security $security): Response
-    {
-        if (!$security->isGranted('ROLE_ADMIN')) {
-            return $this->redirectToRoute('app_index');
-        }
-        $categories = $categoryRepo->findAll();
-        return $this->render('BackOffice/Categorie/index.html.twig', [
-            'controller_name' => 'CategoryController',
-            'categories' => $categories
-        ]);
-    }
-
-
     #[Route('category/{id}', name: 'app_product_categorie')]
-    public function afficherProduitParCategorie(
-        Category $categories,
-        ProductRepository $productRepo,
+    public function displayProductsByCategories(
+        Category           $categories,
+        ProductRepository  $productRepo,
         CategoryRepository $categoryRepo,
-        PhotosRepository $photoRepo,
-        Security $security
-    ): Response {
+        PhotosRepository   $photoRepo,
+        Security           $security
+    ): Response
+    {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
         $categoryId = $categories->getId();
         $category = $categoryRepo->find($categoryId);
-        $products = $productRepo->findProduitsByCategorieId($categoryId);
-        $photo = $photoRepo->searchPhotoByCategorie($categories);
-
+        $products = $productRepo->findProductsByCategoryId($categoryId);
+        $photo = $photoRepo->searchPhotoByCategory($categories);
 
 
         return $this->render('BackOffice/Category/product_category.html.twig', [
@@ -60,15 +46,13 @@ class AdminCategoryController extends AbstractController
 
     #[Route('category_show/{id}', name: 'app_category_show_admin')]
     public function show(
-        ?Category $category,
+        Category $category,
         Security $security,
-    ): Response {
+    ): Response
+    {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
-        }
-        if ($category === null) {
-            return $this->redirectToRoute('app_dashboard_admin');
         }
 
         return $this->render('BackOffice/Category/category_show.html.twig', [
@@ -80,40 +64,40 @@ class AdminCategoryController extends AbstractController
     #[Route('category_list', name: 'app_category_list_admin')]
     public function list(
         CategoryRepository $categoryRepo,
-        ?Category $category,
-        Security $security,
-        Request $request
-    ): Response {
+        Security           $security,
+        Request            $request
+    ): Response
+    {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        $category = $categoryRepo->searchByName($request->query->get('title', ''));
+
+        $categories = $categoryRepo->searchByName($request->query->get('title', ''));
 
         return $this->render('BackOffice/Category/category_list.html.twig', [
             'title' => 'Liste des catégories',
-            'category' => $category,
+            'category' => $categories,
             'libelle' => $request->query->get('title', ''),
         ]);
     }
 
     #[Route('new_category', name: 'app_new_category')]
     public function new(
-        Request $request,
-        Security $security,
-        PhotosRepository $photo,
+        Request            $request,
+        Security           $security,
+        PhotosRepository   $photo,
         CategoryRepository $categoryRepo,
         FormHandlerService $formHandler,
 
-    ): Response {
+    ): Response
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
         $category = new Category();
-        $formResult = $formHandler->handleCategory(false,$request, $category,$photo,$categoryRepo);
-        if ( $formResult === true) {
-            
-
+        $formResult = $formHandler->handleCategory(false, $request, $category, $photo, $categoryRepo);
+        if ($formResult) {
             return $this->redirectToRoute('app_category_list_admin');
         }
         return $this->render('BackOffice/Category/category_new.html.twig', [
@@ -125,30 +109,29 @@ class AdminCategoryController extends AbstractController
 
     #[Route('update_category/{id}', name: 'app_update_category')]
     public function update(
-        Request $request,
-        ?Category $category,
-        Security $security,
+        Request            $request,
+        ?Category          $category,
+        Security           $security,
         CategoryRepository $categoryRepo,
-        PhotosRepository $photo,
+        PhotosRepository   $photo,
         FormHandlerService $formHandler,
 
-    ) {
+    )
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        if ($category === null) {
+
+        if (!$category) {
             return $this->redirectToRoute('app_dashboard_admin');
         }
 
-        $formResult = $formHandler->handleCategory(true,$request, $category,$photo,$categoryRepo);
+        $formResult = $formHandler->handleCategory(true, $request, $category, $photo, $categoryRepo);
 
-        if ($formResult === true) {
+        if ($formResult) {
             return $this->redirectToRoute('app_category_list_admin');
-
         }
 
-            
-        
         return $this->render('BackOffice/Category/category_new.html.twig', [
             'title' => 'Mise à jour d\'une catégorie',
             'form' => $formResult,
@@ -157,16 +140,19 @@ class AdminCategoryController extends AbstractController
 
     #[Route('delete_category/{id}', name: 'app_delete_category', methods: ['POST'])]
     public function delete(
-        Category $category,
-        Security $security,
+        ?Category              $category,
+        Security               $security,
         EntityManagerInterface $em
-    ): Response {
+    ): Response
+    {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        if ($category === null) {
-            return $this->redirectToRoute('app_index');
+
+        if (!$category) {
+            return $this->redirectToRoute('app_dashboard_admin');
         }
+
         foreach ($category->getProducts() as $product) {
             $product->setCategory(null);
         }
