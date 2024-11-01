@@ -20,12 +20,12 @@ class ResetPasswordController extends AbstractController
 
         if ($email) {
             $user = $usersRepo->findOneBy(['email' => $email]);
-            
+
             if ($user) {
                 return $this->redirectToRoute('app_reset_password_form', ['id' => $user->getId()]);
-            } else {
-                $this->addFlash('error', 'Adresse e-mail invalide.');
             }
+
+            $this->addFlash('error', 'Adresse e-mail invalide.');
         }
 
         return $this->render('reset_password/check_email.html.twig');
@@ -33,10 +33,10 @@ class ResetPasswordController extends AbstractController
 
     #[Route('/reset-password/{id}', name: 'app_reset_password_form')]
     public function resetPassword(
-        Users $users, 
-        Request $request, 
+        Users           $users,
+        Request         $request,
         PasswordService $passwordService,
-        ): response
+    ): response
     {
         $result = $passwordService->ResetPasswordForm($request, $users);
         if ($result['validate']) {

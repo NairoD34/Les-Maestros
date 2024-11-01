@@ -31,17 +31,18 @@ class CategoryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     public function findParentCategoryIdByChildId($childId): ?int
     {
         $result = $this->createQueryBuilder('c')
-        ->select('IDENTITY(c.parent_category) AS parentId')
-        ->where('c.id = :childId')
-        ->setParameter('childId', $childId)
-        ->getQuery()
-        ->getOneOrNullResult();
-        
+            ->select('IDENTITY(c.parent_category) AS parentId')
+            ->where('c.id = :childId')
+            ->setParameter('childId', $childId)
+            ->getQuery()
+            ->getOneOrNullResult();
+
         return $result['parentId'] ?? null;
-        
+
     }
 
     public function searchChildCategory($category)
@@ -49,12 +50,14 @@ class CategoryRepository extends ServiceEntityRepository
         $sql = "select * from category c where c.parent_category_id = ?";
         $query = $this->getEntityManager()->getConnection()
             ->executeQuery($sql, [$category->getId()]);
-        $result =  $query->fetchAllAssociative();
+        $results = $query->fetchAllAssociative();
         $children = [];
-        foreach ($result as $category) {
-            $children = $this->find($category['id']);
-            $children[] = $children;
-        }   
+        foreach ($results as $result) {
+            $child = $this->find($result['id']);
+            if ($child) {
+                $children[] = $child;
+            }
+        }
         return $children;
     }
 
@@ -66,7 +69,9 @@ class CategoryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function getLastId()
+
+    public
+    function getLastId()
     {
         return $this->createQueryBuilder('c')
             ->setMaxResults(1)

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\FrontOffice;
 
-use App\Repository\ProduitRepository;
+use App\Repository\ProductRepository;
 use App\Service\FrontOffice\CategoryService;
-use App\Service\FrontOffice\ProductsService;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,18 +14,17 @@ class HomePageController extends AbstractController
 {
     #[Route('/', name: 'app_index')]
     public function index(
-        ProduitRepository $produitRepo,
-        Request $request,
-        ProductsService $productsService,
-        CategoryService $categoryService,
+        ProductRepository $productRepo,
+        Request           $request,
+        CategoryService   $categoryService,
     ): Response
     {
-        $products = $produitRepo->findTopPromoProducts();
-        $dataPromo = $productsService->getProducts($products);
-                
-        $newProducts = $produitRepo->searchNew();
-        $dataNewProduct = $productsService->getProducts($newProducts);
-        
+        $products = $productRepo->findTopSalesProducts();
+        $dataPromo = $categoryService->getProducts($products);
+
+        $newProducts = $productRepo->searchNew();
+        $dataNewProduct = $categoryService->getProducts($newProducts);
+
         $dataCate = $categoryService->CategoryPicture($request);
 
         return $this->render('homepage/indexHomePage.html.twig', [

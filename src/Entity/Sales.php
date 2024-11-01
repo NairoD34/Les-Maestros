@@ -74,7 +74,7 @@ class Sales
     }
 
     /**
-     * @return Collection<int, Produit>
+     * @return Collection<int, Product>
      */
     public function getProduct(): Collection
     {
@@ -101,5 +101,10 @@ class Sales
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title ?? 'Sales';
     }
 }

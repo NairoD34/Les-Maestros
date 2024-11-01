@@ -2,20 +2,20 @@
 
 namespace App\Service\FrontOffice;
 
-use App\Entity\Adresse;
+use App\Entity\Adress;
 use App\Entity\Users;
-use App\Repository\AdresseRepository;
-use App\Repository\CodePostalRepository;
-use App\Repository\VilleRepository;
+use App\Repository\AdressRepository;
+use App\Repository\ZIPcodeRepository;
+use App\Repository\cityRepository;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdressService
 {
     public function __construct(
-        private VilleRepository $villeRepo,
-        private AdresseRepository $adresseRepo,
-        private CodePostalRepository $codePostalRepo,
-        private VilleRepository $cityRepo,
+        private readonly AdressRepository  $adressRepo,
+        private readonly ZIPcodeRepository $zipRepo,
+        private readonly cityRepository    $cityRepo,
     )
     {
     }
@@ -25,24 +25,27 @@ class AdressService
      * Returns true once the adress gets saved, else return false
      */
     public function SaveAdressForm(
-        ?Adresse $adresse,
-        Users $users,
+        ?Adress $adress,
         Request $request,
-        ):bool
+        ?Users  $users
+    ): bool
     {
         if (isset($_POST['submitAdresse'])) {
-            $adresse->setNumVoie($request->request->get('num_voie'));
-            $adresse->setRue($request->request->get('rue'));
-            $adresse->setIsActive(true);
-            $adresse->setComplement($request->request->get('complement'));
-            $users = $this->getUser();
-            $adresse->setUsers($users);
-            $ville = $this->villeRepo->find($request->request->get('villeId'));
-            $adresse->setVille($ville);
-            $codePostalId = $this->codePostalRepo->find($request->request->get('selectedPostalCodesId'));
-            $adresse->setCodePostal($codePostalId);
+            $adress->setNumber($request->request->get('num_voie'));
+            $adress->setStreet($request->request->get('rue'));
+            $adress->setIsActive(true);
+            $adress->setComplement($request->request->get('complement'));
 
-            $this->adresseRepo->save($adresse, true);
+            if ($users) {
+                $adress->setUsers($users);
+            }
+
+            $city = $this->cityRepo->find($request->request->get('villeId'));
+            $adress->setCity($city);
+            $codePostalId = $this->zipRepo->find($request->request->get('selectedPostalCodesId'));
+            $adress->setZIPcode($codePostalId);
+
+            $this->adressRepo->save($adress, true);
 
             return true;
         }
@@ -51,19 +54,19 @@ class AdressService
 
     public function AdressList(
         Request $request,
-        Users $users,
-        )
+        Users   $users,
+    )
     {
         // Récupérer toutes les adresses de l'utilisateur
-        $allAdresses = $this->adresseRepo->findBy(['users' => $users]);
+        $allAdresses = $this->adressRepo->findBy(['users' => $users]);
 
         // Filtrer les adresses par nom de rue si une valeur est fournie
         $filteredAdresses = [];
-        $rue = $request->query->get('rue', '');
-        if ($rue) {
-            foreach ($allAdresses as $adresse) {
-                if (stripos($adresse->getRue(), $rue) !== false) {
-                    $filteredAdresses[] = $adresse;
+        $street = $request->query->get('rue', '');
+        if ($street) {
+            foreach ($allAdresses as $adress) {
+                if (stripos($adress->getRue(), $street) !== false) {
+                    $filteredAdresses[] = $adress;
                 }
             }
         } else {
@@ -71,7 +74,7 @@ class AdressService
         }
 
         return [
-            'rue' => $rue,
+            'rue' => $street,
             '$filteredAdresses' => $filteredAdresses,
         ];
     }
@@ -79,24 +82,24 @@ class AdressService
     public function ReturnJsonCity(
         Request $request,
     )
-    {        
-        $string = $request->get('name');
+    {
+        $string = $request->get('nom');
         $cities = $this->cityRepo->searchByName($string);
         $json = [];
         foreach ($cities as $city) {
             $codesPostauxArray = [];
 
-            foreach ($city->getCodePostal() as $codePostal) {
+            foreach ($city->getZIPcode() as $codePostal) {
                 $codesPostauxArray[] = [
                     'id' => $codePostal->getId(),
-                    'libelle' => $codePostal->getLibelle()
+                    'libelle' => $codePostal->getTitle()
                 ];
             }
             $json[] = [
                 'id' => $city->getId(),
-                'ville' => $city->getNom(),
-                'codeDepartement' => $city->getDepartement()->getNom(),
-                'region' => $city->getDepartement()->getRegion()->getNom(),
+                'ville' => $city->getName(),
+                'codeDepartement' => $city->getCounty()->getNom(),
+                'region' => $city->getCounty()->getRegion()->getName(),
                 'codePostaux' => $codesPostauxArray,
             ];
         }

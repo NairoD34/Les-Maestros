@@ -57,7 +57,7 @@
                     <div class="nav-content" id="navbarSupportedContent">
                         <ul class="nav-ul isActive">
                             <!-- Lien Accueil -->
-                            {{ render(controller('App\\Controller\\CategorieController::list')) }}
+                            {{ render(controller('App\\Controller\\FrontOffice\\CategoryController::list')) }}
                         </ul>
                         <!-- Déconnexion et profil pour la version de bureau -->
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -183,7 +183,7 @@
                         </div>
                     </div>
                     <ul class="content-list isActive">
-                        {{ render(controller('App\\Controller\\CategorieController::list')) }}
+                        {{ render(controller('App\\Controller\\FrontOffice\\CategoryController::list')) }}
                     </ul>
                     <div class="content-form">
                         <form>

@@ -22,7 +22,7 @@ class PhotosRepository extends ServiceEntityRepository
     }
     public function searchPhotoByCategory($category)
     {
-        $sql = "select * from photos p  where p.categorie_id = ?";
+        $sql = "select * from photos p  where p.category_id = ?";
         $query = $this->getEntityManager()->getConnection()
             ->executeQuery($sql, [$category->getId()]);
         $result =  $query->fetchAllAssociative();

@@ -80,13 +80,13 @@ class County
         return $this;
     }
 
-    public function removeVille(City $city): static
+    public function removeCity(City $city): static
     {
         if ($this->City->removeElement($city)) {
             // set the owning side to null (unless already changed)
             if ($city->getCounty() === $this) {
                 $city->setCounty(null);
-            } 
+            }
         }
 
         return $this;

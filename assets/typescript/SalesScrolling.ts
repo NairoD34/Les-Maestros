@@ -57,7 +57,6 @@ export default class SalesScrolling {
 
     scroll(): void {
         const cardWidthWithMargin = this.cardWidth + this.gap;
-        console.log(this.gap)
         const offset = -(this.indexCards * cardWidthWithMargin);
         const container = document.querySelector(".scroll-container") as HTMLDivElement;
         container.style.transform = `translateX(${offset}px)`;

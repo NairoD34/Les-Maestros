@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\FrontOffice;
 
-use App\Entity\Adresse;
+use App\Entity\Adress;
 use App\Entity\Users;
 use App\Service\FrontOffice\UsersService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,39 +15,39 @@ class UserPanelController extends AbstractController
 {
     #[Route('/user', name: 'app_user')]
     public function indexAccount(
-        Security $security, 
-        ?Adresse $adresse
-        ): Response
+        Security $security,
+        ?Adress  $adress
+    ): Response
     {
         $user = $security->getUser();
         return $this->render('user/index.html.twig', [
             'title' => 'Vos informations',
             'users' => $user,
-            'adresse' => $adresse,
+            'adresse' => $adress,
         ]);
     }
 
     #[Route('/user/information/{id}', name: 'app_user_account')]
     public function userAccount(
-        ?Users $users, 
-        Request $request, 
+        ?Users       $users,
+        Request      $request,
         UsersService $usersService,
-        ): Response
+    ): Response
     {
-        if ($users === null) {
+        if (!$users) {
             return $this->redirectToRoute('app_index');
         }
-        
+
         $result = $usersService->UsersForm($users, $request);
         if ($result['validate']) {
             return $this->redirectToRoute('app_user');
         }
 
         return $this->render('user/updateAccount.html.twig', [
-            'title' => 'Vos informations' . ' ' . $users->getPrenom(),
+            'title' => 'Vos informations' . ' ' . $users->getFirstname() . ' ' . $users->getLastname(),
             'users' => $users,
             'form' => $result['form'],
         ]);
     }
-   
+
 }

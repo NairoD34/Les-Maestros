@@ -15,20 +15,18 @@ class CategoryService
     {
     }
 
-    public
-    function getProducts(array $products): array
+    public function getProducts($products): array
     {
         $productsData = [];
         foreach ($products as $product) {
-            $prixTTC = $product->getPrixHT() + ($product->getPrixHT() * $product->getTVA()->getTauxTva() / 100);
+            $prixTTC = $product->getTaxFreePrice() + ($product->getTaxFreePrice() * $product->getTaxRate()->getTaxRate() / 100);
 
-            if ($product->getPromotion() !== null) {
-                $prixTTC *= $product->getPromotion()->getTauxPromotion();
-
+            if ($product->getSales()) {
+                $prixTTC *= $product->getSales()->getSalesRate();
             }
             $prixTTC = number_format($prixTTC, 2, '.', '');
 
-            $oldPrice = $product->getPrixHT() + ($product->getPrixHT() * $product->getTVA()->getTauxTva() / 100);
+            $oldPrice = $product->getTaxFreePrice() + ($product->getTaxFreePrice() * $product->getTaxRate()->getTaxRate() / 100);
             $oldPrice = number_format($oldPrice, 2, '.', '');
 
             $photosProducts = $this->photosRepo->searchPhotoByProduct($product);
@@ -45,7 +43,7 @@ class CategoryService
 
     public function CategoryPicture(
         Request $request,
-    )
+    ): array
     {
         $categories = $this->cateRepo->searchParentCategory(
             $request->query->get('title', ''),

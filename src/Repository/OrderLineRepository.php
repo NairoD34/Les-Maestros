@@ -7,12 +7,12 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<LigneDeCommande>
+ * @extends ServiceEntityRepository<OrderLine>
  *
- * @method LigneDeCommande|null find($id, $lockMode = null, $lockVersion = null)
- * @method LigneDeCommande|null findOneBy(array $criteria, array $orderBy = null)
- * @method LigneDeCommande[]    findAll()
- * @method LigneDeCommande[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method OrderLine|null find($id, $lockMode = null, $lockVersion = null)
+ * @method OrderLine|null findOneBy(array $criteria, array $orderBy = null)
+ * @method OrderLine[]    findAll()
+ * @method OrderLine[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class OrderLineRepository extends ServiceEntityRepository
 {
@@ -20,17 +20,17 @@ class OrderLineRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, OrderLine::class);
     }
-    public function findByIdCommande($id)
+    public function findByOrderId($id)
     {
         return $this->createQueryBuilder('c')
-            ->where('c.commande = :val')
+            ->where('c.order = :val')
             ->setParameter('val', $id)
             ->getQuery()
             ->getResult();
     }
 
     //    /**
-    //     * @return LigneDeCommande[] Returns an array of LigneDeCommande objects
+    //     * @return OrderLine[] Returns an array of OrderLine objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -44,7 +44,7 @@ class OrderLineRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?LigneDeCommande
+    //    public function findOneBySomeField($value): ?OrderLine
     //    {
     //        return $this->createQueryBuilder('l')
     //            ->andWhere('l.exampleField = :val')

@@ -11,14 +11,15 @@ use Symfony\Component\HttpFoundation\Request;
 class UsersService
 {
     public function __construct(
-        private EntityManagerInterface $em,
-        private FormFactoryInterface $formFactoryInterface,
-    ) {
-        
+        private readonly EntityManagerInterface $em,
+        private readonly FormFactoryInterface   $formFactoryInterface,
+    )
+    {
+
     }
 
     public function UsersForm(
-        Users $users,
+        Users   $users,
         Request $request,
     )
     {
@@ -32,7 +33,7 @@ class UsersService
                 'form' => $form,
             ];
         }
-        
+
         return [
             'validate' => false,
             'form' => $form,

@@ -2,8 +2,8 @@
 
 namespace App\Controller\FrontOffice;
 
-use App\Entity\Commande;
-use App\Repository\CommandeRepository;
+use App\Entity\Orders;
+use App\Repository\OrderRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,41 +12,43 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserPanelOrderController extends AbstractController
 {
-    #[Route('/user/commande_list', name: 'app_commande_list')]
+    #[Route('/user/order_list', name: 'app_commande_list')]
     public function list(
-        CommandeRepository $commandeRepo,
-        Security $security,
-        Request $request
-    ): Response {
+        OrderRepository $orderRepo,
+        Security        $security,
+        Request         $request
+    ): Response
+    {
 
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_index');
         }
 
         $user = $this->getUser();
-        $commandes = $commandeRepo->findBy(['users' => $user->getId()]);
+        $orders = $orderRepo->findBy(['users' => $user->getId()]);
 
-        if (empty($commandes)) {
+        if (empty($orders)) {
             return $this->render('user/emptyCommande.html.twig');
         }
         return $this->render('user/commande_list.html.twig', [
             'title' => 'Liste des commandes',
-            'commande' => $commandes,
+            'commande' => $orders,
             'id' => $request->query->get('id', ''),
         ]);
     }
 
-    #[Route('/user/commande_show/{id}', name: 'app_commande_show')]
-    public function showCommande(
-        ?Commande $commande,
+    #[Route('/user/order_show/{id}', name: 'app_commande_show')]
+    public function show(
+        ?Orders  $orders,
         Security $security,
-    ): Response {
+    ): Response
+    {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_index');
         }
         return $this->render('user/commande_show.html.twig', [
             'title' => 'Fiche de la commande',
-            'commande' => $commande,
+            'commande' => $orders,
         ]);
     }
 }

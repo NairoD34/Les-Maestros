@@ -1,7 +1,6 @@
 
 .card-container {
   box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
-  flex: 1 1 calc(33.33% - 30px);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -9,6 +8,7 @@
   align-items: center;
   background-color: #FFFFFF;
   @media screen and (max-width: 1368px) {
+    margin: 0 auto;
     display: flex;
     width: 80%;
     flex-direction: column;
@@ -90,5 +90,11 @@
       }
     }
 
+  }
+
+  .empty-percent {
+    visibility: hidden;
+    width: 15%;
+    padding: 5px;
   }
 }

@@ -26,7 +26,6 @@ class Product
     private ?float $tax_free_price = null;
 
 
-
     #[ORM\ManyToOne(inversedBy: 'Product')]
     #[ORM\JoinColumn(nullable: false)]
     private ?TaxRate $TaxRate = null;
@@ -36,7 +35,7 @@ class Product
     private ?Sales $sales = null;
 
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Photos::class, orphanRemoval:true, cascade:["persist"])]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Photos::class, cascade: ["persist"], orphanRemoval: true)]
     private Collection $Photos;
 
     #[ORM\OneToMany(mappedBy: 'Produit', targetEntity: CartProduct::class)]
@@ -100,7 +99,7 @@ class Product
     }
 
     /**
-     * @return Collection<int, Panier>
+     * @return TaxRate|null
      */
 
 
@@ -117,7 +116,7 @@ class Product
     }
 
     /**
-     * @return Collection<int, Photos>
+     * @return Sales|null
      */
 
 
@@ -132,7 +131,6 @@ class Product
 
         return $this;
     }
-
 
 
     /**
@@ -166,7 +164,7 @@ class Product
     }
 
     /**
-     * @return Collection<int, PanierProduit>
+     * @return Collection<int, CartProduct>
      */
     public function getCartProduct(): Collection
     {

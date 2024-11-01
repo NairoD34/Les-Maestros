@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\FrontOffice;
 
-use App\Entity\Adresse;
+use App\Entity\Adress;
 use App\Entity\Users;
 use App\Service\FrontOffice\AdressService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,12 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserPanelAdresseController extends AbstractController
 {
-    #[Route('/user/list_adresse', name: 'app_list_adresse')]
-    public function listAdresse(
-        Request $request,
-        Users $users,
+    #[Route('/user/list_address', name: 'app_list_adresse')]
+    public function listAddress(
+        Request       $request,
+        Users         $users,
         AdressService $adressService,
-        ): Response
+    ): Response
     {
         $result = $adressService->AdressList($request, $users);
 
@@ -30,164 +31,145 @@ class UserPanelAdresseController extends AbstractController
         ]);
     }
 
-    #[Route('/user/adresse/{id}', name: 'app_show_adresse')]
-    public function showAdresse(?Adresse $adresse)
+    #[Route('/user/address/{id}', name: 'app_show_adresse')]
+    public function showAddress(?Adress $adress)
     {
-        if ($adresse === null) {
+        if (!$adress) {
             return $this->redirectToRoute('app_create_adresse');
         }
         $user = $this->getUser();
 
         return $this->render('user/showAdresse.html.twig', [
             'title' => 'Information de l\'adresse ',
-            'adresse' => $adresse,
+            'adresse' => $adress,
             'user' => $user
 
         ]);
     }
-    #[Route('/user/desactivate_adresse/{id}', name: 'app_desactivate_adresse')]
-    public function desactivateAdresse(
-        Adresse $adresse,
+
+    #[Route('/user/desactivate_address/{id}', name: 'app_desactivate_adresse')]
+    public function desactivateAddress(
+        ?Adress                $adress,
         EntityManagerInterface $em
-    ): Response {
-
-        if ($adresse === null) {
-            return $this->redirectToRoute('app_user');
-        }
-        if (!$adresse->isIsActive()) {
-            // Vous pouvez rediriger l'utilisateur ou renvoyer une réponse indiquant que l'adresse est déjà inactive.
-            $this->addFlash('warning', 'L\'adresse est déjà inactive.');
-            return $this->redirectToRoute('app_list_adresse'); // Adaptez cette route selon vos besoins.
-        }
-        $adresse->setIsActive(false);
-        $em->persist($adresse);
-        $em->flush();
-        return $this->redirectToRoute('app_list_adresse');
-    }
-
-    #[Route('/user/delete_adresse/{id}', name: 'app_delete_adresse')]
-    public function deleteAdresse(
-        Adresse $adresse,
-        EntityManagerInterface $em
-    ): Response {
-
-        if ($adresse === null) {
-            return $this->redirectToRoute('app_user');
-        }
-       
-        $em->remove($adresse);
-        $em->flush();
-        return $this->redirectToRoute('app_list_adresse');
-    }
-
-    #[Route('/user/reactivate_adresse/{id}', name: 'app_reactivate_adresse')]
-    public function reactivateAdresse(
-        Adresse $adresse,
-        EntityManagerInterface $em
-        ):Response
+    ): Response
     {
-        
-        if ($adresse->isIsActive()) {
-            
-            $this->addFlash('warning', 'L\'adresse est déjà active.');
-            return $this->redirectToRoute('app_list_adresse'); 
+
+        if (!$adress) {
+            return $this->redirectToRoute('app_user');
+        }
+        if (!$adress->isIsActive()) {
+            $this->addFlash('warning', 'L\'adresse est déjà inactive.');
+            return $this->redirectToRoute('app_list_adresse');
+        }
+        $adress->setIsActive(false);
+        $em->persist($adress);
+        $em->flush();
+        return $this->redirectToRoute('app_list_adresse');
+    }
+
+    #[Route('/user/delete_address/{id}', name: 'app_delete_adresse')]
+    public function deleteAddress(
+        ?Adress                $adress,
+        EntityManagerInterface $em
+    ): Response
+    {
+
+        if (!$adress) {
+            return $this->redirectToRoute('app_user');
         }
 
-        $adresse->setIsActive(true);
-        $em->persist($adresse);
+        $em->remove($adress);
+        $em->flush();
+        return $this->redirectToRoute('app_list_adresse');
+    }
+
+    #[Route('/user/reactivate_address/{id}', name: 'app_reactivate_adresse')]
+    public function reactivateAdresse(
+        ?Adress                $adress,
+        EntityManagerInterface $em
+    ): Response
+    {
+
+        if ($adress->isIsActive()) {
+            $this->addFlash('warning', 'L\'adresse est déjà active.');
+            return $this->redirectToRoute('app_list_adresse');
+        }
+
+        $adress->setIsActive(true);
+        $em->persist($adress);
         $em->flush();
 
-       
+
         $this->addFlash('success', 'L\'adresse a été réactivée avec succès.');
 
-        return $this->redirectToRoute('app_list_adresse'); 
-}
+        return $this->redirectToRoute('app_list_adresse');
+    }
 
     //Affichage Formulaire pour l'entité Adresse
-    private function formAdresse(
-        Adresse $adresse, 
-        Request $request, 
-        Users $users, 
-        $isUpdate = false,
+    private function formAddress(
+        ?Adress       $adress,
+        Request       $request,
+        Security      $security,
         AdressService $adressService,
-        )
+                      $isUpdate = false,
+    )
     {
         $message = '';
-
-        if ($adressService->SaveAdressForm($adresse, $users, $request)) {
+        $users = $security->getUser();
+        if ($adressService->SaveAdressForm($adress, $request, $users)) {
 
             if ($request->get('id')) {
-                $this->addFlash("succes","l\'adresse a bien été modifiée");
+                $this->addFlash("succes", "l\'adresse a bien été modifiée");
                 return $this->redirectToRoute('app_list_adresse');
-            } else {
-                $this->addFlash("succes",'L\'adresse a bien été créée');
-                if ($this->getUser()) {
-                    return $this->redirectToRoute('app_list_adresse');
-                } else {
-                    return $this->redirectToRoute('app_login');
-                }
             }
+
+            $this->addFlash("succes", 'L\'adresse a bien été créée');
+            if ($this->getUser()) {
+                return $this->redirectToRoute('app_list_adresse');
+            }
+
+            return $this->redirectToRoute('app_login');
         }
         return $this->render('user/new.html.twig', [
             'title' => 'adresse',
             'message' => $message,
             'flag' => $isUpdate,
-            'adresse' => $adresse,
+            'adresse' => $adress,
             'users' => $users,
         ]);
     }
 
     //Page de création d'adresse
-    #[Route('/user/create_adresse', name: 'app_create_adresse')]
+    #[Route('/user/create_address', name: 'app_create_adresse')]
     public function createAdresse(
-        Request $request,
+        Request       $request,
+        Security      $security,
         AdressService $adressService,
-        ): Response
+    ): Response
     {
-        $users = $this->getUser();
-        $adresse = new Adresse();
-        return $this->formAdresse($adresse, $request, $users, false, $adressService);
+        $adresse = new Adress();
+        return $this->formAddress($adresse, $request, $security, $adressService);
     }
 
     //Page de modification d'adresse
-    #[Route('/user/update_adresse/{id}', name: 'app_update_adresse')]
+    #[Route('/user/update_address/{id}', name: 'app_update_adresse')]
     public function updateAdresse(
-        Adresse $adresse, 
-        Request $request, 
+        Adress        $adress,
+        Request       $request,
+        Security      $security,
         AdressService $adressService,
-        ): Response
+    ): Response
     {
         $users = $this->getUser();
-        return $this->formAdresse($adresse, $request, $users, true, $adressService);
+        return $this->formAddress($adress, $request, $security, $adressService, true);
     }
 
     #[Route('/adresse/ajax/ville/{name}', name: 'ajax_ville')]
     public function ajaxCity(
-        Request $request,
+        Request       $request,
         AdressService $adressService,
-        ): Response
-    {/* 
-        $string = $request->get('name');
-        $cities = $cityRepo->searchByName($string);
-        $json = [];
-        foreach ($cities as $city) {
-            $codesPostauxArray = [];
-
-            foreach ($city->getCodePostal() as $codePostal) {
-                $codesPostauxArray[] = [
-                    'id' => $codePostal->getId(),
-                    'libelle' => $codePostal->getLibelle()
-                ];
-            }
-            $json[] = [
-                'id' => $city->getId(),
-                'ville' => $city->getNom(),
-                'codeDepartement' => $city->getDepartement()->getNom(),
-                'region' => $city->getDepartement()->getRegion()->getNom(),
-                'codePostaux' => $codesPostauxArray,
-            ];
-        } */
-
+    ): Response
+    {
         return new JsonResponse($adressService->ReturnJsonCity($request), 200);
     }
 }

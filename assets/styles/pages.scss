@@ -1,7 +1,9 @@
 @import "pages/home.scss";
 @import "pages/base.scss";
 @import "pages/cardProduct.scss";
-
+@import "pages/category.scss";
+@import "pages/breacrumb.scss";
+@import "pages/products.scss";
 
 :root {
   --main: #D2AC62;
@@ -27,7 +29,7 @@ h3 {
 
 a {
   text-decoration: none !important;
-  color: #000;
+  color: var(--header);
 }
 
 header {
@@ -36,7 +38,7 @@ header {
 }
 
 a:hover {
-  color: black;
+  color: var(--second);
   text-decoration: underline;
 }
 

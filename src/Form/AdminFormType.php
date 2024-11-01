@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 
-
 class AdminFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -24,16 +23,15 @@ class AdminFormType extends AbstractType
                     'User' => "ROLE_USER",
 
                 ],
-                'multiple' => true,  // Pour permettre la sélection multiple
-                'expanded' => true,  // Pour afficher les choix comme des cases à cocher
+                'multiple' => true,
+                'expanded' => true,
             ])
             ->add('lastname')
             ->add('firstname')
             ->add('email')
             ->add('username')
             ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
+
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -43,7 +41,7 @@ class AdminFormType extends AbstractType
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
+
                         'max' => 4096,
                     ])
                 ],

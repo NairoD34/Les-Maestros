@@ -24,7 +24,7 @@
                         <a href='{{ path('app_categorie_show', { 'id': cate.categorie.id }) }}'><img
                                     src="{{ cate.photos }}"
                                     class="img-carousel"
-                                    alt="{{ cate.categorie.libelle }}"/></a>
+                                    alt="{{ cate.categorie.title }}"/></a>
                     </div>
                 {% endfor %}
             </div>
@@ -41,15 +41,15 @@
                     <div class="card-container">
                         <div class="card-content">
                             <div class="flag-percent">
-                                <span>{{ productData.produit.Promotion.libelle }}</span>
+                                <span>{{ productData.produit.sales.title }}</span>
                             </div>
                             <a href="{{ path('app_show_produit', { 'id': productData.produit.id }) }}">
                                 {% for photo in productData.photos %}
-                                    <img src='{{ photo.URLPhoto }}' alt='{{ productData.produit.libelle }}'
+                                    <img src='{{ photo.URLPhoto }}' alt='{{ productData.produit.title }}'
                                          class='img-product'/>
                                 {% endfor %}
                                 <div class="price-container">
-                                    <p class="title">{{ productData.produit.libelle }}</p>
+                                    <p class="title">{{ productData.produit.title }}</p>
                                     <p class="price-content">
                                         <span class="old-price">{{ productData.oldPrice }}€</span>
                                         <span class="new-price"> {{ productData.prixTTC }}€</span>
@@ -90,20 +90,20 @@
                 <div class="card-container">
                     <div class="card-content">
                         <div class="flag-news">
-                        <span>Nouveautés {% if productData.produit.Promotion is not empty %}
-                                {{ productData.produit.Promotion }}
+                        <span>Nouveautés {% if productData.produit.sales is not empty %}
+                                {{ productData.produit.sales }}
                             {% endif %}</span>
                         </div>
                         <a href="{{ path('app_show_produit', { 'id': productData.produit.id }) }}">
                             {% for photo in productData.photos %}
-                                <img src='{{ photo.URLPhoto }}' alt='{{ productData.produit.libelle }}'
+                                <img src='{{ photo.URLPhoto }}' alt='{{ productData.produit.title }}'
                                      class='img-product'/>
                             {% endfor %}
 
                             <div class="price-container">
-                                <p class="title">{{ productData.produit.libelle }}</p>
+                                <p class="title">{{ productData.produit.title }}</p>
                                 <p class="price-content">
-                                    {% if productData.produit.Promotion is not empty %}
+                                    {% if productData.produit.sales is not empty %}
                                         <span class="old-price">{{ productData.oldPrice }}€</span>
                                     {% endif %}
                                     <span class="new-price">{{ productData.prixTTC }}€</span>

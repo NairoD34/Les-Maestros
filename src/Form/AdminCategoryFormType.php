@@ -21,8 +21,8 @@ class AdminCategoryFormType extends AbstractType
                 'label' => 'Description',
                 'attr' => [
                     'rows' => 3,
-                    'cols' => 50, // Définir le nombre de lignes
-                    'placeholder' => 'Saisissez votre description ici...', // Ajouter un placeholder si nécessaire
+                    'cols' => 50,
+                    'placeholder' => 'Saisissez votre description ici...',
                 ],
             ])
             ->add('parent_category', EntityType::class, [
@@ -34,11 +34,11 @@ class AdminCategoryFormType extends AbstractType
             ])
             ->add('upload_file', FileType::class, [
                 'label' => false,
-                'mapped' => false, // Tell that there is no Entity to link
+                'mapped' => false,
                 'required' => true,
                 'constraints' => [
                     new ConstraintsFile([
-                        'mimeTypes' => [ // We want to let upload only txt, csv or Excel files
+                        'mimeTypes' => [
                             'img/jpg',
                             'img/png',
                             'img/jpeg',
