@@ -55,6 +55,7 @@ class FormHandlerService
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $file = $form['upload_file']->getData();
+            $audio = $form['upload_sound']->getData();
             if ($file) {
                 $file_name = $this->upload->uploadProduct($file);
                 if ($file_name) // for example
@@ -64,6 +65,9 @@ class FormHandlerService
                 } else {
                     $error = 'une erreur est survenue';
                 }
+            }
+            if ($audio) {
+                $audio_name = $this->upload->uploadProduct($audio);
             }
             $category = $form['category']->getData();
             $product->setCategory($category);

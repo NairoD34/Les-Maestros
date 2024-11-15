@@ -51,6 +51,22 @@ class AdminProductFormType extends AbstractType
                         'mimeTypesMessage' => "This document isn't valid.",
                     ])
                 ]
+            ])
+            -> add('upload_sound', FileType::class, [
+                'label' => "music",
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new ConstraintsFile([ //Nothing else than audio should be uploaded here
+                        'mimeTypes' => [
+                            'audio/mpeg',
+                            'audio/wav',
+                            'audio/webm',
+                            'audio/aac',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid audio file.'
+                    ])
+                ]
             ]);
     }
 
