@@ -68,6 +68,9 @@ class FormHandlerService
             }
             if ($audio) {
                 $audio_name = $this->upload->uploadProduct($audio);
+                if ($audio_name) {
+                    
+                }
             }
             $category = $form['category']->getData();
             $product->setCategory($category);
