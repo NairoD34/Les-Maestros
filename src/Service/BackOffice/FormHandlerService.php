@@ -53,7 +53,7 @@ class FormHandlerService
         $form = $this->formFactory->create(AdminProductFormType::class, $product);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $file = $form['upload_file']->getData();
             $audio = $form['upload_sound']->getData();
             if ($file) {
@@ -87,11 +87,17 @@ class FormHandlerService
                 $photo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $file_name);
             }
 
-            return true;
+            return [
+                'condition' => true,
+                'form' => $form,
+            ];
 
         }
 
-        return $form;
+        return [
+            'condition' => false,
+            'form' => $form,
+        ];
     }
 
     public function handleAdmin(bool $update, Request $request, Admin $admin, UserPasswordHasherInterface $adminPasswordHasher)

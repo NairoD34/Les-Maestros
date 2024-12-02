@@ -33,12 +33,12 @@ class AdminProductController extends AbstractController
         $product = new Product();
         $formResult = $formHandler->handleProduct(false, $request, $product, $photo, $productRepo);
 
-        if ($formResult) {
+        if ($formResult['condition']) {
             return $this->redirectToRoute('app_product_list_admin');
         }
         return $this->render('BackOffice/Product/product_new.html.twig', [
             'title' => 'Création d\'un nouveau produit',
-            'form' => $formResult->createView(),
+            'form' => $formResult['form']->createView(),
         ]);
     }
 
@@ -99,12 +99,12 @@ class AdminProductController extends AbstractController
 
         $formResult = $formHandler->handleProduct(true, $request, $product, $photo, null);
 
-        if ($formResult) {
+        if ($formResult['condition']) {
             return $this->redirectToRoute('app_product_list_admin');
         }
         return $this->render('BackOffice/Product/product_new.html.twig', [
             'title' => 'Mise à jour d\'un produit',
-            'form' => $formResult->createView(),
+            'form' => $formResult['form']->createView(),
         ]);
     }
 

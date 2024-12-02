@@ -24,6 +24,7 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectoryProduct: '%upload_directory_product%'
+            $targetDirectoryProductAudio: '%upload_directory_product_audio%'
             $targetDirectory: '%upload_directory_category%'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
