@@ -31,8 +31,11 @@
                     {{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'mb-2'}}) }}
                     {{ form_widget(form.category, {'attr': {'class': 'w-75 p-2 my-3'}}) }}
 
-                    {{ form_label(form.upload_file, 'Choisissez un fichier', {'label_attr': {'class': 'mb-2'}}) }}
+                    {{ form_label(form.upload_file, 'Choisissez une image d\'illustration', {'label_attr': {'class': 'mb-2'}}) }}
                     {{ form_widget(form.upload_file, {'attr': {'class': 'w-75 p-2 my-3'}}) }}
+
+                    {{ form_label(form.upload_audio, 'Choisissez un échantillon audio', {'label_attr': {'class': 'mb-2'}}) }}
+                    {{ form_widget(form.upload_audio, {'attr': {'class': 'w-75 p-2 my-3'}}) }}
 
                     {# {{ form_label() }} #}
 

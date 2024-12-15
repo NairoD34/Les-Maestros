@@ -6,7 +6,6 @@ use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\EntityManagerInterface;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -43,6 +42,9 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Audio = null;
 
     public function __construct()
     {
@@ -201,6 +203,18 @@ class Product
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getAudio(): ?string
+    {
+        return $this->Audio;
+    }
+
+    public function setAudio(?string $Audio): static
+    {
+        $this->Audio = $Audio;
 
         return $this;
     }

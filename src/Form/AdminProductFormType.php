@@ -42,7 +42,7 @@ class AdminProductFormType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new ConstraintsFile([
-                        'mimeTypes' => [ // We want to let upload only txt, csv or Excel files
+                        'mimeTypes' => [ // We want to let upload only image
                             'img/jpg',
                             'img/png',
                             'img/jpeg',
@@ -52,7 +52,7 @@ class AdminProductFormType extends AbstractType
                     ])
                 ]
             ])
-            -> add('upload_sound', FileType::class, [
+            -> add('upload_audio', FileType::class, [
                 'label' => "music",
                 'mapped' => false,
                 'required' => false,
