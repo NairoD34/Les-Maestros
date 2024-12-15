@@ -24,23 +24,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in sales %}
-                        <tr>
-                            <td>ID: {{ item.id }}</td>
-                            <td>{{ item.title }}</td>
-                            <td>{{ item.salesRate }}</td>
-                            <td>{{ item.salesCode }}</td>
-                            <td>
-                                <a href="{{ path('app_sales_show', { 'id': item.id }) }}" class="btn btn-secondary btn-sm">Voir</a>
-                                <a href="{{ path('app_update_sales', { 'id': item.id }) }}" class="btn btn-secondary btn-sm">Mettre à jour</a>
-                                {{ include('BackOffice/Sales/sales_delete.html.twig', { 'id': item.id })}}
-                            </td>
-                        </tr>
-                    {% else %}
+                    {% if sales is empty %}
                         <tr>
                             <td colspan="5">Aucun enregistrement</td>
                         </tr>
-                    {% endfor %}
+                    {% else %}
+                        {% for item in sales %}
+                            <tr>
+                                <td>ID: {{ item.id }}</td>
+                                <td>{{ item.title }}</td>
+                                <td>{{ item.salesRate }}</td>
+                                <td>{{ item.salesCode }}</td>
+                                <td>
+                                    <a href="{{ path('app_sales_show', { 'id': item.id }) }}" class="btn btn-secondary btn-sm">Voir</a>
+                                    <a href="{{ path('app_update_sales', { 'id': item.id }) }}" class="btn btn-secondary btn-sm">Mettre à jour</a>
+                                    {{ include('BackOffice/Sales/sales_delete.html.twig', { 'id': item.id })}}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                 </tbody>
             </table>
         </div>

@@ -5,9 +5,8 @@ namespace App\Service\FrontOffice;
 use App\Entity\Adress;
 use App\Entity\Users;
 use App\Repository\AdressRepository;
+use App\Repository\CityRepository;
 use App\Repository\ZIPcodeRepository;
-use App\Repository\cityRepository;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdressService
@@ -15,7 +14,7 @@ class AdressService
     public function __construct(
         private readonly AdressRepository  $adressRepo,
         private readonly ZIPcodeRepository $zipRepo,
-        private readonly cityRepository    $cityRepo,
+        private readonly CityRepository    $cityRepo,
     )
     {
     }

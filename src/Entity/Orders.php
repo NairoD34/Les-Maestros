@@ -50,9 +50,6 @@ class Orders
     private ?Cart $Cart = null;
 
     
-
-
-
     public function __construct()
     {
         $this->orderLine = new ArrayCollection();
@@ -201,7 +198,4 @@ class Orders
 
         return $this;
     }
-
-    
-
 }

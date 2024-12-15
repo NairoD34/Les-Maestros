@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\SecurityBundle\Security;
 
+use function PHPUnit\Framework\isEmpty;
+
 #[Route('admin/')]
 class AdminSalesController extends AbstractController
 {
@@ -45,8 +47,13 @@ class AdminSalesController extends AbstractController
         }
 
         $sales = $salesRepo->findAll();
-        $salesByName = $salesRepo->searchByName($request->query->get('title', ''));
-
+        
+        if (isEmpty($sales)) {
+            $salesByName = '';
+        } else {
+            $salesByName = $salesRepo->searchByName($request->query->get('title', ''));
+        }
+        
         return $this->render('BackOffice/Sales/sales_list.html.twig', [
             'title' => 'Liste des promotions',
             'sales' => $sales,
