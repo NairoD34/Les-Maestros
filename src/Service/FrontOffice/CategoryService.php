@@ -7,6 +7,8 @@ use App\Repository\CategoryRepository;
 use App\Repository\PhotosRepository;
 use Symfony\Component\HttpFoundation\Request;
 
+use function PHPUnit\Framework\isEmpty;
+
 class CategoryService
 {
 

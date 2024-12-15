@@ -18,15 +18,19 @@
 
         <div id="carouselCategorie" class="carousel-slider">
             <div class="carousel-container">
-                {% for cate in dataCate %}
-
-                    <div class="carousel-items {% if loop.first %}active{% endif %}">
-                        <a href='{{ path('app_categorie_show', { 'id': cate.categorie.id }) }}'><img
-                                    src="{{ cate.photos }}"
-                                    class="img-carousel"
-                                    alt="{{ cate.categorie.title }}"/></a>
+                {% if dataCate.categorie is defined%}
+                    {% for cate in dataCate %}
+                        <div class="carousel-items {% if loop.first %}active{% endif %}">
+                            <a href='{{ path('app_categorie_show', { 'id': cate.categorie.id }) }}'><img
+                                        src="{{ cate.photos }}"
+                                        class="img-carousel"
+                                        alt="{{ cate.categorie.title }}"/></a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="carousel-items active">
                     </div>
-                {% endfor %}
+                {% endif %}
             </div>
         </div>
     </section>
