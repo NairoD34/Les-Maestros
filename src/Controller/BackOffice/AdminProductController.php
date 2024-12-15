@@ -86,7 +86,8 @@ class AdminProductController extends AbstractController
         ?Product           $product,
         Security           $security,
         PhotosRepository   $photo,
-        FormHandlerService $formHandler
+        FormHandlerService $formHandler,
+        ProductRepository $productRepo,
     )
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
@@ -97,7 +98,7 @@ class AdminProductController extends AbstractController
             return $this->redirectToRoute('app_admin_dashboard');
         }
 
-        $formResult = $formHandler->handleProduct(true, $request, $product, $photo, null);
+        $formResult = $formHandler->handleProduct(true, $request, $product, $photo, $productRepo);
 
         if ($formResult) {
             return $this->redirectToRoute('app_product_list_admin');

@@ -1,0 +1,24 @@
+
+
+
+{% block main %}
+    {{ form_start(form, {'attr': {'class': 'content-form'}}) }}
+                    {{ form_label(form.firstname, 'Prénom') }}
+                    {{ form_widget(form.firstname, {'attr': {'class': 'identity'}}) }}
+
+                    {{ form_label(form.lastname, 'Nom') }}
+                    {{ form_widget(form.lastname, {'attr': {'class': 'identity'}}) }}
+
+                    {{ form_label(form.email, 'Adresse mail') }}
+                    {{ form_widget(form.email) }}
+
+                    {{ form_label(form.message, 'Entrez votre message ...') }}
+                    {{ form_widget(form.message) }}
+
+                    <div >
+                        <input type='submit' name='Envoyer' >
+                    </div>
+
+                {{ form_end(form) }}
+{% endblock %}
+
