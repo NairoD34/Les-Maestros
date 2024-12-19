@@ -48,7 +48,7 @@ class FormHandlerService
         return $form;
     }
 
-    public function handleProduct($update, Request $request, Product $product, $photo, ProductRepository $productRepo)
+    public function handleProduct($update, Request $request, Product $product, $photo, ?ProductRepository $productRepo)
     {
         $form = $this->formFactory->create(AdminProductFormType::class, $product);
 
