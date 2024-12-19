@@ -25,10 +25,10 @@ class Adress
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $complement = null;
 
-    #[ORM\OneToMany(mappedBy: 'est_livre', targetEntity: Orders::class)]
+    #[ORM\OneToMany(mappedBy: 'delivered', targetEntity: Orders::class)]
     private Collection $delivered;
 
-    #[ORM\OneToMany(mappedBy: 'est_facture', targetEntity: Orders::class)]
+    #[ORM\OneToMany(mappedBy: 'billed', targetEntity: Orders::class)]
     private Collection $billed;
 
     #[ORM\ManyToOne(inversedBy: 'adress')]
@@ -43,8 +43,6 @@ class Adress
 
     #[ORM\Column]
     private ?bool $isActive = null;
-
-    
 
 
     public function __construct()
@@ -155,9 +153,6 @@ class Adress
     }
 
 
-
-   
-
     public function getCity(): ?City
     {
         return $this->City;
@@ -206,5 +201,5 @@ class Adress
         return $this;
     }
 
-   
+
 }

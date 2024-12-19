@@ -45,6 +45,7 @@ class CategoryService
         Request $request,
     ): array
     {
+        $dataCate = [];
         $categories = $this->cateRepo->searchParentCategory(
             $request->query->get('title', ''),
         );

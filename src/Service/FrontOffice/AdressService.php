@@ -65,7 +65,7 @@ class AdressService
         $street = $request->query->get('rue', '');
         if ($street) {
             foreach ($allAdresses as $adress) {
-                if (stripos($adress->getRue(), $street) !== false) {
+                if (stripos($adress->getStreet(), $street) !== false) {
                     $filteredAdresses[] = $adress;
                 }
             }

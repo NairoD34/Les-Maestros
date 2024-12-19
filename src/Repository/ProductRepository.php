@@ -62,33 +62,51 @@ class ProductRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->join('p.sales', 'pr')
             ->orderBy('pr.sales_rate', 'ASC')
-            ->setMaxResults(3) // Pour limiter à 3 Products
             ->getQuery()
             ->getResult();
     }
 
-    //    /**
-    //     * @return Product[] Returns an array of Product objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
 
-    //    public function findOneBySomeField($value): ?Product
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function getSixRandomProducts(): array
+    {
+        $newProducts = $this->searchNew();
+
+        $newProductIds = array_map(fn($product) => $product->getId(), $newProducts);
+
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->where('p.id NOT IN (:newProductIds)')
+            ->setParameter('newProductIds', $newProductIds)
+            ->getQuery();
+
+        $nonNewProducts = $queryBuilder->getResult();
+
+        shuffle($nonNewProducts);
+
+        return array_slice($nonNewProducts, 0, 6);
+    }
+
+//    /**
+//     * @return Product[] Returns an array of Product objects
+//     */
+//    public function findByExampleField($value): array
+//    {
+//        return $this->createQueryBuilder('p')
+//            ->andWhere('p.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('p.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
+
+//    public function findOneBySomeField($value): ?Product
+//    {
+//        return $this->createQueryBuilder('p')
+//            ->andWhere('p.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//        ;
+//    }
 }

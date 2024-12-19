@@ -4,6 +4,8 @@
 @import "pages/category.scss";
 @import "pages/breacrumb.scss";
 @import "pages/products.scss";
+@import "pages/login.scss";
+@import "pages/userDashboard.scss";
 
 :root {
   --main: #D2AC62;
@@ -17,6 +19,7 @@
 body {
   background-color: var(--background);
   width: 100%;
+  height: 100%;
   margin: 0;
   font-family: "Roboto", sans-serif;
 }

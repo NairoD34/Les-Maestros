@@ -124,7 +124,7 @@ class FormHandlerService
         return $form;
     }
 
-    public function handleCategory(bool $update, Request $request, Category $category, $photo, $categoryRepo)
+    public function  handleCategory(bool $update, Request $request, Category $category, $photo, $categoryRepo)
     {
         $form = $this->formFactory->create(AdminCategoryFormType::class, $category);
 

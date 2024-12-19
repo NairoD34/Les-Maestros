@@ -100,13 +100,17 @@
     padding: 5px;
   }
 
+  .promo-card::-webkit-scrollbar {
+    display: none;
+  }
+
   .promo-card {
     margin: 20px auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    overflow: hidden;
     width: 80%;
+    overflow-x: scroll;
 
 
     @media screen and (max-width: 768px) {
@@ -116,7 +120,9 @@
     .scroll-container {
       display: flex;
       transition: transform 0.5s ease-in-out;
-
+      @media screen and (max-width: 768px) {
+        margin-left: 15px;
+      }
     }
 
 
@@ -138,22 +144,28 @@
     z-index: 999;
     position: absolute;
     top: 50%;
-    right: 87%;
+    right: 90%;
     width: 50px;
     background: none;
     border: none;
     outline: none;
+    @media screen and (max-width: 768px) {
+      right: 85%;
+    }
   }
 
   .next-btn {
     z-index: 999;
     position: absolute;
     top: 50%;
-    left: 87%;
+    left: 90%;
     width: 50px;
     background: none;
     border: none;
     outline: none;
+    @media screen and (max-width: 768px) {
+      left: 85%;
+    }
   }
 
   .news-card {

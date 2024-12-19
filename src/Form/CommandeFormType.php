@@ -3,17 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Adress;
-use App\Entity\Order;
-use App\Entity\Sales;
-use App\Entity\Delivery;
+use App\Entity\Orders;
 use App\Entity\Payment;
-use App\Entity\Cart;
-use App\Entity\Users;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,12 +16,11 @@ class CommandeFormType extends AbstractType
     {
         $adressesUtilisateur = $options['adressesUtilisateur'];
         $builder
-
-            ->add('Sales', EntityType::class, [
-                'class' => Sales::class,
-                'choice_label' => 'title',
-
-            ])
+//            ->add('Sales', EntityType::class, [
+//                'class' => Sales::class,
+//                'choice_label' => 'title',
+//
+//            ])
             ->add('Payment', EntityType::class, [
                 'class' => Payment::class,
 
@@ -51,7 +43,7 @@ class CommandeFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Order::class,
+            'data_class' => Orders::class,
             'adressesUtilisateur' => [],
         ]);
     }

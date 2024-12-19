@@ -91,31 +91,31 @@ class CartService
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $Orders->setLivraison($data->getLivraison());
-            $Orders->setPaiement($data->getPaiement());
+            $Orders->setDelivery($data->getDelivery());
+            $Orders->setPayment($data->getPayment());
             $etatUnique = $this->stateRepo->find(['id' => 1]);
-            $Orders->setEstFacture($data->getEstFacture());
-            $Orders->setEstLivre($data->getEstLivre());
-            $Orders->setEtat($etatUnique);
+            $Orders->setBilled($data->getBilled());
+            $Orders->setDelivered($data->getDelivered());
+            $Orders->setState($etatUnique);
             $Orders->setUsers($this->security->getUser());
-            $Orders->setPanier($cart);
-            $Orders->setDateOrders(new \DateTimeImmutable());
-            $Orders->setPrixTtcOrders($total);
-        
-            foreach ($cart->getPanierProduits() as $cart) {
-                $ligneOrders = new OrderLine();
-                $ligneOrders->setOrders($Orders);
-                $ligneOrders->setNomProduit($cart->getProduct()->getlibelle());
-                $ligneOrders->setPrixProduit($cart->getProduct()->getPrixHt());
-                $ligneOrders->setTauxTva($cart->getProduct()->getTVA()->getTauxTva());
-                $ligneOrders->setNombreArticle($cart->getQuantite());
-                $ligneOrders->setPrixTotal($total);
+            $Orders->setCart($cart);
+            $Orders->setsetOrderDate(new \DateTimeImmutable());
+            $Orders->setTIOrderPrice($total);
 
-                $utilisateur = $Orders->getUsers();
-                if ($utilisateur) {
-                    $ligneOrders->setNomUtilisateur($utilisateur->getNom());
-                    $ligneOrders->setPrenomUtilisateur($utilisateur->getPrenom());
-                    $ligneOrders->setEmailUtilisateur($utilisateur->getEmail());
+            foreach ($cart->getCartProducts() as $cart) {
+                $ligneOrders = new OrderLine();
+                $ligneOrders->setOrder($Orders);
+                $ligneOrders->setProductName($cart->getProduct()->gettitle());
+                $ligneOrders->setProductPrice($cart->getProduct()->getTaxFreePrice());
+                $ligneOrders->setTaxRate($cart->getProduct()->getTaxRate()->getTaxRate());
+                $ligneOrders->setQuantity($cart->getQuantity());
+                $ligneOrders->setTotalPrice($total);
+
+                $users = $Orders->getUsers();
+                if ($users) {
+                    $ligneOrders->setUserLastname($users->getName());
+                    $ligneOrders->setUserFirstname($users->getFirstname());
+                    $ligneOrders->setUserEmail($users->getEmail());
                 }
                 $this->em->persist($ligneOrders);
             }
