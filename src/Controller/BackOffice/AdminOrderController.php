@@ -28,7 +28,7 @@ class AdminOrderController extends AbstractController
         }
         $orders = $orderRepo->findAll();
         $id = $orderRepo->searchByName($request->query->get('id', ''));
-        if (empty($orders)) {
+        if (empty($orders)) { 
             return $this->render('BackOffice/Order/emptyOrder.html.twig');
         }
 
