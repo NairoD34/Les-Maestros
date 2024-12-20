@@ -25,10 +25,10 @@ class Adress
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $complement = null;
 
-    #[ORM\OneToMany(mappedBy: 'est_livre', targetEntity: Orders::class)]
+    #[ORM\OneToMany(mappedBy: 'delivered', targetEntity: Orders::class)]
     private Collection $delivered;
 
-    #[ORM\OneToMany(mappedBy: 'est_facture', targetEntity: Orders::class)]
+    #[ORM\OneToMany(mappedBy: 'billed', targetEntity: Orders::class)]
     private Collection $billed;
 
     #[ORM\ManyToOne(inversedBy: 'adress')]
@@ -114,7 +114,7 @@ class Adress
 
     public function removeDelivered(Orders $delivered): static
     {
-        if ($this->est_livre->removeElement($delivered)) {
+        if ($this->delivered->removeElement($delivered)) {
             // set the owning side to null (unless already changed)
             if ($delivered->getDelivered() === $this) {
                 $delivered->setDelivered(null);

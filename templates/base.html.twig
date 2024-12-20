@@ -186,21 +186,7 @@
                         {{ render(controller('App\\Controller\\FrontOffice\\CategoryController::list')) }}
                     </ul>
                     <div class="content-form">
-                        <form>
-                            <div class="identity">
-                                <input type="text" placeholder="Nom"
-                                       name="name">
-                                <input type="text" placeholder="Prénom"
-                                       name="surname">
-                            </div>
-                            <input type="text" placeholder="Adresse mail"
-                                   name="mail">
-                            <textarea id="story" name="story"
-                                      placeholder="Entrez votre message..."></textarea>
-                            <div class="submit-container">
-                                <button type="submit">Envoyez</button>
-                            </div>
-                        </form>
+                {{ render(controller('App\\Controller\\FrontOffice\\MessageController::new')) }}
                     </div>
                 </div>
 
