@@ -57,7 +57,7 @@ class FormHandlerService
             $file = $form['upload_file']->getData();
             $audio = $form['upload_audio']->getData();
             if ($file) {
-                $file_name = $this->upload->uploadProduct($file);
+                $file_name = $this->upload->uploadProductPhoto($file);
                 if ($file_name) // for example
                 {
                     $directory = $this->upload->getTargetDirectory();
@@ -67,7 +67,7 @@ class FormHandlerService
                 }
             }
             if ($audio) {
-                $audio_name = $this->upload->uploadProduct($audio);
+                $audio_name = $this->upload->uploadProductAudio($audio);
                 if ($audio_name) {
                     $audioDirectory = $this->upload->getTargetDirectoryAudio();
                     $audio_path = $audioDirectory . '/' . $audio_name;

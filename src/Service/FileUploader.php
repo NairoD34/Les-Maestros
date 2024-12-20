@@ -33,13 +33,26 @@ class FileUploader
         return $fileName;
     }
 
-    public function uploadProduct(UploadedFile $file)
+    public function uploadProductPhoto(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
         try {
             $file->move($this->getTargetDirectoryProduct(), $fileName);
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+            return null; // for example
+        }
+        return $fileName;
+    }
+    public function uploadProductAudio(UploadedFile $file)
+    {
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFilename = $this->slugger->slug($originalFilename);
+        $fileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+        try {
+            $file->move($this->getTargetDirectoryAudio(), $fileName);
         } catch (FileException $e) {
             // ... handle exception if something happens during file upload
             return null; // for example
