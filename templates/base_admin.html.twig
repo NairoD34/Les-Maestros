@@ -78,6 +78,11 @@
                                 <a style='color: rgba(223, 190, 49, 1)!important' aria-current="page"
                                    href="{{ path('app_admin_dashboard') }}">Accueil</a>
                             </li>
+                            <li class="nav-item d-flex align-items-center ml-5   col-auto active"
+                                style="white-space: nowrap;">
+                                <a style='color: rgba(223, 190, 49, 1)!important' aria-current="page"
+                                   href="{{ path('app_admin_dashboard') }}">Statistique de vente</a>
+                            </li>
                             {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
                                 <span class="m-3">Administrateur authentifié : {{ app.user.username }}</span>
                             {% endif %}
