@@ -6,8 +6,7 @@ use App\Entity\Adress;
 use App\Entity\Users;
 use App\Repository\AdressRepository;
 use App\Repository\ZIPcodeRepository;
-use App\Repository\cityRepository;
-use Symfony\Bundle\SecurityBundle\Security;
+use App\Repository\CityRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdressService
@@ -15,7 +14,7 @@ class AdressService
     public function __construct(
         private readonly AdressRepository  $adressRepo,
         private readonly ZIPcodeRepository $zipRepo,
-        private readonly cityRepository    $cityRepo,
+        private readonly CityRepository    $cityRepo,
     )
     {
     }
@@ -57,10 +56,8 @@ class AdressService
         Users   $users,
     )
     {
-        // Récupérer toutes les adresses de l'utilisateur
         $allAdresses = $this->adressRepo->findBy(['users' => $users]);
 
-        // Filtrer les adresses par nom de rue si une valeur est fournie
         $filteredAdresses = [];
         $street = $request->query->get('rue', '');
         if ($street) {
