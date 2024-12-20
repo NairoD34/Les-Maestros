@@ -31,14 +31,18 @@ class MessageService
     {
         $form = $this->formFactory->create(MessageFormType::class, $message);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($message);
             $this->em->flush();
-            return $form;
+
+            return ['form'=>$form,
+                    'validate'=> true]
+                    ;
             
         }
-
-        return $form;
+        return ['form'=>$form,
+                    'validate'=> false];
         
     }
     

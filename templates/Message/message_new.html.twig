@@ -2,7 +2,11 @@
 
 
 {% block main %}
-    {{ form_start(form, {'attr': {'class': 'content-form'}}) }}
+    {{ form_start(form, {
+    'action': path('app_new_message'),
+    'method': 'POST',
+    'attr': {'class': 'content-form'}
+}) }}
                     {{ form_label(form.firstname, 'Prénom') }}
                     {{ form_widget(form.firstname, {'attr': {'class': 'identity'}}) }}
 
@@ -14,9 +18,10 @@
 
                     {{ form_label(form.message, 'Entrez votre message ...') }}
                     {{ form_widget(form.message) }}
-
+                    
+                
                     <div >
-                        <input type='submit' name='Envoyer' >
+                        <button type='submit' name='Envoyer' >Envoyer</button>
                     </div>
 
                 {{ form_end(form) }}
