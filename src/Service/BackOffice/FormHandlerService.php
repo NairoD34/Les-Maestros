@@ -55,7 +55,7 @@ class FormHandlerService
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form['upload_file']->getData();
-            $audio = $form['upload_sound']->getData();
+            $audio = $form['upload_audio']->getData();
             if ($file) {
                 $file_name = $this->upload->uploadProduct($file);
                 if ($file_name) // for example
@@ -63,13 +63,16 @@ class FormHandlerService
                     $directory = $this->upload->getTargetDirectory();
                     $full_path = $directory . '/' . $file_name;
                 } else {
-                    $error = 'une erreur est survenue';
+                    echo('une erreur est survenue à l\'image');
                 }
             }
             if ($audio) {
                 $audio_name = $this->upload->uploadProduct($audio);
                 if ($audio_name) {
-                    
+                    $audioDirectory = $this->upload->getTargetDirectoryAudio();
+                    $audio_path = $audioDirectory . '/' . $audio_name;
+                } else {
+                    echo('une erreur est survenue à l\'audio');
                 }
             }
             $category = $form['category']->getData();
@@ -178,10 +181,16 @@ class FormHandlerService
                 $photo->insertPhotoWithCategorie($categoryRepo->getLastId()->getId(), '/upload/photo_category/' . $file_name);
 
             }
-            return true;
+            return [
+                "validate" => true,
+                "form" => $form,
+            ];
 
         }
-        return $form;
+        return [
+            "validate"=> false,
+            "form" => $form,
+        ];
 
     }
 }

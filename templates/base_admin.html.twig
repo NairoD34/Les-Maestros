@@ -78,13 +78,15 @@
                                 <a style='color: rgba(223, 190, 49, 1)!important' aria-current="page"
                                    href="{{ path('app_admin_dashboard') }}">Accueil</a>
                             </li>
-                            {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <span class="m-3">Administrateur authentifié : {{ app.user.username }}</span>
                             {% endif %}
 
 
                             <!-- Déconnexion et profil pour la version de bureau -->
-                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <!-- IS_AUTHENTICATED_FULLY provoque un soucis faisant qu'on n'a plus la déconnexion après avoir 
+                            réouvert le site sans s'être déconnecté -->
+                            {# {% if is_granted('IS_AUTHENTICATED_FULLY') %} #} 
                                 {% if is_granted("ROLE_ADMIN") %}
                                     <li id='icone' class="nav-item d-flex m-5">
                                         <a id="deco" class="nav-link" href="{{ path('app_admin_logout') }}">
@@ -96,10 +98,10 @@
                                         </a>
                                     </li>
                                 {% endif %}
-                            {% endif %}
+                            {# {% endif %} #}
 
                             <!-- Connexion pour la version mobile -->
-                            {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% if not is_granted('ROLE_ADMIN') %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('app_admin_login') }}">Connectez-vous</a>
                                 </li>

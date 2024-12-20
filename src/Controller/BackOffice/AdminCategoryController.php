@@ -97,12 +97,12 @@ class AdminCategoryController extends AbstractController
         }
         $category = new Category();
         $formResult = $formHandler->handleCategory(false, $request, $category, $photo, $categoryRepo);
-        if ($formResult) {
+        if ($formResult["validate"]) {
             return $this->redirectToRoute('app_category_list_admin');
         }
         return $this->render('BackOffice/Category/category_new.html.twig', [
             'title' => 'Création d\'une nouvelle catégorie',
-            'form' => $formResult->createView(),
+            'form' => $formResult['form']->createView(),
         ]);
     }
 

@@ -43,9 +43,9 @@ class AdminProductFormType extends AbstractType
                 'constraints' => [
                     new ConstraintsFile([
                         'mimeTypes' => [ // We want to let upload only image
-                            'img/jpg',
-                            'img/png',
-                            'img/jpeg',
+                            'image/jpg',
+                            'image/png',
+                            'image/jpeg',
 
                         ],
                         'mimeTypesMessage' => "This document isn't valid.",
