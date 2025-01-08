@@ -3,7 +3,6 @@
 namespace App\Controller\FrontOffice;
 
 use App\Entity\Adress;
-use App\Entity\Users;
 use App\Service\FrontOffice\AdressService;
 use App\Service\FrontOffice\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -72,16 +72,14 @@ class FormHandlerService
                     $audioDirectory = $this->upload->getTargetDirectoryAudio();
                     $audio_path = $audioDirectory . '/' . $audio_name;
                 } else {
-                    echo('une erreur est survenue à l\'audio');
+                    dd('une erreur est survenue à l\'audio');
                 }
             }
             $category = $form['category']->getData();
             $product->setCategory($category);
+            $product->setAudio($audio_path);
             if ($update) {
-                $photos = $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
-                foreach ($photos as $photoProduct) {
-                    $product->addPhoto($photoProduct);
-                }
+                $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
                 $this->em->persist($product);
                 $this->em->flush();
             } else {
@@ -159,10 +157,7 @@ class FormHandlerService
                             $error = 'une erreur est survenue';
                         }
                     }
-                    $photos = $photo->updatePhotoInCategory($category->getId(), '/upload/photo_category/' . $file_name);
-                    foreach ($photos as $photoProduct) {
-                        $category->addPhoto($photoProduct);
-                    }
+                    $photo->updatePhotoInCategory($category->getId(), '/upload/photo_category/' . $file_name);
                     $this->em->persist($category);
                     $this->em->flush();
                 }

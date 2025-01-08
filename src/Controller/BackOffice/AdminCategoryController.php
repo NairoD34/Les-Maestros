@@ -128,13 +128,13 @@ class AdminCategoryController extends AbstractController
 
         $formResult = $formHandler->handleCategory(true, $request, $category, $photo, $categoryRepo);
 
-        if ($formResult) {
+        if ($formResult["validate"]) {
             return $this->redirectToRoute('app_category_list_admin');
         }
 
         return $this->render('BackOffice/Category/category_new.html.twig', [
             'title' => 'Mise à jour d\'une catégorie',
-            'form' => $formResult,
+            'form' => $formResult["form"],
         ]);
     }
 

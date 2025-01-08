@@ -2,24 +2,18 @@
 
 namespace App\Controller\BackOffice;
 
-use App\Entity\Category;
 use App\Entity\Message;
-use App\Repository\CategoryRepository;
 use App\Repository\MessageRepository;
-use App\Repository\PhotosRepository;
-use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use App\Service\BackOffice\FormHandlerService;
 
 #[Route('admin/')]
 class AdminMessageController extends AbstractController
 {
-
 
     #[Route('message_show/{id}', name: 'app_message_show_admin')]
     public function show(
