@@ -28,17 +28,18 @@ class UsersRepository extends ServiceEntityRepository
     //    /**
     //     * @return Users[] Returns an array of Users objects
     //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+       
+       public function countUsers()
+       {
+        $result = $this->createQueryBuilder('e')
+        ->select('COUNT(e) ')
+        ->getQuery()->getSingleScalarResult();
+           
+           return $result;
+          
+           
+       }
+     
 
     //    public function findOneBySomeField($value): ?Users
     //    {

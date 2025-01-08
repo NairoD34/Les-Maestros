@@ -38,6 +38,26 @@ class OrderRepository extends ServiceEntityRepository
         $this->getEntityManager()->getConnection()
             ->executeQuery($sql);
     }
+    public function countOrders()
+       {
+        $result = $this->createQueryBuilder('e')
+        ->select('COUNT(e) ')
+        ->getQuery()->getSingleScalarResult();
+           
+           return $result;
+           
+       }
+
+       public function countTaxIncludedRevenue()
+       {
+        $result = $this->createQueryBuilder('e')
+        ->select('SUM(e.ti_order_price) ')
+        ->getQuery()->getSingleScalarResult();
+           
+           return $result;
+           ;
+       }
+
     //    /**
     //     * @return Orders[] Returns an array of Orders objects
     //     */

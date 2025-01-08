@@ -30,14 +30,15 @@ class AdminUsersController extends AbstractController
         $triLastName = $request->query->get('trinom', 'asc');
         $triFirstName = $request->query->get('triprenom', 'asc');
         $users = $usersRepo->findAll();
-        $title = $usersRepo->searchByName($request->query->get('name', ''), $triLastName, $triFirstName);
+        $name = $usersRepo->searchByName($request->query->get('name', ''), $triLastName, $triFirstName);
 
+        // dd($name);
         return $this->render('BackOffice/User/admin_user_list.html.twig', [
             'title' => 'Liste des utilisateurs',
             'users' => $users,
             'trinom' => $triLastName,
             'triprenom' => $triFirstName,
-            'nom' => $title,
+            'name' => $name,
         ]);
     }
 

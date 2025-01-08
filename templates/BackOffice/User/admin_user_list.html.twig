@@ -1,8 +1,5 @@
 {% extends 'base_admin.html.twig' %}
 
-{% block title %}
-    {{ title }}
-{% endblock %}
 
 {% block main %}
     <h2>{{ title }}</h2>
@@ -11,17 +8,17 @@
             <td>
             Nom
             {% if ( trinom == 'desc') %}
-                <a href="{{ path('app_user_list_admin') }}?nom={{ nom }}&trinom=asc&triprenom={{ triprenom }}">></a>
+                <a href="{{ path('app_user_list_admin') }}?nom={{ name }}&trinom=asc&triprenom={{ triprenom }}">></a>
             {% else %}
-                <a href="{{ path('app_user_list_admin') }}?nom={{ nom }}&trinom=desc&triprenom={{ triprenom }}"><</a>
+                <a href="{{ path('app_user_list_admin') }}?nom={{ name }}&trinom=desc&triprenom={{ triprenom }}"><</a>
             {% endif %}
             </td>
             <td>
             Prénom
             {% if ( triprenom == 'desc') %}
-                <a href="{{ path('app_user_list_admin') }}?nom={{ nom }}&triprenom=asc&trinom={{ trinom }}">></a>
+                <a href="{{ path('app_user_list_admin') }}?nom={{ name }}&triprenom=asc&trinom={{ trinom }}">></a>
             {% else %}
-                <a href="{{ path('app_user_list_admin') }}?nom={{ nom }}&triprenom=desc&trinom={{ trinom }}"><</a>
+                <a href="{{ path('app_user_list_admin') }}?nom={{ name }}&triprenom=desc&trinom={{ trinom }}"><</a>
             {% endif %}
             </td>
         </tr>
@@ -46,7 +43,7 @@
     {% endfor %}
     </table>
     <form>
-        <input type='text' name='nom' placeholder='recherchez par le nom' value='{{ nom }}'>
+        <input type='text' name='nom' placeholder='recherchez par le nom' value='{{ name }}'>
         <input type='submit' name='submit' value='rechercher'>
     </form>
     <a href="{{ path('app_admin_dashboard') }}" class="btn btn-secondary">Retour</a>
