@@ -74,12 +74,12 @@ class AdminSalesController extends AbstractController
         $sales = new Sales();
         $formResult = $formHandler->handleSales($request, $sales);
 
-        if ($formResult) {
+        if ($formResult['validate']) {
             return $this->redirectToRoute('app_sales_list');
         }
         return $this->render('BackOffice/Sales/sales_new.html.twig', [
             'title' => 'Création d\'une nouvelle promotion',
-            'form' => $formResult->createView(),
+            'form' => $formResult['form']->createView(),
         ]);
     }
 
@@ -100,13 +100,13 @@ class AdminSalesController extends AbstractController
 
         $formResult = $formHandler->handleSales($request, $sales);
 
-        if ($formResult) {
+        if ($formResult['validate']) {
             return $this->redirectToRoute('app_sales_list');
         }
 
         return $this->render('BackOffice/Sales/sales_new.html.twig', [
             'title' => 'Mise à jour d\'une promotion',
-            'form' => $formResult,
+            'form' => $formResult['form'],
         ]);
     }
 

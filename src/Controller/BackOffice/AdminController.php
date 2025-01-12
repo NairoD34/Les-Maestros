@@ -59,14 +59,14 @@ class AdminController extends AbstractController
         $admin = new Admin();
         $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher);
 
-        if ($formResult) {
+        if ($formResult['validate']) {
             return $this->redirectToRoute('app_list_admin');
         }
 
 
         return $this->render('BackOffice/Admin/new.html.twig', [
             'title' => 'Création d\'un nouvel administrateur',
-            'form' => $formResult->createView(),
+            'form' => $formResult['form']->createView(),
         ]);
     }
 

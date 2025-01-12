@@ -42,10 +42,16 @@ class FormHandlerService
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($sales);
             $this->em->flush();
-            return true;
+            return [
+                'validate' => true,
+                'form' => $form,
+            ];
         }
 
-        return $form;
+        return [
+            'validate' => false,
+            'form' => $form,
+        ];
     }
 
     public function handleProduct($update, Request $request, Product $product, $photo, ?ProductRepository $productRepo)
@@ -106,7 +112,7 @@ class FormHandlerService
         $form = $this->formFactory->create(AdminFormType::class, $admin);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($update !== true) {
                 $selectedRoles = $form->get('roles')->getData();
                 $admin->setRoles($selectedRoles);
@@ -120,9 +126,15 @@ class FormHandlerService
             $this->em->persist($admin);
             $this->em->flush();
 
-            return true;
+            return [
+                'validate' => true,
+                'form' => $form,
+            ];
         }
-        return $form;
+        return [
+            'validate' => false,
+            'form' => $form,
+        ];
     }
 
     public function handleOrder(Request $request, Orders $order)
