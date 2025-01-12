@@ -11,17 +11,17 @@
             <td>
             Nom
             {% if ( trinom == 'desc') %}
-                <a href="{{ path('app_user_list_admin') }}?nom={{ nom }}&trinom=asc&triprenom={{ triprenom }}">></a>
+                <a href="{{ path('app_user_list_admin') }}?nom={{ users }}&trinom=asc&triprenom={{ triprenom }}">></a>
             {% else %}
-                <a href="{{ path('app_user_list_admin') }}?nom={{ nom }}&trinom=desc&triprenom={{ triprenom }}"><</a>
+                <a href="{{ path('app_user_list_admin') }}?nom={{ users }}&trinom=desc&triprenom={{ triprenom }}"><</a>
             {% endif %}
             </td>
             <td>
             Prénom
             {% if ( triprenom == 'desc') %}
-                <a href="{{ path('app_user_list_admin') }}?nom={{ nom }}&triprenom=asc&trinom={{ trinom }}">></a>
+                <a href="{{ path('app_user_list_admin') }}?nom={{ users }}&triprenom=asc&trinom={{ trinom }}">></a>
             {% else %}
-                <a href="{{ path('app_user_list_admin') }}?nom={{ nom }}&triprenom=desc&trinom={{ trinom }}"><</a>
+                <a href="{{ path('app_user_list_admin') }}?nom={{ users }}&triprenom=desc&trinom={{ trinom }}"><</a>
             {% endif %}
             </td>
         </tr>
