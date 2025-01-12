@@ -6,7 +6,6 @@ use App\Entity\Users;
 use App\Repository\AdminUsersRepository;
 use App\Repository\CartProductRepository;
 use App\Repository\CartRepository;
-use Doctrine\Migrations\Provider\Exception\NoMappingFound;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,16 +27,16 @@ class AdminUsersController extends AbstractController
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        $triLastName = $request->query->get('trinom', 'asc');
-        $triFirstName = $request->query->get('triprenom', 'asc');
-        $users = $usersRepo->searchByName($request->query->get('name', ''), $triLastName, $triFirstName);
-        /* dd($users); */
+        $triLastName = $request->query->get('trilastname', 'asc');
+        $triFirstName = $request->query->get('trifirstname', 'asc');
+        $users = $usersRepo->searchByName($request->query->get('lastname', ''), $triLastName, $triFirstName);
 
         return $this->render('BackOffice/User/admin_user_list.html.twig', [
             'title' => 'Liste des utilisateurs',
             'users' => $users,
-            'trinom' => $triLastName,
-            'triprenom' => $triFirstName,
+            'trilastname' => $triLastName,
+            'trifirstname' => $triFirstName,
+            'lastname' => $request->query->get('lastname', ''),
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller\BackOffice;
 
+use App\Service\BackOffice\KpiService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,11 +38,15 @@ class AdminSecurityController extends AbstractController
     }
 
     #[Route(path: 'dashboard', name: 'app_admin_dashboard')]
-    public function dashboard(Security $security): Response
+    public function dashboard(Security $security, KpiService $kpi): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        return $this->render('BackOffice/dashboard.html.twig');
+        $data = $kpi->getAllData();
+        return $this->render('BackOffice/dashboard.html.twig' ,[
+            "data" => $data
+        ]);
     }
+
 }

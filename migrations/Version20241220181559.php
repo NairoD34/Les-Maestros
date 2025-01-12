@@ -10,7 +10,11 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20241215144354 extends AbstractMigration
+<<<<<<<< HEAD:migrations/Version20241220174559.php
+final class Version20241220174559 extends AbstractMigration
+========
+final class Version20241220181559 extends AbstractMigration
+>>>>>>>> AddKPI:migrations/Version20241220181559.php
 {
     public function getDescription(): string
     {
@@ -34,7 +38,7 @@ final class Version20241215144354 extends AbstractMigration
         $this->addSql('CREATE TABLE orders (id INT AUTO_INCREMENT NOT NULL, delivery_id INT DEFAULT NULL, payment_id INT DEFAULT NULL, state_id INT DEFAULT NULL, delivered_id INT NOT NULL, billed_id INT NOT NULL, users_id INT NOT NULL, cart_id INT DEFAULT NULL, order_date DATE NOT NULL COMMENT \'(DC2Type:date_immutable)\', ti_order_price DOUBLE PRECISION NOT NULL, INDEX IDX_E52FFDEE12136921 (delivery_id), INDEX IDX_E52FFDEE4C3A3BB (payment_id), INDEX IDX_E52FFDEE5D83CC1 (state_id), INDEX IDX_E52FFDEEC3D4ABB7 (delivered_id), INDEX IDX_E52FFDEE148E6BE7 (billed_id), INDEX IDX_E52FFDEE67B3B43D (users_id), UNIQUE INDEX UNIQ_E52FFDEE1AD5CDBF (cart_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE payment (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE photos (id INT AUTO_INCREMENT NOT NULL, category_id INT DEFAULT NULL, product_id INT DEFAULT NULL, url_photo VARCHAR(255) NOT NULL, INDEX IDX_876E0D912469DE2 (category_id), INDEX IDX_876E0D94584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE product (id INT AUTO_INCREMENT NOT NULL, tax_rate_id INT NOT NULL, sales_id INT DEFAULT NULL, category_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, tax_free_price DOUBLE PRECISION NOT NULL, INDEX IDX_D34A04ADFDD13F95 (tax_rate_id), INDEX IDX_D34A04ADA4522A07 (sales_id), INDEX IDX_D34A04AD12469DE2 (category_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE product (id INT AUTO_INCREMENT NOT NULL, tax_rate_id INT NOT NULL, sales_id INT DEFAULT NULL, category_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, tax_free_price DOUBLE PRECISION NOT NULL, audio VARCHAR(255) DEFAULT NULL, INDEX IDX_D34A04ADFDD13F95 (tax_rate_id), INDEX IDX_D34A04ADA4522A07 (sales_id), INDEX IDX_D34A04AD12469DE2 (category_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE region (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE sales (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, sales_rate DOUBLE PRECISION NOT NULL, sales_code VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE state (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

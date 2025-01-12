@@ -14,6 +14,51 @@
 </div>
 <br>
 <div class="container-fluid">
+    <div class="row mb-4 justify-content-center">
+        <!-- Gestion des catégories -->
+        <div class="col-md-4 m-4"  style="width:250px; height: 250px; ">
+            <a href="{{ path('app_user_list_admin') }}" class="text-decoration-none">
+                <div class="card border p-3 bg-light h-100">
+                        <h5 class="card-title text-center m-0" style="color: var(--main);">Nombre d'utilisateurs </h5>
+                            <p class="card-body text-center m-0 " style="font-size: 25px">{{data.users}}</p>
+                </div>
+            </a>
+        </div>
+        <div class="row mb-4 justify-content-center">
+        <!-- Gestion des catégories -->
+        <div class="col-md-4 m-4"  style="width:250px; height: 250px; ">
+            <a href="{{ path('app_order_list_admin') }}" class="text-decoration-none">
+                <div class="card border p-3 bg-light h-100">
+                        <h5 class="card-title text-center m-0" style="color: var(--main);">Nombre de commandes </h5>
+                            <p class="card-body text-center m-0 " style="font-size: 25px">{{data.orders}}</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 m-4"  style="width:250px; height: 250px; ">
+            <a href="{{ path('app_order_list_admin') }}" class="text-decoration-none">
+                <div class="card border p-3 bg-light h-100">
+                        <h5 class="card-title text-center m-0" style="color: var(--main);">Chiffre d'affaire TTC </h5>
+                        {% if data.revenue is same as(null) %}
+                            <p class="card-body text-center m-0 " style="font-size: 25px">0</p>
+                        {% else %}
+                            <p class="card-body text-center m-0 " style="font-size: 25px">{{data.revenue}}</p>
+                        {% endif %}
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 m-4"  style="width:250px; height: 250px; ">
+            <a href="{{ path('app_message_list_admin') }}" class="text-decoration-none">
+                <div class="card border p-3 bg-light h-100">
+                        <h5 class="card-title text-center m-0" style="color: var(--main);">Nombres de messages enregistrés </h5>
+                        
+                            <p class="card-body text-center m-0 " style="font-size: 25px" >{{data.messages}}</p>
+                        
+                    </div>
+                </div>
+            </a>
+        </div>
+</div>
+<div class="container-fluid">
     <!-- Première ligne -->
     <div class="row mb-4 justify-content-center">
         <!-- Gestion des catégories -->

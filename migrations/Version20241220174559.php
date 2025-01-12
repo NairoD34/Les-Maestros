@@ -10,7 +10,11 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
+<<<<<<<< HEAD:migrations/Version20241220174559.php
 final class Version20241220174559 extends AbstractMigration
+========
+final class Version20241220181559 extends AbstractMigration
+>>>>>>>> AddKPI:migrations/Version20241220181559.php
 {
     public function getDescription(): string
     {
@@ -29,6 +33,7 @@ final class Version20241220174559 extends AbstractMigration
         $this->addSql('CREATE TABLE city_zipcode (city_id INT NOT NULL, zipcode_id INT NOT NULL, INDEX IDX_E844BF908BAC62AF (city_id), INDEX IDX_E844BF90E4C7FA21 (zipcode_id), PRIMARY KEY(city_id, zipcode_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE county (id INT AUTO_INCREMENT NOT NULL, region_id INT NOT NULL, name VARCHAR(255) NOT NULL, zip VARCHAR(255) NOT NULL, INDEX IDX_58E2FF2598260155 (region_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE delivery (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE message (id INT AUTO_INCREMENT NOT NULL, firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, message LONGTEXT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE order_line (id INT AUTO_INCREMENT NOT NULL, order_id INT NOT NULL, product_name VARCHAR(255) NOT NULL, product_price DOUBLE PRECISION NOT NULL, tax_rate DOUBLE PRECISION NOT NULL, quantity INT NOT NULL, total_price DOUBLE PRECISION NOT NULL, user_lastname VARCHAR(255) NOT NULL, user_firstname VARCHAR(255) NOT NULL, user_email VARCHAR(255) NOT NULL, INDEX IDX_9CE58EE18D9F6D38 (order_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE orders (id INT AUTO_INCREMENT NOT NULL, delivery_id INT DEFAULT NULL, payment_id INT DEFAULT NULL, state_id INT DEFAULT NULL, delivered_id INT NOT NULL, billed_id INT NOT NULL, users_id INT NOT NULL, cart_id INT DEFAULT NULL, order_date DATE NOT NULL COMMENT \'(DC2Type:date_immutable)\', ti_order_price DOUBLE PRECISION NOT NULL, INDEX IDX_E52FFDEE12136921 (delivery_id), INDEX IDX_E52FFDEE4C3A3BB (payment_id), INDEX IDX_E52FFDEE5D83CC1 (state_id), INDEX IDX_E52FFDEEC3D4ABB7 (delivered_id), INDEX IDX_E52FFDEE148E6BE7 (billed_id), INDEX IDX_E52FFDEE67B3B43D (users_id), UNIQUE INDEX UNIQ_E52FFDEE1AD5CDBF (cart_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE payment (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -103,6 +108,7 @@ final class Version20241220174559 extends AbstractMigration
         $this->addSql('DROP TABLE city_zipcode');
         $this->addSql('DROP TABLE county');
         $this->addSql('DROP TABLE delivery');
+        $this->addSql('DROP TABLE message');
         $this->addSql('DROP TABLE order_line');
         $this->addSql('DROP TABLE orders');
         $this->addSql('DROP TABLE payment');
