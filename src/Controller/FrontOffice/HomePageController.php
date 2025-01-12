@@ -4,7 +4,6 @@ namespace App\Controller\FrontOffice;
 
 use App\Repository\ProductRepository;
 use App\Service\FrontOffice\CategoryService;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
