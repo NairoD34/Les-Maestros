@@ -27,18 +27,16 @@ class AdminUsersController extends AbstractController
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        $triLastName = $request->query->get('trinom', 'asc');
-        $triFirstName = $request->query->get('triprenom', 'asc');
-        $users = $usersRepo->findAll();
-        $name = $usersRepo->searchByName($request->query->get('name', ''), $triLastName, $triFirstName);
+        $triLastName = $request->query->get('trilastname', 'asc');
+        $triFirstName = $request->query->get('trifirstname', 'asc');
+        $users = $usersRepo->searchByName($request->query->get('lastname', ''), $triLastName, $triFirstName);
 
-        // dd($name);
         return $this->render('BackOffice/User/admin_user_list.html.twig', [
             'title' => 'Liste des utilisateurs',
             'users' => $users,
-            'trinom' => $triLastName,
-            'triprenom' => $triFirstName,
-            'name' => $name,
+            'trilastname' => $triLastName,
+            'trifirstname' => $triFirstName,
+            'lastname' => $request->query->get('lastname', ''),
         ]);
     }
 
