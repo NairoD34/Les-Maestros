@@ -1,3 +1,6 @@
+@use '../base/colors';
+@use '../base/mixins';
+
 .list-banner {
   .list-content {
     background-color: #09090B;
@@ -64,6 +67,7 @@
   .product-block {
     display: flex;
     gap: 30px;
+    margin: 10px;
     @media screen and (max-width: 768px) {
       display: flex;
       flex-direction: column;
@@ -72,18 +76,16 @@
 
     .productLeft-container {
       width: 50%;
-      display: flex;
-      justify-content: end;
+      @include mixins.center-flex(start);
       @media screen and (max-width: 768px) {
         width: 80%;
         margin: 0 auto;
+        justify-content: center;
       }
 
       .content {
         width: 500px;
-        display: flex;
-        justify-content: end;
-        align-items: center;
+        @include mixins.center-flex(end);
         position: relative;
 
         .flag-percent, .flag-news {
@@ -92,8 +94,8 @@
           top: 0;
           left: 0;
           padding: 7px;
-          background-color: var(--header);
-          color: var(--second);
+          background-color: colors.$header;
+          color: colors.$main;
           z-index: 1;
           @media screen and (max-width: 768px) {
             font-size: 13px;
@@ -103,7 +105,7 @@
 
         img {
           position: relative;
-          box-shadow: 0 2px 2px 2px var(--second);
+          box-shadow: 0 2px 2px 2px colors.$second;
           width: 100%;
           padding: 10px;
           background-color: white;
@@ -114,17 +116,14 @@
   }
 
   .productRight-container {
-    color: var(--header);
+    color: colors.$header;
     width: 100%;
     @media screen and (max-width: 768px) {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      @include mixins.center-flex-column(center);
     }
 
     h2 {
-      color: var(--header);
+      color: colors.$header;
       margin: 0;
       text-align: center;
     }
@@ -136,7 +135,7 @@
 
       .old-price {
         text-decoration: line-through;
-        text-decoration-color: var(--second);
+        text-decoration-color: colors.$second;
         text-decoration-thickness: 2px;
         font-size: 0.8em;
         font-weight: normal;
@@ -144,32 +143,35 @@
       }
     }
 
-    .title {
-      margin: 0 0 10px 0;
-    }
-
     .legends {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
+      @include mixins.center-flex-column(start);
       padding: 5px;
 
       a {
-        color: var(--header);
+        color: colors.$header;
         padding: 5px;
         border-radius: 5px;
         font-weight: bold;
       }
 
+    }
 
-      li {
-        list-style: none;
-      }
+    .title {
+      margin: 0 0 10px 0;
+      align-items: center;
+    }
+
+    .legends-details {
+      @include mixins.center-flex-column(center);
+      margin: 30px 0 0 0;
 
       .qte {
         font-size: 1.3em;
         color: green;
         margin: 0 0 10px 0;
+        @media screen and (max-width: 768px) {
+          text-align: center;
+        }
       }
 
       div {
@@ -178,20 +180,32 @@
         gap: 10px;
 
         .ship, .garanteed {
-          background-color: var(--header);
+          background-color: colors.$header;
           padding: 5px;
           border-radius: 5px;
-          color: var(--text);
+          color: colors.$text;
         }
+      }
+
+      li {
+        list-style: none;
       }
     }
 
     .separator {
       display: inline-block;
       height: 1px;
-      width: 70%;
-      margin: 0.5rem auto;
-      background-color: var(--second);
+      @include mixins.margin-width(70%, 0.5rem auto);
+      background-color: colors.$second;
+    }
+
+    .add-to-cart {
+
+      .cta-button {
+        @include mixins.cta-btn("button", 10px 0);
+        width: 100%;
+        text-align: left
+      }
     }
   }
 }

@@ -1,4 +1,0 @@
-<form method="post" action="{{ path('app_add_qte_produit_panier', {'id': ligneProduit.produit.id}) }}" >
-    <input type="hidden" name="_token" value="{{ csrf_token('addQteToPanier' ~ ligneProduit.produit.id) }}">
-    <button class="btn btn-success ml-5">+</button>
-</form>

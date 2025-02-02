@@ -14,8 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends AbstractController
 {
-    #[Route('/commande', name: 'app_commande')]
-    public function NewCommand(
+    #[Route('/order', name: 'app_commande')]
+    public function NewOrder(
         Security    $security,
         CartService $cartService,
         Request     $request,
@@ -29,11 +29,11 @@ class OrderController extends AbstractController
 
         if ($cartService->FormOrdersValidation($request)) {
 
-            $this->addFlash('success', 'Votre commande a bien été validée.');
+            $this->addFlash('success', 'Votre order a bien été validée.');
             return $this->redirectToRoute('app_index');
         }
 
-        return $this->render('commande/index.html.twig', [
+        return $this->render('FrontOffice/order/index.html.twig', [
             'controller_name' => 'OrderController',
             'form' => $cartService->GetUserData()['form'],
             'totalttc' => $total,
@@ -61,7 +61,7 @@ class OrderController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('commande/new.html.twig', [
+        return $this->render('FrontOffice/order/new.html.twig', [
             'title' => 'adresse',
             'message' => $message,
             'flag' => false,
@@ -70,7 +70,7 @@ class OrderController extends AbstractController
     }
 
     //Page de création d'adresse
-    #[Route('/commande/create_adresse', name: 'app_create_adresse_commande')]
+    #[Route('/order/create_adresse', name: 'app_create_adresse_commande')]
     public function createOrderAdress(
         Request       $request,
         AdressService $adressService,

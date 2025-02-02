@@ -1,0 +1,48 @@
+@use 'var';
+@use 'colors';
+
+@mixin center-flex($justify: center) {
+  display: flex;
+  align-items: center;
+  justify-content: $justify;
+}
+
+@mixin center-flex-column($align: center) {
+  display: flex;
+  align-items: $align;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+@mixin circle-button($color) {
+  border: none;
+  background: $color;
+  border-radius: 50%;
+  padding: 10px;
+  width: var.$button-cart-size;
+  height: var.$button-cart-size;
+  @include center-flex(center);
+
+  svg {
+    width: var.$icon-cart-size;
+    height: var.$icon-cart-size;
+  }
+}
+
+@mixin margin-width($width,$margin) {
+  width: $width;
+  margin: $margin;
+}
+
+@mixin cta-btn($tag, $margin) {
+  @include margin-width(calc(100% - 50%), $margin);
+  text-align: center;
+
+  #{$tag} {
+    border: none;
+    padding: 10px;
+    background-color: colors.$second;
+    color: colors.$white;
+  }
+}

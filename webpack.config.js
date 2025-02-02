@@ -21,7 +21,9 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.ts')
-    .addEntry('adresse', './assets/typescript/adresse.ts')
+    .addEntry('adresse', './assets/typescript/AutoCompleteAddress.ts')
+    .addEntry('salesScrolling', './assets/typescript/SalesScrolling.ts')
+    .addEntry('slideshow', './assets/typescript/Slideshow.ts')
     .copyFiles({
         from: './assets/images',
         to: 'images/[path][name].[ext]',

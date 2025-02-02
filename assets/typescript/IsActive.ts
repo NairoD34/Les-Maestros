@@ -20,7 +20,7 @@ export default class IsActive {
                         const navA: HTMLAnchorElement = link.closest('a') as HTMLAnchorElement;
                         if (navA) {
                             navA.classList.add('active');
-                            navA.style.color = 'var(--second)';
+                            navA.style.color = '#D2AC62';
                         }
                     }
                 }

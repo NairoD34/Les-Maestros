@@ -78,7 +78,7 @@ class CartService
         }
         return [
             'total' => $total,
-            'produits' => $products,
+            'products' => $products,
         ];
     }
 

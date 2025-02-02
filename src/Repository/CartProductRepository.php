@@ -45,7 +45,7 @@ class CartProductRepository extends ServiceEntityRepository
     }
     public function updateQuantityInCartProduct($qty, $idProduct, $idCart)
     {
-        $sql = "UPDATE `panier_produit` SET `quantite`='$qty' WHERE produit_id = $idProduct and panier_id = $idCart ";
+        $sql = "UPDATE `cart_product` SET `quantity`='$qty' WHERE product_id = $idProduct and cart_id = $idCart ";
         $this->getEntityManager()->getConnection()
             ->executeQuery($sql);
     }

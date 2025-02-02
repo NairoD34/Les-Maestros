@@ -1,3 +1,4 @@
+@use '../base/colors';
 
 .category-section {
   margin: 0 0 50px 0;
@@ -60,7 +61,7 @@
       @media screen and (max-width: 1024px) {
         width: 80%;
       }
-      box-shadow: var(--second) 0 3px 8px;
+      box-shadow: colors.$second 0 3px 8px;
 
       a {
 
@@ -69,17 +70,17 @@
         }
 
         div {
-          background-color: var(--header);
+          background-color: colors.$header;
           padding: 10px;
 
           h5 {
             text-align: center;
-            color: var(--second);
+            color: colors.$main;
           }
 
           p {
             padding: 5px;
-            color: var(--text);
+            color: colors.$text;
             text-align: center;
             font-size: 0.9rem;
             @media screen and (max-width: 1368px) {

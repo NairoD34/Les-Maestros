@@ -27,7 +27,7 @@ class HomePageController extends AbstractController
 
         $dataCate = $categoryService->CategoryPicture($request);
 
-        return $this->render('homepage/indexHomePage.html.twig', [
+        return $this->render('FrontOffice/homepage/indexHomePage.html.twig', [
             'title' => 'MSymfony',
             'subtitle' => 'La musique, c\'est notre passion, les promotions, c\'est notre métier',
             'data' => $dataPromo,

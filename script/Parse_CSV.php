@@ -46,12 +46,12 @@ for ($i = 1; $i <= $iMax; $i++) {
 
     if (!in_array($regionName, $regions)) {
         $regions[] = $regionName;
-        $stmt = $testPDO->prepare('SELECT id FROM region WHERE nom = " ' . $regionName . '"');
+        $stmt = $testPDO->prepare('SELECT id FROM region WHERE name = " ' . $regionName . '"');
         $stmt->execute();
         $existingRegion = $stmt->fetchColumn();
 
         if (!$existingRegion) {
-            $stmt = $testPDO->prepare('INSERT INTO region (nom) VALUES (" ' . $regionName . ' ")');
+            $stmt = $testPDO->prepare('INSERT INTO region (name) VALUES (" ' . $regionName . ' ")');
             $stmt->execute();
 
             $regionId = $testPDO->lastInsertId();
@@ -63,12 +63,12 @@ for ($i = 1; $i <= $iMax; $i++) {
     if (!in_array($departmentName, $departments)) {
         $regionId = $regions[$regionName];
 
-        $stmt = $testPDO->prepare('SELECT id FROM departement WHERE nom = ? AND numero_departement = ?');
+        $stmt = $testPDO->prepare('SELECT id FROM county WHERE name = ? AND zip = ?');
         $stmt->execute([$departmentName, $departmentValue]);
         $existingDept = $stmt->fetchColumn();
 
         if (!$existingDept) {
-            $stmt = $testPDO->prepare('INSERT INTO departement (nom, numero_departement, region_id) VALUES ("' . $departmentName . '", "' . $departmentValue . '", "' . $regionId . '")');
+            $stmt = $testPDO->prepare('INSERT INTO county (name, zip, region_id) VALUES ("' . $departmentName . '", "' . $departmentValue . '", "' . $regionId . '")');
             $stmt->execute();
             $deptId = $testPDO->lastInsertId();
             $departments[$departmentName] = $deptId;
@@ -82,12 +82,12 @@ for ($i = 1; $i <= $iMax; $i++) {
         $deptId = $departments[$departmentName];
         $villes[] = $ville;
         $ville = trim($ville);
-        $stmt = $testPDO->prepare('SELECT id FROM ville WHERE nom = ?');
+        $stmt = $testPDO->prepare('SELECT id FROM city WHERE name = ?');
         $stmt->execute([$ville]);
         $existingVille = $stmt->fetchColumn();
 
         if (!$existingVille) {
-            $stmt = $testPDO->prepare('INSERT INTO ville (departement_id, nom) VALUES (?, ?)');
+            $stmt = $testPDO->prepare('INSERT INTO city (county_id, name) VALUES (?, ?)');
             $stmt->execute([$deptId, $ville]);
             $villeId = $testPDO->lastInsertId();
             $villes[$ville] = $villeId;
@@ -97,7 +97,7 @@ for ($i = 1; $i <= $iMax; $i++) {
     }
 
     if (!array_key_exists($codePostalValue, $codePostaux)) {
-        $stmt = $testPDO->prepare('INSERT INTO code_postal (libelle) VALUES (?)');
+        $stmt = $testPDO->prepare('INSERT INTO zipcode (title) VALUES (?)');
         $stmt->execute([$codePostalValue]);
         $codePostaux[$codePostalValue] = $testPDO->lastInsertId();
     }
@@ -105,11 +105,11 @@ for ($i = 1; $i <= $iMax; $i++) {
     $villeId = $villes[$ville];
     $codePostalId = $codePostaux[$codePostalValue];
 
-    $stmt = $testPDO->prepare('SELECT * FROM ville_code_postal WHERE ville_id = ? AND code_postal_id =?');
+    $stmt = $testPDO->prepare('SELECT * FROM city_zipcode WHERE city_id = ? AND zipcode_id =?');
     $stmt->execute([$villeId, $codePostalId]);
     $existingRelation = $stmt->fetchColumn();
     if (!$existingRelation) {
-        $stmt = $testPDO->prepare('INSERT INTO ville_code_postal (ville_id, code_postal_id) VALUES (?, ?)');
+        $stmt = $testPDO->prepare('INSERT INTO city_zipcode (city_id, zipcode_id) VALUES (?, ?)');
         $stmt->execute([$villeId, $codePostalId]);
     }
 }

@@ -15,17 +15,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
 
-    #[Route('/categorie', name: 'app_categorie')]
+    #[Route('/category', name: 'app_categorie')]
     public function index(CategoryRepository $cateRepo): Response
     {
         $category = $cateRepo->findAll();
-        return $this->render('categorie/index.html.twig', [
+        return $this->render('FrontOffice/category/index.html.twig', [
             'controller_name' => 'CategoryController',
             'categories' => $category,
         ]);
     }
 
-    #[Route('/maincategory/{id}', name: 'app_categorie_show')]
+    #[Route('/main-category/{id}', name: 'app_categorie_show')]
     public function showParentCategories(
         ?Category          $category,
         CategoryRepository $cateRepo,
@@ -40,7 +40,7 @@ class CategoryController extends AbstractController
         $parent = $cateRepo->searchParentCategory($category->getTitle());
         $children = $cateRepo->searchChildCategory($category);
 
-        return $this->render('categorie/showparent.html.twig', [
+        return $this->render('FrontOffice/category/showparent.html.twig', [
             'title' => 'Catégorie',
             'cate' => $category,
             'parents' => $parent,
@@ -49,7 +49,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/enfant/{id}', name: 'app_categorie_show_enfant')]
+    #[Route('/child/{id}', name: 'app_categorie_show_enfant')]
     public function showCategories(?Category $category)
     {
         if (!$category) {
@@ -57,14 +57,14 @@ class CategoryController extends AbstractController
         }
 
 
-        return $this->render('categorie/showenfant.html.twig', [
+        return $this->render('FrontOffice/category/showenfant.html.twig', [
             'title' => 'Catégorie',
             'cate' => $category,
 
         ]);
     }
 
-    #[Route('/produit_categorie/{id}', name: 'app_produit_categorie')]
+    #[Route('/category-products/{id}', name: 'app_produit_categorie')]
     public function displayProductsByCategory(
         Category           $category,
         ProductRepository  $productRepo,
@@ -83,7 +83,7 @@ class CategoryController extends AbstractController
         $productData = $categoryService->getProducts($products, $photoRepo);
         $productNewData = $categoryService->getProducts($newProducts, $photoRepo);
 
-        return $this->render('categorie/produit_categorie.html.twig', [
+        return $this->render('FrontOffice/category/produit_categorie.html.twig', [
             'produits' => $productData,
             'categorieParente' => $categoryParent,
             'newsProducts' => $productNewData,
@@ -98,7 +98,7 @@ class CategoryController extends AbstractController
             $request->query->get('title', ''),
 
         );
-        return $this->render('categorie/_categories.html.twig', [
+        return $this->render('FrontOffice/category/_categories.html.twig', [
             'cate' => $cate,
             'libelle' => $request->query->get('title', ''),
         ]);

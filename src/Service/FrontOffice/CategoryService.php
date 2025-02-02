@@ -58,7 +58,7 @@ class CategoryService
             }
             $dataCate[] = [
                 'categorie' => $cate,
-                'photos' => $photoURL,
+                'photos' => $photoURL ?? "",
             ];
         }
         return $dataCate;

@@ -1,0 +1,58 @@
+@use '../base/colors';
+
+.adress-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  @media screen and (max-width: 768px) {
+    height: auto;
+  }
+
+  h2 {
+    margin: 20px 0;
+  }
+}
+
+
+.show_adress {
+  background-color: colors.$white;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 10px;
+  box-shadow: colors.$white 0px 1px 4px;
+  width: 700px;
+  height: 550px;
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  a {
+    border: none;
+    padding: 10px;
+    background-color: colors.$second;
+  }
+
+  div {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    span {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .uppercase:first-letter {
+      text-transform: uppercase;
+    }
+  }
+}

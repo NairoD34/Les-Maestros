@@ -17,16 +17,14 @@ class UserFormType extends AbstractType
         $builder
             ->add('lastname')
             ->add('firstname')
-            ->add('email')
-            
-            ;
+            ->add('email');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Users::class,
-            'current_password' => null, // Définissez une valeur par défaut pour l'option current_password
+            'current_password' => null,
         ]);
     }
 }

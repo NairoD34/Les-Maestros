@@ -1,4 +1,4 @@
-export default class SalesScrolling {
+class SalesScrolling {
     private indexCards: number;
     private datas: { totalCards: number };
     private selectors;
@@ -14,7 +14,10 @@ export default class SalesScrolling {
     }
 
     getData(): { totalCards: number } {
-        const promoContainer = document.querySelector(".promo-card") as HTMLDivElement;
+        const promoContainer = document.querySelector(".promo-card") as HTMLDivElement | null;
+        if (!promoContainer) {
+            return {totalCards: 0};
+        }
         const cards = promoContainer.querySelectorAll(".card-container") as NodeListOf<HTMLDivElement>;
         return {totalCards: cards.length};
     }
@@ -94,3 +97,5 @@ export default class SalesScrolling {
         return {gap, cardWidth};
     }
 }
+
+new SalesScrolling()

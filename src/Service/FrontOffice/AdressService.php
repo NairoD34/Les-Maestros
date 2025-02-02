@@ -29,7 +29,7 @@ class AdressService
         ?Users  $users
     ): bool
     {
-        if (isset($_POST['submitAdresse'])) {
+        if ($request->isMethod('POST') && $request->request->has('submitAdresse')) {
             $adress->setNumber($request->request->get('num_voie'));
             $adress->setStreet($request->request->get('rue'));
             $adress->setIsActive(true);
@@ -57,7 +57,6 @@ class AdressService
     )
     {
         $allAdresses = $this->adressRepo->findBy(['users' => $users]);
-
         $filteredAdresses = [];
         $street = $request->query->get('rue', '');
         if ($street) {
@@ -72,7 +71,7 @@ class AdressService
 
         return [
             'rue' => $street,
-            '$filteredAdresses' => $filteredAdresses,
+            'filteredAdresses' => $filteredAdresses,
         ];
     }
 
@@ -80,7 +79,7 @@ class AdressService
         Request $request,
     )
     {
-        $string = $request->get('nom');
+        $string = $request->get('name');
         $cities = $this->cityRepo->searchByName($string);
         $json = [];
         foreach ($cities as $city) {
@@ -95,7 +94,7 @@ class AdressService
             $json[] = [
                 'id' => $city->getId(),
                 'ville' => $city->getName(),
-                'codeDepartement' => $city->getCounty()->getNom(),
+                'codeDepartement' => $city->getCounty()->getName(),
                 'region' => $city->getCounty()->getRegion()->getName(),
                 'codePostaux' => $codesPostauxArray,
             ];

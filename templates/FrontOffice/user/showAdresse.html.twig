@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block main %}
+    <div class="info_user_container">
+        <a href="{{ path('app_list_adresse') }}">Retour</a>
+        <div class="info_user_content">
+            <div class="content-form">
+                <div class="show_adress">
+                    <h2>{{ title }}</h2>
+                    <div>
+                        <span>Numero de voie :</span>
+                        <p>{{ adresse.number }}</p>
+                    </div>
+                    <div>
+                        <span>Rue :</span>
+                        <p>{{ adresse.street }}</p>
+                    </div>
+                    <div>
+                        <span>Complement :</span>
+                        <p>{{ adresse.complement }}</p>
+                    </div>
+                    <div>
+                        <span>Ville :</span>
+                        <p class="uppercase">{{ adresse.city.name }}</p>
+                    </div>
+                    <div>
+                        <span>Code postal :</span>
+                        <p>{{ adresse.ZIPcode.title }}</p>
+                    </div>
+                    <div>
+                        <span>Département :</span>
+                        <p class="uppercase">{{ adresse.city.county.name }}</p>
+                    </div>
+                    <div>
+                        <span>Région :</span>
+                        <p class="uppercase">{{ adresse.city.county.region.name }}</p>
+                    </div>
+
+                    <a href="{{ path('app_update_adresse', { 'id' : adresse.id }) }}">Mettre à
+                        jour</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

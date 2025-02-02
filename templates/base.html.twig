@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}Accueil{% endblock %}</title>
     <link rel="icon" href="data:image/svg+xml,...">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
           crossorigin="anonymous">
@@ -27,11 +27,9 @@
     <link rel="shortcut icon" type="image/png" href="favicon.ico"/>
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
+
     {% endblock %}
     {% block javascript %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossOrigin="anonymous"></script>
     {{ encore_entry_script_tags('app') }}
 {% endblock %}
 </head>
@@ -41,99 +39,107 @@
         <header class="header">
             <nav id="navbar" class="header-nav">
                 <div class="header-nav-container">
-                    <!-- Logo de la navbar -->
-                    <a class="nav-logo" href="{{ path('app_index') }}">
-                    </a>
-                    <!-- Bouton burger pour les petits écrans -->
-                    <button class="nav-burger" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="nav-icon"></span>
-                    </button>
 
-                    <!-- Contenu de la navbar -->
+                    <a class="nav-logo" href="{{ path('app_index') }}">
+                        <img src="{{ asset("images/logo.svg") }}" alt="logo">
+                    </a>
+
                     <div class="nav-content" id="navbarSupportedContent">
                         <ul class="nav-ul isActive">
-                            <!-- Lien Accueil -->
                             {{ render(controller('App\\Controller\\FrontOffice\\CategoryController::list')) }}
                         </ul>
-                        <!-- Déconnexion et profil pour la version de bureau -->
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <li class="nav-li ">
-                                    <a class="nav-logout" href="{{ path('app_admin_logout') }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                             viewBox="0 0 512 512">
-                                            <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                            <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
-                                        </svg>
-                                    </a>
-                                </li>
-                            {% else %}
-                                <div class="container-nav">
-                                    <div class="logout-container">
-                                        <div class="logout">
-                                            <a id="deco" class="nav-logout" href="{{ path('app_logout') }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                     viewBox="0 0 512 512">
-                                                    <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                                    <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
+                            <div class="container-nav">
+                                <div class="firstname-container"><p>{{ app.user.firstname }}</p></div>
+                                <div class="logout-container">
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <div class="admin">
+                                            <a id="admin" class="nav-admin" href="{{ path('app_admin_dashboard') }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                                                    <path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/>
                                                 </svg>
                                             </a>
                                         </div>
-                                        <div class="user_icon">
-                                            <!-- Profil -->
-                                            <a id='user' class="nav_user"
-                                               href="{{ path('app_user') }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14"
-                                                     viewBox="0 0 448 512">
-                                                    <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                                    <path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z"/>
-                                                </svg>
-                                            </a>
-
-                                        </div>
-                                        <div class="cart">
-                                            <!-- Panier -->
-                                            <a id="panier" href="{{ path('app_panier') }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                     viewBox="0 0 576 512">
-                                                    <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                                    <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
-                                                </svg>
-                                            </a>
-                                        </div>
+                                    {% endif %}
+                                    <div class="logout">
+                                        <a id="deco" class="nav-logout" href="{{ path('app_logout') }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 512 512">
+                                                <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
+                                            </svg>
+                                        </a>
                                     </div>
-                                    <div class="firstname-container"><p>{{ app.user.firstname }}</p></div>
-                                </div>
-                            {% endif %}
-                        {% endif %}
-
-                        <!-- Connexion pour la version mobile -->
-                        {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <div class="logout-container">
-                                <div>
-                                    <a class="nav-login" href="{{ path('app_login') }}" style="white-space: nowrap;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                             fill="var(--second)">
-                                            <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                            <path d="M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/>
+                                    <div class="user_icon">
+                                        <a id='user' class="nav_user"
+                                           href="{{ path('app_user') }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14"
+                                                 viewBox="0 0 448 512">
+                                                <path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="cart">
+                                        <!-- Panier -->
+                                        <a id="panier" href="{{ path('app_panier') }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 576 512">
+                                                <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <button class="nav-burger" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#navbarSupportedContent"
+                                            aria-controls="navbarSupportedContent"
+                                            aria-expanded="false" aria-label="Toggle navigation">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                            <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
                                         </svg>
-                                    </a>
+                                    </button>
                                 </div>
-
-                                <div id='icone-panier' class="nav-li">
-                                    <!-- Panier -->
-                                    <a id="panier" href="{{ path('app_panier') }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                             viewBox="0 0 576 512">
-                                            <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                            <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
+                            </div>
+                        {% else %}
+                            <div class="container-nav">
+                                <div class="logout-container">
+                                    <div class="logout">
+                                        <a id="deco" class="nav-logout" href="{{ path('app_login') }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 512 512">
+                                                <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="cart">
+                                        <a id="panier" href="{{ path('app_panier') }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 576 512">
+                                                <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <button class="nav-burger" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#navbarSupportedContent"
+                                            aria-controls="navbarSupportedContent"
+                                            aria-expanded="false" aria-label="Toggle navigation">
+                                        <svg class="burger-icon" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 448 512">
+                                            <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
                                         </svg>
-                                    </a>
+                                        <svg class="close-icon" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 384 512">
+                                            <path d="M224 256l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 64 82.7c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 18.7 384c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3l128 128c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256z"/>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         {% endif %}
+                        <div class="burger-background">
+                            <div class="burger-content">
+                                <ul class="open-burger isActive">
+                                    {{ render(controller('App\\Controller\\FrontOffice\\CategoryController::list')) }}
+                                </ul>
+                                <div><p></p></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -163,6 +169,7 @@
                     <div class="content-social">
                         <div class="logo">
                             <a class="nav-logo" href="{{ path('app_index') }}">
+                                <img src="{{ asset("images/logo.svg") }}" alt="logo">
                             </a>
                         </div>
                         <div class="icon">
@@ -176,9 +183,8 @@
                                 <i class="fa fa-whatsapp"></i>
                             </div>
                             <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" height="25.72" width="30" fill="var(--second)"
+                                <svg xmlns="http://www.w3.org/2000/svg" height="25.72" width="30" fill="#D2AC62"
                                      viewBox="0 0 512 512">
-                                    <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                                     <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
                                 </svg>
                             </div>
@@ -190,15 +196,21 @@
                     <div class="content-form">
                         <form>
                             <div class="identity">
-                                <input type="text" placeholder="Nom"
-                                       name="name">
-                                <input type="text" placeholder="Prénom"
-                                       name="surname">
+                                <label for="name">
+                                    <input type="text" placeholder="Nom"
+                                           name="name">
+                                </label>
+                                <label for="surname">
+                                    <input type="text" placeholder="Prénom"
+                                           name="surname">
+                                </label>
                             </div>
-                            <input type="text" placeholder="Adresse mail"
-                                   name="mail">
-                            <textarea id="story" name="story"
-                                      placeholder="Entrez votre message..."></textarea>
+                            <label for="mail">
+                                <input type="text" placeholder="Adresse mail"
+                                       name="mail">
+                            </label>
+                            <label for="story"><textarea id="story" name="story"
+                                                         placeholder="Entrez votre message..."></textarea></label>
                             <div class="submit-container">
                                 <button type="submit">Envoyez</button>
                             </div>

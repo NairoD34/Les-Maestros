@@ -20,11 +20,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    #[Route('/product', name: 'app_produit')]
+    #[Route('/products', name: 'app_produit')]
     public function index(ProductRepository $productRepo): Response
     {
         $products = $productRepo->searchNew();
-        return $this->render('produit/index.html.twig', [
+        return $this->render('FrontOffice/product/index.html.twig', [
             'controller_name' => 'ProductController',
             'produits' => $products
         ]);
@@ -32,9 +32,8 @@ class ProductController extends AbstractController
 
     #[Route('/product/{id}', name: 'app_show_produit')]
     public function showProducts(
-        ?Product          $product,
-        ProductService    $productService,
-        ProductRepository $productRepository
+        ?Product       $product,
+        ProductService $productService,
     ): Response
     {
         if (!$product) {
@@ -43,7 +42,7 @@ class ProductController extends AbstractController
 
         $results = $productService->getDetailsAboutProduct($product);
 
-        return $this->render('produit/show.html.twig',
+        return $this->render('FrontOffice/product/show.html.twig',
             $results
         );
     }
@@ -88,7 +87,7 @@ class ProductController extends AbstractController
                 $qte = $productInCart->getQuantity() + 1;
                 $cartProductRepo->updateQuantityInCartProduct($qte, $idProduct, $idCart);
             }
-            $this->addFlash('nice', 'Le produit a été ajouté au Cart avec succès.');
+            $this->addFlash('nice', 'Le produit a été ajouté au panier avec succès.');
             return $this->redirectToRoute('app_show_produit', ['id' => $idProduct], Response::HTTP_SEE_OTHER);
         }
     }

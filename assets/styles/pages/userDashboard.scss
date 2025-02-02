@@ -1,3 +1,6 @@
+@use '../base/colors';
+
+
 .section_user_dashboard {
   padding: 5px;
   margin: 40px 0;
@@ -29,26 +32,32 @@
       width: 100%;
       height: 50%;
       box-shadow: 22px 16px 12px rgba(59, 44, 26, 0.37);
-      color: var(--text);
+      color: colors.$text;
       background-color: #FFFFFF;
       padding: 10px;
       @media screen and (max-width: 768px) {
         width: 80%;
-        height: 150px;
+        height: 200px;
       }
       @media (min-width: 768px) and (max-width: 1024px) {
         width: 60%;
         height: 200px;
       }
 
+      h5 {
+        width: 100%;
+        text-align: center;
+      }
+
       a {
         width: 100%;
+        color: colors.$header;
       }
 
       svg {
         width: 60px;
         height: 40px;
-        fill: var(--second);
+        fill: colors.$second;
         margin: 0 0 10px 0;
       }
     }
@@ -66,47 +75,4 @@
   }
 }
 
-.info_user_container {
-  height: 100%;
 
-  .info_user_content {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    width: 100%;
-
-    .content-form {
-      @media (min-width: 1024px) and (max-width: 1920px) {
-        width: 100%;
-      }
-      height: 70%;
-      margin: 0 auto;
-
-
-      form {
-        background-color: white;
-        @media (min-width: 1024px) and (max-width: 1920px) {
-          width: 60%;
-        }
-
-        div {
-          width: 80%;
-          margin: 0 auto;
-
-          label {
-            font-size: 1.2rem;
-            font-weight: bold;
-            width: 100%;
-          }
-
-          input {
-            width: 100%;
-          }
-        }
-      }
-    }
-  }
-}

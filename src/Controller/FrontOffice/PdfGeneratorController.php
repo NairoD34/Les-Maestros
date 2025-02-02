@@ -25,7 +25,7 @@ class PdfGeneratorController extends AbstractController
         foreach ($ordersData as $orderData) {
             $deliveryAddress = $orderData->getDelivered();
             $deliveryBill = $orderData->getBilled();
-            $html = $this->renderView('pdf_generator/index.html.twig', [
+            $html = $this->renderView('BackOffice/pdf_generator/index.html.twig', [
                 'dataProduit' => $dataProducts,
                 'dataCommande' => $ordersData,
                 'deliveryAddress' => $deliveryAddress,

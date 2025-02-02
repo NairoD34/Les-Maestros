@@ -6,6 +6,7 @@ use App\Entity\Admin;
 use App\Entity\Category;
 use App\Entity\Orders;
 use App\Entity\Product;
+use App\Entity\Users;
 use App\Form\SalesFormType;
 use App\Entity\Sales;
 use App\Form\AdminCategoryFormType;
@@ -15,6 +16,7 @@ use App\Form\AdminProductFormType;
 use App\Repository\ProductRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Client\Curl\User;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -87,7 +89,7 @@ class FormHandlerService
         return $form;
     }
 
-    public function handleAdmin(bool $update, Request $request, Admin $admin, UserPasswordHasherInterface $adminPasswordHasher)
+    public function handleAdmin(bool $update, Request $request, Users $admin, UserPasswordHasherInterface $adminPasswordHasher)
     {
         $form = $this->formFactory->create(AdminFormType::class, $admin);
         $form->handleRequest($request);

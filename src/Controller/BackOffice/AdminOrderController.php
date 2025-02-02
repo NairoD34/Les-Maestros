@@ -50,7 +50,7 @@ class AdminOrderController extends AbstractController
         }
 
         return $this->render('BackOffice/Order/order_show_admin.html.twig', [
-            'title' => 'Fiche de la commande',
+            'title' => 'Fiche de la order',
             'order' => $order,
         ]);
     }
@@ -77,7 +77,7 @@ class AdminOrderController extends AbstractController
             return $this->redirectToRoute('app_order_list_admin');
         }
         return $this->render('BackOffice/Order/order_update.html.twig', [
-            'title' => 'Mise à jour de la commande',
+            'title' => 'Mise à jour de la order',
             'form' => $formResult->createView(),
         ]);
     }

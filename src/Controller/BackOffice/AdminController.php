@@ -3,7 +3,9 @@
 namespace App\Controller\BackOffice;
 
 use App\Entity\Admin;
+use App\Entity\Users;
 use App\Repository\AdminRepository;
+use App\Repository\UsersRepository;
 use App\Service\BackOffice\FormHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +19,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class AdminController extends AbstractController
 {
     #[Route('list_admin', name: 'app_list_admin')]
-    public function list(AdminRepository $adminRepo, Request $request): Response
+    public function list(UsersRepository $adminRepo, Request $request): Response
     {
         $trinom = $request->query->get('trinom', 'asc');
         $triprenom = $request->query->get('triprenom', 'asc');
@@ -56,7 +58,7 @@ class AdminController extends AbstractController
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        $admin = new Admin();
+        $admin = new Users();
         $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher);
 
         if ($formResult) {
@@ -73,7 +75,7 @@ class AdminController extends AbstractController
     #[Route('update/{id}', name: 'app_update_admin')]
     public function update(
         Request                     $request,
-        ?Admin                      $admin,
+        ?Users                      $admin,
         Security                    $security,
         FormHandlerService          $formHandler,
         UserPasswordHasherInterface $adminPasswordHasher,
@@ -82,7 +84,7 @@ class AdminController extends AbstractController
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        
+
         if (!$admin) {
             return $this->redirectToRoute('app_list_admin');
         }
