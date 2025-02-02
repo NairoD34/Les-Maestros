@@ -6,13 +6,14 @@ use App\Entity\Adress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
- * @extends ServiceEntityRepository<Adresse>
+ * @extends ServiceEntityRepository<Adress>
  *
- * @method Adresse|null find($id, $lockMode = null, $lockVersion = null)
- * @method Adresse|null findOneBy(array $criteria, array $orderBy = null)
- * @method Adresse[]    findAll()
- * @method Adresse[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Adress|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Adress|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Adress[]    findAll()
+ * @method Adress[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class AdressRepository extends ServiceEntityRepository
 {
@@ -20,6 +21,7 @@ class AdressRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Adress::class);
     }
+
     public function save(Adress $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -28,6 +30,7 @@ class AdressRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
     public function searchByName(string $name, string $trirue): ?array
     {
         return $this->createQueryBuilder('a')

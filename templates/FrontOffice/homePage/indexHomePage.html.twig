@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block javascript %}
+{{ parent() }}
+{{ encore_entry_script_tags('slideshow') }}
+{{ encore_entry_script_tags('salesScrolling') }}
+{% endblock %}
+
+{% block title %} {{ title }} {% endblock %}   
+{% block main %}
+    <section class="first-section">
+        <div class="first-section-container">
+            <div class="content">
+                <div class="title-box">
+                    <h1>Les Maestros de la <span>Symfony</span></h1>
+                    <h3>la musique à portée de clic</h3>
+                </div>
+                <div class="img-box">
+                    <img src="{{ asset('images/mecquidance.png') }}" alt="image acceuil">
+                </div>
+            </div>
+        </div>
+
+        <div id="carouselCategorie" class="carousel-slider">
+            <div class="carousel-container">
+                {% if dataCate is not empty %}
+                    {% for cate in dataCate|filter(cate => cate.photos is not empty) %}
+                        <div class="carousel-items {% if loop.first %}active{% endif %}">
+                            <a href='{{ path('app_categorie_show', { 'id': cate.categorie.id }) }}'><img
+                                        src="{{ cate.photos }}"
+                                        class="img-carousel"
+                                        alt="{{ cate.categorie.title }}"/></a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-message">
+                        <p>Caroussel vide.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+
+    <section class="promo-section">
+        <h2>Votre <span>passion</span>, nos promotions</h2>
+        <h4>La musique, c'est notre passion, les promotions, c'est notre métier</h4>
+        <div class="promo-card">
+            <div class="scroll-container">
+                {% for productData in data|filter(product => product.photos is not empty) %}
+                    <div class="card-container">
+                        <div class="card-content">
+                            <div class="flag-percent">
+                                <span>{{ productData.produit.sales.title }}</span>
+                            </div>
+                            <a href="{{ path('app_show_produit', { 'id': productData.produit.id }) }}">
+                                {% for photo in productData.photos %}
+                                    <img src='{{ photo.URLPhoto }}' alt='{{ productData.produit.title }}'
+                                         class='img-product'/>
+                                {% endfor %}
+                                <div class="price-container">
+                                    <p class="title">{{ productData.produit.title }}</p>
+                                    <p class="price-content">
+                                        <span class="old-price">{{ productData.oldPrice }}€</span>
+                                        <span class="new-price"> {{ productData.prixTTC }}€</span>
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
+        {% if data is not empty %}
+            <button class="prev-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="#8B6A4B">
+                    <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/>
+                </svg>
+            </button>
+            <button class="next-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="#8B6A4B">
+                    <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/>
+                </svg>
+            </button>
+        {% else %}
+            <div class="empty-message">
+                <p> Aucun produit en promotion. </p>
+            </div>
+        {% endif %}
+    </section>
+
+    <div class="vertical-line"></div>
+
+    <section class="news-section">
+        <h2> La <span style="color:#8B6A4B;">musique</span> de demain, aujourd'hui</h2>
+        <h4>La musique évolue constamment, et nous nous engageons à vous proposer les dernières
+            nouveautés.</h4>
+        <div class="news-card">
+            {% for productData in dataNew|filter(product => product.photos is not empty) %}
+                <div class="card-container">
+                    <div class="card-content">
+                        <div class="flag-news">
+                        <span>New {% if productData.produit.sales is not empty %}
+                                {{ productData.produit.sales }}
+                            {% endif %}</span>
+                        </div>
+                        <a href="{{ path('app_show_produit', { 'id': productData.produit.id }) }}">
+                            {% for photo in productData.photos %}
+                                <img src='{{ photo.URLPhoto }}' alt='{{ productData.produit.title }}'
+                                     class='img-product'/>
+                            {% endfor %}
+
+                            <div class="price-container">
+                                <p class="title">{{ productData.produit.title }}</p>
+                                <p class="price-content">
+                                    {% if productData.produit.sales is not empty %}
+                                        <span class="old-price">{{ productData.oldPrice }}€</span>
+                                    {% endif %}
+                                    <span class="new-price">{{ productData.prixTTC }}€</span>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if dataNew is empty %}
+            <div class="empty-message">
+                <p> Aucun produit en nouveauté. </p>
+            </div>
+        {% endif %}
+    </section>
+
+{% endblock %}

@@ -1,0 +1,193 @@
+@use '../base/colors';
+
+.log {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 0;
+  min-height: 100vh;
+  width: 100%;
+
+  &-container {
+    background-color: colors.$white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 2000px;
+    text-align: center;
+    width: 80%;
+
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .log-block {
+      width: 100%;
+      display: flex;
+      @media screen and (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .img-block {
+        background-color: colors.$header;
+        padding: 10px;
+        width: 45%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        @media screen and (max-width: 768px) {
+          order: 3;
+          width: 100%;
+        }
+
+        img {
+          width: 50%;
+          margin: 0 0 30px 50px;
+        }
+
+        h2 {
+          color: colors.$text;
+          margin: 0 0 20px 0;
+          letter-spacing: 1.5px;
+          font-size: 24px;
+          text-transform: uppercase;
+
+          span {
+            color: colors.$main;
+          }
+        }
+      }
+    }
+
+    .title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: colors.$header;
+    }
+
+    .log-success {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .log-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .right-block {
+      width: 55%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+
+      .log-form {
+        width: 100%;
+        padding: 30px 30px 0 30px;
+        margin: 0;
+        @media screen and (max-width: 768px) {
+          order: 1;
+        }
+
+        .form-block {
+          width: 80%;
+          margin: 1.5rem auto;
+
+          &-agree {
+
+            div {
+              display: flex;
+              justify-content: center;
+              gap: 10px;
+              width: 100%;
+              margin: 0 0 20px 0;
+
+              label {
+                margin: initial;
+              }
+            }
+          }
+
+          label {
+            text-align: left;
+            display: block;
+            font-weight: 600;
+            color: colors.$header;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+          }
+
+          input[type="text"],
+          input[type="password"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid colors.$second;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+              border-color: colors.$text;
+              outline: none;
+            }
+          }
+
+          button {
+            padding: 0.75rem;
+            background-color: colors.$header;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+              background-color: colors.$second;
+            }
+          }
+        }
+      }
+    }
+
+    .redirect-container {
+      margin: 0 0 1rem 0;
+      font-size: 0.9rem;
+      gap: 10px;
+      display: flex;
+      justify-content: center;
+      @media screen and (max-width: 768px) {
+        order: 2;
+        flex-direction: column;
+      }
+
+      a {
+        color: colors.$header;
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: colors.$second;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
