@@ -56,6 +56,8 @@ class ProductController extends AbstractController
 
         $photos = $photoRepo->searchPhotoByProduct($product);
         $category = $product->getCategory()->getId();
+
+        $audio = $product->getAudio();
         
         //Récupérer l'id de la catégorie parente pour le fil d'arrianne
         $parentCategory = $categoryRepo->findParentCategoryIdByChildId($category);
@@ -67,6 +69,7 @@ class ProductController extends AbstractController
             'prixTTC' => $product->getSales() ? $newTtcPriceFormatted : $priceTTCFormatted,
             'photos' => $photos,
             'oldPrice' => $oldPriceFormatted,
+            'audio' => $audio,
         ]);
     }
 
