@@ -21,6 +21,7 @@ class ProductService
         $mainProductDetails = $this->getProductPriceDetails($product);
 
         $photos = $this->photoRepository->searchPhotoByProduct($product);
+        $audio = $product->getAudio();
         $category = $product->getCategory();
         $parentCategory = $this->categoryRepository->findParentCategoryIdByChildId($category->getId());
         $newProducts = $this->productRepository->searchNew();
@@ -37,6 +38,7 @@ class ProductService
             'mainProduct' => [
                 'details' => $mainProductDetails,
                 'photos' => $photos,
+                'audio' => $audio,
                 'category' => $category,
                 'parentCategory' => $parentCategory,
             ],

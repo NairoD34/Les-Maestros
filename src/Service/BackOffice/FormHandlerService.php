@@ -85,7 +85,7 @@ class FormHandlerService
             }
             $category = $form['category']->getData();
             $product->setCategory($category);
-            $product->setAudio($audio_path);
+            $product->setAudio('/upload/audio_product/' . $audio_name);
             if ($update) {
                 $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
                 $this->em->persist($product);
