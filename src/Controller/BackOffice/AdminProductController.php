@@ -33,7 +33,11 @@ class AdminProductController extends AbstractController
         $product = new Product();
         $formResult = $formHandler->handleProduct(false, $request, $product, $photo, $productRepo);
 
+<<<<<<< Updated upstream
         if ($formResult['condition']) {
+=======
+        if ($formResult) {
+>>>>>>> Stashed changes
             return $this->redirectToRoute('app_product_list_admin');
         }
         return $this->render('BackOffice/Product/product_new.html.twig', [
@@ -86,8 +90,12 @@ class AdminProductController extends AbstractController
         ?Product           $product,
         Security           $security,
         PhotosRepository   $photo,
+<<<<<<< Updated upstream
         FormHandlerService $formHandler,
         ProductRepository $productRepo,
+=======
+        FormHandlerService $formHandler
+>>>>>>> Stashed changes
     )
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
@@ -98,9 +106,15 @@ class AdminProductController extends AbstractController
             return $this->redirectToRoute('app_admin_dashboard');
         }
 
+<<<<<<< Updated upstream
         $formResult = $formHandler->handleProduct(true, $request, $product, $photo, $productRepo);
 
         if ($formResult['condition']) {
+=======
+        $formResult = $formHandler->handleProduct(true, $request, $product, $photo, null);
+
+        if ($formResult) {
+>>>>>>> Stashed changes
             return $this->redirectToRoute('app_product_list_admin');
         }
         return $this->render('BackOffice/Product/product_new.html.twig', [

@@ -58,10 +58,17 @@ class AdminController extends AbstractController
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
+<<<<<<< Updated upstream
         $admin = new Users();
         $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher);
 
         if ($formResult['validate']) {
+=======
+        $admin = new Admin();
+        $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher);
+
+        if ($formResult) {
+>>>>>>> Stashed changes
             return $this->redirectToRoute('app_list_admin');
         }
 
@@ -75,7 +82,11 @@ class AdminController extends AbstractController
     #[Route('update/{id}', name: 'app_update_admin')]
     public function update(
         Request                     $request,
+<<<<<<< Updated upstream
         ?Users                      $admin,
+=======
+        ?Admin                      $admin,
+>>>>>>> Stashed changes
         Security                    $security,
         FormHandlerService          $formHandler,
         UserPasswordHasherInterface $adminPasswordHasher,
@@ -84,7 +95,11 @@ class AdminController extends AbstractController
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
+<<<<<<< Updated upstream
 
+=======
+        
+>>>>>>> Stashed changes
         if (!$admin) {
             return $this->redirectToRoute('app_list_admin');
         }

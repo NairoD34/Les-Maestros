@@ -19,24 +19,43 @@ class AdminUsersController extends AbstractController
 
     #[Route('user_list', name: 'app_user_list_admin')]
     public function list(
+<<<<<<< Updated upstream
         Users    $usersRepo,
         Security $security,
         Request  $request
+=======
+        AdminUsersRepository $usersRepo,
+        Security             $security,
+        Request              $request
+>>>>>>> Stashed changes
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
+<<<<<<< Updated upstream
         $triLastName = $request->query->get('trilastname', 'asc');
         $triFirstName = $request->query->get('trifirstname', 'asc');
         $users = $usersRepo->searchByName($request->query->get('lastname', ''), $triLastName, $triFirstName);
+=======
+        $triLastName = $request->query->get('trinom', 'asc');
+        $triFirstName = $request->query->get('triprenom', 'asc');
+        $users = $usersRepo->findAll();
+        $title = $usersRepo->searchByName($request->query->get('name', ''), $triLastName, $triFirstName);
+>>>>>>> Stashed changes
 
         return $this->render('BackOffice/User/admin_user_list.html.twig', [
             'title' => 'Liste des utilisateurs',
             'users' => $users,
+<<<<<<< Updated upstream
             'trilastname' => $triLastName,
             'trifirstname' => $triFirstName,
             'lastname' => $request->query->get('lastname', ''),
+=======
+            'trinom' => $triLastName,
+            'triprenom' => $triFirstName,
+            'nom' => $title,
+>>>>>>> Stashed changes
         ]);
     }
 

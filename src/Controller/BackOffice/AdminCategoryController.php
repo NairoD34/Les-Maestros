@@ -97,7 +97,11 @@ class AdminCategoryController extends AbstractController
         }
         $category = new Category();
         $formResult = $formHandler->handleCategory(false, $request, $category, $photo, $categoryRepo);
+<<<<<<< Updated upstream
         if ($formResult["validate"]) {
+=======
+        if ($formResult) {
+>>>>>>> Stashed changes
             return $this->redirectToRoute('app_category_list_admin');
         }
         return $this->render('BackOffice/Category/category_new.html.twig', [
@@ -128,7 +132,11 @@ class AdminCategoryController extends AbstractController
 
         $formResult = $formHandler->handleCategory(true, $request, $category, $photo, $categoryRepo);
 
+<<<<<<< Updated upstream
         if ($formResult["validate"]) {
+=======
+        if ($formResult) {
+>>>>>>> Stashed changes
             return $this->redirectToRoute('app_category_list_admin');
         }
 

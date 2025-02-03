@@ -28,7 +28,11 @@ class AdminOrderController extends AbstractController
         }
         $orders = $orderRepo->findAll();
         $id = $orderRepo->searchByName($request->query->get('id', ''));
+<<<<<<< Updated upstream
         if (empty($orders)) { 
+=======
+        if (empty($orders)) {
+>>>>>>> Stashed changes
             return $this->render('BackOffice/Order/emptyOrder.html.twig');
         }
 
@@ -74,6 +78,7 @@ class AdminOrderController extends AbstractController
         $formResult = $formHandler->handleOrder($request, $order);
 
         if ($formResult) {
+<<<<<<< Updated upstream
             return $this->redirectToRoute('app_order_list_admin');
         }
         return $this->render('BackOffice/Order/order_update.html.twig', [
@@ -100,6 +105,8 @@ class AdminOrderController extends AbstractController
         $formResult = $formHandler->handleOrder($request, $order);
 
         if ($formResult) {
+=======
+>>>>>>> Stashed changes
             return $this->redirectToRoute('app_order_list_admin');
         }
         return $this->render('BackOffice/Order/order_update.html.twig', [

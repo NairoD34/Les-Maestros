@@ -47,6 +47,7 @@ class AdminSalesController extends AbstractController
         }
 
         $sales = $salesRepo->findAll();
+<<<<<<< Updated upstream
         
         if (isEmpty($sales)) {
             $salesByName = '';
@@ -54,6 +55,10 @@ class AdminSalesController extends AbstractController
             $salesByName = $salesRepo->searchByName($request->query->get('title', ''));
         }
         
+=======
+        $salesByName = $salesRepo->searchByName($request->query->get('title', ''));
+
+>>>>>>> Stashed changes
         return $this->render('BackOffice/Sales/sales_list.html.twig', [
             'title' => 'Liste des promotions',
             'sales' => $sales,
@@ -74,7 +79,11 @@ class AdminSalesController extends AbstractController
         $sales = new Sales();
         $formResult = $formHandler->handleSales($request, $sales);
 
+<<<<<<< Updated upstream
         if ($formResult['validate']) {
+=======
+        if ($formResult) {
+>>>>>>> Stashed changes
             return $this->redirectToRoute('app_sales_list');
         }
         return $this->render('BackOffice/Sales/sales_new.html.twig', [
@@ -100,7 +109,11 @@ class AdminSalesController extends AbstractController
 
         $formResult = $formHandler->handleSales($request, $sales);
 
+<<<<<<< Updated upstream
         if ($formResult['validate']) {
+=======
+        if ($formResult) {
+>>>>>>> Stashed changes
             return $this->redirectToRoute('app_sales_list');
         }
 

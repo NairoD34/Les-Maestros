@@ -44,6 +44,7 @@ class FormHandlerService
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($sales);
             $this->em->flush();
+<<<<<<< Updated upstream
             return [
                 'validate' => true,
                 'form' => $form,
@@ -57,6 +58,15 @@ class FormHandlerService
     }
 
     public function handleProduct($update, Request $request, Product $product, $photo, ?ProductRepository $productRepo)
+=======
+            return true;
+        }
+
+        return $form;
+    }
+
+    public function handleProduct($update, Request $request, Product $product, $photo, ProductRepository $productRepo)
+>>>>>>> Stashed changes
     {
         $form = $this->formFactory->create(AdminProductFormType::class, $product);
 
@@ -65,7 +75,11 @@ class FormHandlerService
             $file = $form['upload_file']->getData();
             $audio = $form['upload_audio']->getData();
             if ($file) {
+<<<<<<< Updated upstream
                 $file_name = $this->upload->uploadProductPhoto($file);
+=======
+                $file_name = $this->upload->uploadProduct($file);
+>>>>>>> Stashed changes
                 if ($file_name) // for example
                 {
                     $directory = $this->upload->getTargetDirectory();
@@ -74,6 +88,7 @@ class FormHandlerService
                     echo('une erreur est survenue à l\'image');
                 }
             }
+<<<<<<< Updated upstream
             if ($audio) {
                 $audio_name = $this->upload->uploadProductAudio($audio);
                 if ($audio_name) {
@@ -88,6 +103,15 @@ class FormHandlerService
             $product->setAudio($audio_path);
             if ($update) {
                 $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
+=======
+            $category = $form['category']->getData();
+            $product->setCategory($category);
+            if ($update) {
+                $photos = $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
+                foreach ($photos as $photoProduct) {
+                    $product->addPhoto($photoProduct);
+                }
+>>>>>>> Stashed changes
                 $this->em->persist($product);
                 $this->em->flush();
             } else {
@@ -96,6 +120,7 @@ class FormHandlerService
                 $photo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $file_name);
             }
 
+<<<<<<< Updated upstream
             return [
                 'condition' => true,
                 'form' => $form,
@@ -110,11 +135,25 @@ class FormHandlerService
     }
 
     public function handleAdmin(bool $update, Request $request, Users $admin, UserPasswordHasherInterface $adminPasswordHasher)
+=======
+            return true;
+
+        }
+
+        return $form;
+    }
+
+    public function handleAdmin(bool $update, Request $request, Admin $admin, UserPasswordHasherInterface $adminPasswordHasher)
+>>>>>>> Stashed changes
     {
         $form = $this->formFactory->create(AdminFormType::class, $admin);
         $form->handleRequest($request);
 
+<<<<<<< Updated upstream
         if ($form->isSubmitted() && $form->isValid()) {
+=======
+        if ($form->isSubmitted()) {
+>>>>>>> Stashed changes
             if ($update !== true) {
                 $selectedRoles = $form->get('roles')->getData();
                 $admin->setRoles($selectedRoles);
@@ -128,6 +167,7 @@ class FormHandlerService
             $this->em->persist($admin);
             $this->em->flush();
 
+<<<<<<< Updated upstream
             return [
                 'validate' => true,
                 'form' => $form,
@@ -137,6 +177,11 @@ class FormHandlerService
             'validate' => false,
             'form' => $form,
         ];
+=======
+            return true;
+        }
+        return $form;
+>>>>>>> Stashed changes
     }
 
     public function handleOrder(Request $request, Orders $order)
@@ -152,7 +197,11 @@ class FormHandlerService
         return $form;
     }
 
+<<<<<<< Updated upstream
     public function  handleCategory(bool $update, Request $request, Category $category, $photo, $categoryRepo)
+=======
+    public function handleCategory(bool $update, Request $request, Category $category, $photo, $categoryRepo)
+>>>>>>> Stashed changes
     {
         $form = $this->formFactory->create(AdminCategoryFormType::class, $category);
 
@@ -171,7 +220,14 @@ class FormHandlerService
                             $error = 'une erreur est survenue';
                         }
                     }
+<<<<<<< Updated upstream
                     $photo->updatePhotoInCategory($category->getId(), '/upload/photo_category/' . $file_name);
+=======
+                    $photos = $photo->updatePhotoInCategory($category->getId(), '/upload/photo_category/' . $file_name);
+                    foreach ($photos as $photoProduct) {
+                        $category->addPhoto($photoProduct);
+                    }
+>>>>>>> Stashed changes
                     $this->em->persist($category);
                     $this->em->flush();
                 }
@@ -190,6 +246,7 @@ class FormHandlerService
                 $photo->insertPhotoWithCategorie($categoryRepo->getLastId()->getId(), '/upload/photo_category/' . $file_name);
 
             }
+<<<<<<< Updated upstream
             return [
                 "validate" => true,
                 "form" => $form,
@@ -200,6 +257,12 @@ class FormHandlerService
             "validate"=> false,
             "form" => $form,
         ];
+=======
+            return true;
+
+        }
+        return $form;
+>>>>>>> Stashed changes
 
     }
 }
