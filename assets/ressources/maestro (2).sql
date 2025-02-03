@@ -6431,10 +6431,10 @@ INSERT INTO `code_postal` (`id`, `libelle`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `commande`
+-- Table structure for table `order`
 --
 
-CREATE TABLE `commande` (
+CREATE TABLE `order` (
   `id` int(11) NOT NULL,
   `livraison_id` int(11) DEFAULT NULL,
   `paiement_id` int(11) DEFAULT NULL,
@@ -6448,10 +6448,10 @@ CREATE TABLE `commande` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `commande`
+-- Dumping data for table `order`
 --
 
-INSERT INTO `commande` (`id`, `livraison_id`, `paiement_id`, `etat_id`, `est_livre_id`, `est_facture_id`, `users_id`, `panier_id`, `date_commande`, `prix_ttc_commande`) VALUES
+INSERT INTO `order` (`id`, `livraison_id`, `paiement_id`, `etat_id`, `est_livre_id`, `est_facture_id`, `users_id`, `panier_id`, `date_commande`, `prix_ttc_commande`) VALUES
 (1, 1, 1, 1, 1, 1, 1, 1, '2023-12-26', 2474.004),
 (2, 1, 1, 2, 1, 1, 1, 2, '2023-12-28', 119.004),
 (3, 1, 1, 1, 2, 1, 1, 3, '2023-12-29', 5741.004),

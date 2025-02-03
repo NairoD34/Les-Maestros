@@ -44,8 +44,6 @@ class Adress
     #[ORM\Column]
     private ?bool $isActive = null;
 
-    
-
 
     public function __construct()
     {
@@ -155,9 +153,6 @@ class Adress
     }
 
 
-
-   
-
     public function getCity(): ?City
     {
         return $this->City;
@@ -206,5 +201,5 @@ class Adress
         return $this;
     }
 
-   
+
 }

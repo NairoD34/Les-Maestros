@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -25,29 +26,21 @@ class UsersRepository extends ServiceEntityRepository
     {
         return $this->name;
     }
+
     //    /**
     //     * @return Users[] Returns an array of Users objects
     //     */
-       
+
        public function countUsers()
        {
         $result = $this->createQueryBuilder('e')
         ->select('COUNT(e) ')
         ->getQuery()->getSingleScalarResult();
-           
-           return $result;
-          
-           
-       }
-     
 
-    //    public function findOneBySomeField($value): ?Users
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+           return $result;
+
+
+       }
+
+
 }

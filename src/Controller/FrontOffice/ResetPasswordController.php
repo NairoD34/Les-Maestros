@@ -28,7 +28,7 @@ class ResetPasswordController extends AbstractController
             $this->addFlash('error', 'Adresse e-mail invalide.');
         }
 
-        return $this->render('reset_password/check_email.html.twig');
+        return $this->render('auth/reset_password/check_email.html.twig');
     }
 
     #[Route('/reset-password/{id}', name: 'app_reset_password_form')]
@@ -44,7 +44,7 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('reset_password/reset-password.html.twig', [
+        return $this->render('auth/reset_password/reset-password.html.twig', [
             'title' => 'Changement de mot de passe',
             'form' => $result['form'],
         ]);

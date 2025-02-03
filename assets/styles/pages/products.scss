@@ -1,3 +1,6 @@
+@use '../base/colors';
+@use '../base/mixins';
+
 .list-banner {
   .list-content {
     background-color: #09090B;
@@ -41,12 +44,16 @@
 }
 
 .product-section {
-  height: 100vh;
   display: flex;
-  gap: 50px;
   flex-direction: column;
   justify-content: start;
   align-items: center;
+  gap: 30px;
+  margin: 0 0 100px 0;
+  @media screen and (max-width: 768px) {
+    margin: 0 0 50px 0;
+
+  }
 
   .breadcrumb-container {
     margin: 50px 0 0 0;
@@ -60,19 +67,144 @@
   .product-block {
     display: flex;
     gap: 30px;
+    margin: 10px;
+    @media screen and (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
 
     .productLeft-container {
       width: 50%;
-
-      .content {
-        display: flex;
-        justify-content: end;
-        align-items: center;
+      @include mixins.center-flex(start);
+      @media screen and (max-width: 768px) {
+        width: 80%;
+        margin: 0 auto;
+        justify-content: center;
       }
 
-      img {
-        box-shadow: 0 2px 2px 2px var(--second);
-        width: 50%;
+      .content {
+        width: 500px;
+        @include mixins.center-flex(end);
+        position: relative;
+
+        .flag-percent, .flag-news {
+          font-weight: bold;
+          position: absolute;
+          top: 0;
+          left: 0;
+          padding: 7px;
+          background-color: colors.$header;
+          color: colors.$main;
+          z-index: 1;
+          @media screen and (max-width: 768px) {
+            font-size: 13px;
+            padding: 5px;
+          }
+        }
+
+        img {
+          position: relative;
+          box-shadow: 0 2px 2px 2px colors.$second;
+          width: 100%;
+          padding: 10px;
+          background-color: white;
+        }
+      }
+
+    }
+  }
+
+  .productRight-container {
+    color: colors.$header;
+    width: 100%;
+    @media screen and (max-width: 768px) {
+      @include mixins.center-flex-column(center);
+    }
+
+    h2 {
+      color: colors.$header;
+      margin: 0;
+      text-align: center;
+    }
+
+
+    .price {
+      font-size: 1.5em;
+      font-weight: bold;
+
+      .old-price {
+        text-decoration: line-through;
+        text-decoration-color: colors.$second;
+        text-decoration-thickness: 2px;
+        font-size: 0.8em;
+        font-weight: normal;
+        margin: 0 10px 0 0;
+      }
+    }
+
+    .legends {
+      @include mixins.center-flex-column(start);
+      padding: 5px;
+
+      a {
+        color: colors.$header;
+        padding: 5px;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+
+    }
+
+    .title {
+      margin: 0 0 10px 0;
+      align-items: center;
+    }
+
+    .legends-details {
+      @include mixins.center-flex-column(center);
+      margin: 30px 0 0 0;
+
+      .qte {
+        font-size: 1.3em;
+        color: green;
+        margin: 0 0 10px 0;
+        @media screen and (max-width: 768px) {
+          text-align: center;
+        }
+      }
+
+      div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .ship, .garanteed {
+          background-color: colors.$header;
+          padding: 5px;
+          border-radius: 5px;
+          color: colors.$text;
+        }
+      }
+
+      li {
+        list-style: none;
+      }
+    }
+
+    .separator {
+      display: inline-block;
+      height: 1px;
+      @include mixins.margin-width(70%, 0.5rem auto);
+      background-color: colors.$second;
+    }
+
+    .add-to-cart {
+
+      .cta-button {
+        @include mixins.cta-btn("button", 10px 0);
+        width: 100%;
+        text-align: left
       }
     }
   }

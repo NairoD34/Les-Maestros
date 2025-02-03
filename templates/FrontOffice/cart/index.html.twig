@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block main %}
+
+    <div class="cart-container">
+        <h2>Mon Panier</h2>
+
+        {% for product in products %}
+            <div class="product-carts">
+                <div class="photo-container">
+                    <img src="{{ product.photo.URLPhoto }}" alt="{{ product.produit.title }}">
+                </div>
+                <div class="product-container">
+                    <h3>{{ product.produit.title }}</h3>
+                    {% if product.qte > 1 %}
+                        <p>{{ product.prixTTC * product.qte }}€</p>
+                    {% else %}
+                        <p>{{ product.prixTTC }}€</p>
+                    {% endif %}
+
+                    <div class="btn-container">
+                        {{ include('FrontOffice/cart/remove_to_panier.html.twig', {'id': product.produit.id}) }}
+                        <span>{{ product.qte }}</span>
+                        {{ include('FrontOffice/cart/addqte.html.twig', {'id': product.produit.id}) }}
+                        {{ include('FrontOffice/cart/delete.html.twig', { 'id': product.id }) }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="total-container">
+            <h5>Total de votre panier</h5>
+            <p>{{ total }}€</p>
+        </div>
+
+        <div class="cta-button">
+            <a href="{{ path('app_commande') }}">Valider votre panier</a>
+        </div>
+    </div>
+{% endblock %}
+
