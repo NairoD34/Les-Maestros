@@ -4,22 +4,26 @@
         'method': 'POST',
     }
     ) }}
+    <div class="identity">
+        <label for="{{ form.firstname.vars.id }}">
+            {{ form_widget(form.firstname) }}
+        </label>
 
-    {{ form_label(form.firstname, 'Prénom') }}
-    {{ form_widget(form.firstname, {'attr': {'class': 'identity'}}) }}
+        <label for="{{ form.lastname.vars.id }}">
+            {{ form_widget(form.lastname) }}
+        </label>
+    </div>
 
-    {{ form_label(form.lastname, 'Nom') }}
-    {{ form_widget(form.lastname, {'attr': {'class': 'identity'}}) }}
+    <label for="{{ form.email.vars.id }}">
+        {{ form_widget(form.email) }}
+    </label>
 
-    {{ form_label(form.email, 'Adresse mail') }}
-    {{ form_widget(form.email) }}
+    <label for="{{ form.message.vars.id }}">
+        {{ form_widget(form.message) }}
+    </label>
 
-    {{ form_label(form.message, 'Entrez votre message ...') }}
-    {{ form_widget(form.message) }}
-
-
-    <div>
-        <button type='submit' name='Envoyer'>Envoyer</button>
+    <div class="submit-container">
+        <button type="submit">Envoyer</button>
     </div>
 
     {{ form_end(form) }}
