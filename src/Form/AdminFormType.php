@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Admin;
+use App\Entity\Users;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,16 +21,13 @@ class AdminFormType extends AbstractType
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'Administrateur' => "ROLE_ADMIN",
-                    'User' => "ROLE_USER",
-
                 ],
-                'multiple' => true,
+                'multiple' => false,
                 'expanded' => true,
             ])
             ->add('lastname')
             ->add('firstname')
             ->add('email')
-            ->add('username')
             ->add('plainPassword', PasswordType::class, [
 
                 'mapped' => false,
@@ -51,7 +49,7 @@ class AdminFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Admin::class,
+            'data_class' => Users::class,
         ]);
     }
 }

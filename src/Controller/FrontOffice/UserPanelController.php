@@ -20,7 +20,7 @@ class UserPanelController extends AbstractController
     ): Response
     {
         $user = $security->getUser();
-        return $this->render('user/index.html.twig', [
+        return $this->render('FrontOffice/user/index.html.twig', [
             'title' => 'Vos informations',
             'users' => $user,
             'adresse' => $adress,
@@ -43,7 +43,7 @@ class UserPanelController extends AbstractController
             return $this->redirectToRoute('app_user');
         }
 
-        return $this->render('user/updateAccount.html.twig', [
+        return $this->render('FrontOffice/user/updateAccount.html.twig', [
             'title' => 'Vos informations' . ' ' . $users->getFirstname() . ' ' . $users->getLastname(),
             'users' => $users,
             'form' => $result['form'],

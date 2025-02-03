@@ -15,17 +15,17 @@ class MessageService
     private $em;
 
 
-    public function __construct(FormFactoryInterface $formFactory,  EntityManagerInterface $emi)
+    public function __construct(FormFactoryInterface $formFactory, EntityManagerInterface $emi)
     {
         $this->formFactory = $formFactory;
-   
+
         $this->em = $emi;
 
     }
 
 
     public function handleMessage(
-        Message   $message,
+        Message $message,
         Request $request,
     )
     {
@@ -36,14 +36,13 @@ class MessageService
             $this->em->persist($message);
             $this->em->flush();
 
-            return ['form'=>$form,
-                    'validate'=> true]
-                    ;
-            
+            return ['form' => $form,
+                'validate' => true];
+
         }
-        return ['form'=>$form,
-                    'validate'=> false];
-        
+        return ['form' => $form,
+            'validate' => false];
+
     }
-    
+
 }

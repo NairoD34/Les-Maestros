@@ -16,33 +16,33 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CartController extends AbstractController
 {
-    #[Route('/panier', name: 'app_panier')]
+    #[Route('/cart', name: 'app_panier')]
     public function index(
         Security    $security,
         CartService $CartService,
     ): Response
     {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->render('panier/emptyPanier.html.twig');
+            return $this->render('FrontOffice/cart/emptyPanier.html.twig');
         }
 
         $panier = $CartService->GetUserData()['cart'];
         if (!$panier) {
-            return $this->render('panier/emptyPanier.html.twig');
+            return $this->render('FrontOffice/cart/emptyPanier.html.twig');
         }
-        $products = $CartService->CalculCart()['Products'];
+        $products = $CartService->CalculCart()['products'];
         $total = $CartService->CalculCart()['total'];
         if ($total === 0) {
-            return $this->render('panier/emptyPanier.html.twig');
+            return $this->render('FrontOffice/cart/emptyPanier.html.twig');
         }
-        return $this->render('panier/index.html.twig', [
+        return $this->render('FrontOffice/cart/index.html.twig', [
             'controller_name' => 'PanierController',
-            'Products' => $products,
+            'products' => $products,
             'total' => $total,
         ]);
     }
 
-    #[Route('delete_Product_panier/{id}', name: 'app_delete_Product_panier', methods: ['POST'])]
+    #[Route('delete_products_cart/{id}', name: 'app_delete_product_cart', methods: ['POST'])]
     public function delete(
         Request                $request,
         ?CartProduct           $CartProduct,
@@ -73,7 +73,7 @@ class CartController extends AbstractController
 
     }
 
-    #[Route('remove_Product_panier/{id}', name: 'app_remove_Product_panier', methods: ['POST'])]
+    #[Route('remove_products_cart/{id}', name: 'app_remove_product_cart', methods: ['POST'])]
     public function remove(
         Security               $security,
         ?Product               $product,
@@ -98,10 +98,10 @@ class CartController extends AbstractController
 
         if (!$productInPanier) {
             //Si le Product n'est pas trouvé dans le panier, redirigez vers empty.html.twig
-            return $this->render('panier/emptyPanier.html.twig');
+            return $this->render('FrontOffice/cart/emptyPanier.html.twig');
         }
 
-        if ($this->isCsrfTokenValid('removeToPanier' . $product->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('removeToCart' . $product->getId(), $request->request->get('_token'))) {
 
             $qte = $productInPanier->getQuantity();
             if ($qte > 1) {
@@ -116,7 +116,7 @@ class CartController extends AbstractController
 
     }
 
-    #[Route('add_qte_Product_panier/{id}', name: 'app_add_qte_Product_panier', methods: ['POST'])]
+    #[Route('add_qte_product_cart/{id}', name: 'app_add_qte_product_cart', methods: ['POST'])]
     public function addQuantities(
         Security              $security,
         ?Product              $product,
@@ -138,7 +138,7 @@ class CartController extends AbstractController
         $idPanier = $Panier->getId();
         $productInPanier = $CartProductRepo->getCartProductbyId($product, $Panier);
 
-        if ($this->isCsrfTokenValid('addQteToPanier' . $product->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('addQteToCart' . $product->getId(), $request->request->get('_token'))) {
             $qte = $productInPanier->getQuantity();
             $qte++;
             $CartProductRepo->updateQuantityInCartProduct($qte, $idProduct, $idPanier);

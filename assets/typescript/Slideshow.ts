@@ -1,4 +1,4 @@
-export default class Slideshow {
+class Slideshow {
     private nbImages: number;
     private readonly speed: number;
     private readonly images: string[];
@@ -82,3 +82,5 @@ export default class Slideshow {
     }
 
 }
+
+new Slideshow(4000);

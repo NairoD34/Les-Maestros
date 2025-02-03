@@ -4,7 +4,6 @@ namespace App\Controller\FrontOffice;
 
 use App\Repository\ProductRepository;
 use App\Service\FrontOffice\CategoryService;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +26,7 @@ class HomePageController extends AbstractController
 
         $dataCate = $categoryService->CategoryPicture($request);
 
-        return $this->render('homepage/indexHomePage.html.twig', [
+        return $this->render('FrontOffice/homepage/indexHomePage.html.twig', [
             'title' => 'MSymfony',
             'subtitle' => 'La musique, c\'est notre passion, les promotions, c\'est notre métier',
             'data' => $dataPromo,
@@ -36,3 +35,4 @@ class HomePageController extends AbstractController
         ]);
     }
 }
+

@@ -1,0 +1,14 @@
+@use "colors";
+@use "mixins";
+
+.redirect-btn-product {
+  background-color: colors.$header;
+  padding: 10px;
+  border-radius: 10px;
+  color: colors.$main;
+}
+
+.redirect-btn-product:hover {
+  color: colors.$main;
+}
+

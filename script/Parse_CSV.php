@@ -31,8 +31,9 @@ $departments = [];
 $villes = [];
 $codePostaux = [];
 $deptsValue = [];
+$iMax = count($csv);
 
-for ($i = 1; $i <= count($csv); $i++) {
+for ($i = 1; $i <= $iMax; $i++) {
     $string = $csv[$i][0];
     $values = explode(',', $string);
 
@@ -42,38 +43,33 @@ for ($i = 1; $i <= count($csv); $i++) {
     $regionName = $values[8];
     $codePostalValue = $values[2];
 
-    // Stockez les noms dans les tableaux 
+
     if (!in_array($regionName, $regions)) {
         $regions[] = $regionName;
-        $stmt = $testPDO->prepare('SELECT id FROM region WHERE nom = " ' . $regionName . '"');
+        $stmt = $testPDO->prepare('SELECT id FROM region WHERE name = " ' . $regionName . '"');
         $stmt->execute();
         $existingRegion = $stmt->fetchColumn();
 
         if (!$existingRegion) {
-            // Si la région n'existe pas, insérez-la
-            $stmt = $testPDO->prepare('INSERT INTO region (nom) VALUES (" ' . $regionName . ' ")');
+            $stmt = $testPDO->prepare('INSERT INTO region (name) VALUES (" ' . $regionName . ' ")');
             $stmt->execute();
 
-            // Récupérez l'ID de la nouvelle région
             $regionId = $testPDO->lastInsertId();
             $regions[$regionName] = $regionId;
         } else {
-            // Si la région existe déjà, récupérez son ID
             $regions[$regionName] = $existingRegion;
         }
     }
     if (!in_array($departmentName, $departments)) {
         $regionId = $regions[$regionName];
 
-        $stmt = $testPDO->prepare('SELECT id FROM departement WHERE nom = ? AND numero_departement = ?');
+        $stmt = $testPDO->prepare('SELECT id FROM county WHERE name = ? AND zip = ?');
         $stmt->execute([$departmentName, $departmentValue]);
         $existingDept = $stmt->fetchColumn();
 
         if (!$existingDept) {
-
-            $stmt = $testPDO->prepare('INSERT INTO departement (nom, numero_departement, region_id) VALUES ("' . $departmentName . '", "' . $departmentValue . '", "' . $regionId . '")');
+            $stmt = $testPDO->prepare('INSERT INTO county (name, zip, region_id) VALUES ("' . $departmentName . '", "' . $departmentValue . '", "' . $regionId . '")');
             $stmt->execute();
-
             $deptId = $testPDO->lastInsertId();
             $departments[$departmentName] = $deptId;
         } else {
@@ -85,18 +81,14 @@ for ($i = 1; $i <= count($csv); $i++) {
     if (!in_array($ville, $villes)) {
         $deptId = $departments[$departmentName];
         $villes[] = $ville;
-
-        // Supprimez les espaces inutiles autour de $ville
         $ville = trim($ville);
-
-        $stmt = $testPDO->prepare('SELECT id FROM ville WHERE nom = ?');
+        $stmt = $testPDO->prepare('SELECT id FROM city WHERE name = ?');
         $stmt->execute([$ville]);
         $existingVille = $stmt->fetchColumn();
 
         if (!$existingVille) {
-            $stmt = $testPDO->prepare('INSERT INTO ville (departement_id, nom) VALUES (?, ?)');
+            $stmt = $testPDO->prepare('INSERT INTO city (county_id, name) VALUES (?, ?)');
             $stmt->execute([$deptId, $ville]);
-
             $villeId = $testPDO->lastInsertId();
             $villes[$ville] = $villeId;
         } else {
@@ -105,23 +97,19 @@ for ($i = 1; $i <= count($csv); $i++) {
     }
 
     if (!array_key_exists($codePostalValue, $codePostaux)) {
-        // Insérer le nouveau code postal
-        $stmt = $testPDO->prepare('INSERT INTO code_postal (libelle) VALUES (?)');
+        $stmt = $testPDO->prepare('INSERT INTO zipcode (title) VALUES (?)');
         $stmt->execute([$codePostalValue]);
-
-        // Ajouter le code postal à la liste pour éviter les duplicatas
         $codePostaux[$codePostalValue] = $testPDO->lastInsertId();
     }
-    //insertion de la relation
+
     $villeId = $villes[$ville];
     $codePostalId = $codePostaux[$codePostalValue];
 
-    $stmt = $testPDO->prepare('SELECT * FROM ville_code_postal WHERE ville_id = ? AND code_postal_id =?');
+    $stmt = $testPDO->prepare('SELECT * FROM city_zipcode WHERE city_id = ? AND zipcode_id =?');
     $stmt->execute([$villeId, $codePostalId]);
     $existingRelation = $stmt->fetchColumn();
     if (!$existingRelation) {
-        // Insérer la relation entre la ville et le code postal dans la table intermédiaire
-        $stmt = $testPDO->prepare('INSERT INTO ville_code_postal (ville_id, code_postal_id) VALUES (?, ?)');
+        $stmt = $testPDO->prepare('INSERT INTO city_zipcode (city_id, zipcode_id) VALUES (?, ?)');
         $stmt->execute([$villeId, $codePostalId]);
     }
 }

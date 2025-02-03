@@ -28,11 +28,11 @@ class UserPanelOrderController extends AbstractController
         $orders = $orderRepo->findBy(['users' => $user->getId()]);
 
         if (empty($orders)) {
-            return $this->render('user/emptyCommande.html.twig');
+            return $this->render('FrontOffice/user/emptyCommande.html.twig');
         }
         return $this->render('user/commande_list.html.twig', [
             'title' => 'Liste des commandes',
-            'commande' => $orders,
+            'order' => $orders,
             'id' => $request->query->get('id', ''),
         ]);
     }
@@ -46,9 +46,9 @@ class UserPanelOrderController extends AbstractController
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_index');
         }
-        return $this->render('user/commande_show.html.twig', [
-            'title' => 'Fiche de la commande',
-            'commande' => $orders,
+        return $this->render('FrontOffice/user/commande_show.html.twig', [
+            'title' => 'Fiche de la order',
+            'order' => $orders,
         ]);
     }
 }

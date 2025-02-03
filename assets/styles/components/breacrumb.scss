@@ -1,0 +1,60 @@
+@use '../base/colors';
+@use '../base/var';
+
+.breadcrumb-container {
+  margin: 20px auto;
+  height: 5%;
+  width: 90%;
+  @media screen and (max-width: var.$width-sm) {
+    width: 100%;
+    height: 100px;
+    padding: 5px;
+  }
+
+  .breadcrumb-content {
+    height: 100%;
+    margin: inherit;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 8px;
+    padding: 5px;
+
+    li {
+      list-style: none;
+      text-align: center;
+    }
+
+    a {
+      width: 100%;
+    }
+
+    .breadcrumb-item {
+      font-family: "Libre Bodoni", sans-serif;
+      color: colors.$second;
+      font-weight: 600;
+      @media screen and (max-width: var.$width-sm) {
+        font-size: 0.8rem;
+      }
+
+      a {
+        font-family: "Libre Bodoni", sans-serif;
+        color: colors.$second;
+      }
+    }
+
+    .breadcrumb-item-inactive {
+      a {
+        color: colors.$header
+      }
+
+      @media screen and (max-width: var.$width-sm) {
+        font-size: 0.8rem;
+      }
+    }
+
+    .svg-home {
+      margin: 0 0 5px 0;
+    }
+  }
+}

@@ -9,6 +9,7 @@ use App\Repository\CartProductRepository;
 use App\Repository\CartRepository;
 use App\Repository\PhotosRepository;
 use App\Repository\ProductRepository;
+use App\Service\FrontOffice\ProductService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -19,11 +20,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    #[Route('/product', name: 'app_produit')]
+    #[Route('/products', name: 'app_produit')]
     public function index(ProductRepository $productRepo): Response
     {
         $products = $productRepo->searchNew();
-        return $this->render('produit/index.html.twig', [
+        return $this->render('FrontOffice/product/index.html.twig', [
             'controller_name' => 'ProductController',
             'produits' => $products
         ]);
@@ -31,46 +32,19 @@ class ProductController extends AbstractController
 
     #[Route('/product/{id}', name: 'app_show_produit')]
     public function showProducts(
-        PhotosRepository   $photoRepo,
-        ?Product           $product,
-        CategoryRepository $categoryRepo
+        ?Product       $product,
+        ProductService $productService,
     ): Response
     {
-
         if (!$product) {
             return $this->redirectToRoute('app_produit');
         }
 
-        $priceTTC = $product->getTaxFreePrice() + ($product->getTaxFreePrice() * $product->getTaxRate()->getTaxRate() / 100);
+        $results = $productService->getDetailsAboutProduct($product);
 
-        $priceTTCFormatted = number_format($priceTTC, 2, '.', '');
-
-
-        if ($product->getSales()) {
-            $newTtcPrice = $priceTTCFormatted * $product->getSales()->getSalesRate();
-            $newTtcPriceFormatted = number_format($newTtcPrice, 2, '.', '');
-        }
-
-        $oldPrice = $product->getTaxFreePrice() + ($product->getTaxFreePrice() * $product->getTaxRate()->getTaxRate() / 100);
-        $oldPriceFormatted = number_format($oldPrice, 2, '.', '');
-
-        $photos = $photoRepo->searchPhotoByProduct($product);
-        $category = $product->getCategory()->getId();
-
-        $audio = $product->getAudio();
-        
-        //Récupérer l'id de la catégorie parente pour le fil d'arrianne
-        $parentCategory = $categoryRepo->findParentCategoryIdByChildId($category);
-        return $this->render('produit/show.html.twig', [
-            'title' => 'Fiche d\'un produit',
-            'categorieParente' => $parentCategory,
-            'categorie' => $category,
-            'produit' => $product,
-            'prixTTC' => $product->getSales() ? $newTtcPriceFormatted : $priceTTCFormatted,
-            'photos' => $photos,
-            'oldPrice' => $oldPriceFormatted,
-            'audio' => $audio,
-        ]);
+        return $this->render('FrontOffice/product/show.html.twig',
+            $results
+        );
     }
 
     #[Route('/add-product/{id}', name: "app_add_produit_to_Cart")]
@@ -113,7 +87,7 @@ class ProductController extends AbstractController
                 $qte = $productInCart->getQuantity() + 1;
                 $cartProductRepo->updateQuantityInCartProduct($qte, $idProduct, $idCart);
             }
-            $this->addFlash('nice', 'Le produit a été ajouté au Cart avec succès.');
+            $this->addFlash('nice', 'Le produit a été ajouté au panier avec succès.');
             return $this->redirectToRoute('app_show_produit', ['id' => $idProduct], Response::HTTP_SEE_OTHER);
         }
     }

@@ -19,9 +19,9 @@ class AdminUsersController extends AbstractController
 
     #[Route('user_list', name: 'app_user_list_admin')]
     public function list(
-        AdminUsersRepository $usersRepo,
-        Security             $security,
-        Request              $request
+        Users    $usersRepo,
+        Security $security,
+        Request  $request
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {

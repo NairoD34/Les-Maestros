@@ -14,20 +14,19 @@ class MessageController extends AbstractController
 
     #[Route('/new_message', name: 'app_new_message')]
     public function new(
-        Message $message,
-        Request $request,
+        Request        $request,
         MessageService $formHandler,
 
     ): Response
     {
-        
-        $message = new Message();
-        $formResult = $formHandler->handleMessage($message, $request);
+
+        $newMessage = new Message();
+        $formResult = $formHandler->handleMessage($newMessage, $request);
         if ($formResult["validate"]) {
             return $this->redirectToRoute('app_index');
-        };
-        
-        return $this->render('Message/message_new.html.twig', [
+        }
+
+        return $this->render('FrontOffice/message/message_new.html.twig', [
             'form' => $formResult["form"],
         ]);
     }
