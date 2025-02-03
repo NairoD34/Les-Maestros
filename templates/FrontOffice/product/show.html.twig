@@ -78,6 +78,13 @@
                 <div class="legends">
                     <p>{{ mainProduct.details.products.description }}</p>
                 </div>
+                <div>
+                    <p>Extrait audio :</p>
+                    <audio controls>
+                        <source src= {{ mainProduct.audio }}>
+                        Pas d'audio de disponible
+                    </audio>
+                </div>
                 <div class="legends price">
                     <p>
                         {% if mainProduct.details.products.sales %}
