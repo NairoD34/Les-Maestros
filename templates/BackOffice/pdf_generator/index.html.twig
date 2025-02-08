@@ -41,7 +41,7 @@
     }
 
     .logo {
-        width: 250px;
+        width: 150px;
         height: auto;
     }
 
@@ -61,27 +61,25 @@
 
 {% block main %}
     <div class='container'>
-    {% for dataC in dataCommande %}
         <div id="logo">
             <img src="{{ logoUrl }}" alt='logo' class="logo">
         </div>
         {# Acheteur #}
         <div class="destC">
             <h2>Client</h2>
-            {% for dataLc in dataProduit %}
-                <p>{{ dataLc.prenomUtilisateur }} {{ dataLc.nomUtilisateur }}</p>
-                <p> {{ dataLc.emailUtilisateur }} </p>
+            {% for dataLc in dataCommande.orderLine %}
+                <p>{{ dataLc.userFirstname }} {{ dataLc.userLastname }}</p>
+                <p> {{ dataLc.userEmail }} </p>
             {% endfor %}
             {# Adresse de livraison #}
             <h3>Adresse de Livraison</h3>
-            <p>{{ adresseLivraison.NumVoie }}  {{ adresseLivraison.rue }}  {{ adresseLivraison.Ville.nom }} {{ adresseLivraison.Ville.departement.nom }} {{ adresseLivraison.Ville.departement.region.nom }} </p>
+            <p>{{ deliveryAddress.number }}  {{ deliveryAddress.street }}  {{ deliveryAddress.city.name }} {{ deliveryAddress.city.county.name }} {{ deliveryAddress.city.county.region.name }} </p>
 
             {# Adresse de facturation #}
             <h3>Adresse de Facturation</h3>
-            <p>{{ adresseFacturation.NumVoie }}  {{ adresseFacturation.rue }} {{ adresseLivraison.Ville.nom }} {{ adresseLivraison.Ville.departement.nom }} {{ adresseLivraison.Ville.departement.region.nom }}</p>
+            <p>{{ deliveryBill.number }}  {{ deliveryBill.street }}  {{ deliveryBill.city.name }} {{ deliveryBill.city.county.name }} {{ deliveryBill.city.county.region.name }} </p>
         </div>
-        </div>
-        <h1>Devis | Commande n°{{ dataC.id }}</h1>
+        <h1>Devis | Commande n°{{ dataCommande.id }}</h1>
 
         {# Produit #}
         {% for dataP in dataProduit %}
@@ -98,21 +96,19 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{ dataP.nomProduit }}</td>
-                    <td>{{ dataP.nombreArticle }}</td>
-                    {% if dataP.nombreArticle > 1 %}
-                        <td>{{ dataP.prixproduit * dataP.nombreArticle }} €</td>
+                    <td>{{ dataP.productName }}</td>
+                    <td>{{ dataP.quantity }}</td>
+                    {% if dataP.quantity > 1 %}
+                        <td>{{ dataP.productPrice * dataP.quantity }} €</td>
                     {% else %}
-                        <td>{{ dataP.prixproduit }} €</td>
+                        <td>{{ dataP.productPrice }} €</td>
                     {% endif %}
-                    <td>{{ dataP.tauxTva }} %</td>
-                    <td>{{ dataP.prixproduit  + (dataP.prixproduit * dataP.tauxTva)/100 }} €</td>
-                    <td> {{ dataP.prixtotal }} €</td>
+                    <td>{{ dataP.taxRate }} %</td>
+                    <td>{{ dataP.productPrice  + (dataP.productPrice * dataP.taxRate)/100 }} €</td>
+                    <td> {{ dataP.totalPrice }} €</td>
                 </tr>
                 </tbody>
             </table>
         {% endfor %}
-
-
-    {% endfor %}
+    </div>
 {% endblock %}

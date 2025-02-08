@@ -45,6 +45,14 @@
       outline: none;
     }
 
+    .total-order {
+      input {
+        background: none;
+        border: none;
+        color: #000000;
+        font-weight: bold;
+      }
+    }
 
     .submit-container {
       @include mixins.cta-btn("button", 5px 0 0 0);
