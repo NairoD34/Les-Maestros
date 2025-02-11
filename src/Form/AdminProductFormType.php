@@ -13,6 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File as ConstraintsFile;
+
 class AdminProductFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -36,13 +37,13 @@ class AdminProductFormType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'title',
             ])
-            -> add('upload_file', FileType::class, [
+            ->add('upload_file', FileType::class, [
                 'label' => false,
-                'mapped' => false, // Tell that there is no Entity to link
-                'required' => true,
+                'mapped' => false,
+                'required' => false,
                 'constraints' => [
                     new ConstraintsFile([
-                        'mimeTypes' => [ // We want to let upload only image
+                        'mimeTypes' => [
                             'image/jpg',
                             'image/png',
                             'image/jpeg',
@@ -52,7 +53,7 @@ class AdminProductFormType extends AbstractType
                     ])
                 ]
             ])
-            -> add('upload_audio', FileType::class, [
+            ->add('upload_audio', FileType::class, [
                 'label' => "music",
                 'mapped' => false,
                 'required' => false,

@@ -25,11 +25,16 @@
   gap: 10px;
   box-shadow: colors.$white 0px 1px 4px;
   width: 700px;
-  height: 550px;
   @media screen and (max-width: 1024px) {
     width: 100%;
     height: auto;
     margin: 0 auto;
+  }
+
+  .img-details img {
+    width: 250px;
+    height: auto;
+    object-fit: contain;
   }
 
   .maj {

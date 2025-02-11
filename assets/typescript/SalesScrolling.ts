@@ -80,7 +80,7 @@ class SalesScrolling {
         const container = document.querySelector('.promo-card') as HTMLDivElement;
         const cards = container.querySelectorAll('.card-container') as NodeListOf<HTMLDivElement>;
 
-        this.cardsNumber = screenWidth > 1200 ? 3 : screenWidth > 768 ? 2 : 1;
+        this.cardsNumber = screenWidth >= 1200 ? 3 : screenWidth >= 768 ? 2 : 1;
 
         const containerWidth = container.offsetWidth;
         const totalCardWidth = containerWidth * 0.9;

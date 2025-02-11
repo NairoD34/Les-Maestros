@@ -54,3 +54,20 @@
   }
 }
 
+.nickname {
+  color: colors.$text;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.delete {
+  width: 100%;
+
+  button {
+    width: 100%;
+    border: none;
+    background: none;
+    padding: 20px;
+    color: red;
+  }
+}

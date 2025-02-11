@@ -1,146 +1,120 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block main %}
-<div class="row">
-<div class ="container-fluid d-flex h-50">
-    <div class="title col-12 col-md-6 d-flex flex-column align-items-center justify-content-center mb-5">
-        <h1 class="mr-5">Les Maestros de la <span style="color:var(--main);">Symfony</span></h1>
-        <h3 class="ml-5">la musique à portée de clic</h3>
-    </div>
-    <div class="img-block col-12 col-md-6 h-50">
-    <img src= "{{ asset('images/mecquidance.png') }}" alt="image acceuil" >
-    </div>
-</div>
-</div>
-<br>
-<div class="container-fluid">
-    <div class="row mb-4 justify-content-center">
-        <!-- Gestion des catégories -->
-        <div class="col-md-4 m-4"  style="width:250px; height: 250px; ">
-            <a href="{{ path('app_user_list_admin') }}" class="text-decoration-none">
-                <div class="card border p-3 bg-light h-100">
-                        <h5 class="card-title text-center m-0" style="color: var(--main);">Nombre d'utilisateurs </h5>
-                            <p class="card-body text-center m-0 " style="font-size: 25px">{{data.users}}</p>
+
+    <section class="admin-section">
+        <div class="first-section-container">
+            <div class="content">
+                <div class="title-box">
+                    <h1>Les Maestros de la <span>Symfony</span></h1>
+                    <h3>la musique à portée de clic</h3>
                 </div>
-            </a>
-        </div>
-        <div class="row mb-4 justify-content-center">
-        <!-- Gestion des catégories -->
-        <div class="col-md-4 m-4"  style="width:250px; height: 250px; ">
-            <a href="{{ path('app_order_list_admin') }}" class="text-decoration-none">
-                <div class="card border p-3 bg-light h-100">
-                        <h5 class="card-title text-center m-0" style="color: var(--main);">Nombre de commandes </h5>
-                            <p class="card-body text-center m-0 " style="font-size: 25px">{{data.orders}}</p>
+                <div class="img-box">
+                    <img src="{{ asset('build/images/mecquidance.png') }}" alt="image acceuil">
                 </div>
-            </a>
-        </div>
-        <div class="col-md-4 m-4"  style="width:250px; height: 250px; ">
-            <a href="{{ path('app_order_list_admin') }}" class="text-decoration-none">
-                <div class="card border p-3 bg-light h-100">
-                        <h5 class="card-title text-center m-0" style="color: var(--main);">Chiffre d'affaire TTC </h5>
-                        {% if data.revenue is same as(null) %}
-                            <p class="card-body text-center m-0 " style="font-size: 25px">0</p>
-                        {% else %}
-                            <p class="card-body text-center m-0 " style="font-size: 25px">{{data.revenue}}</p>
-                        {% endif %}
-                </div>
-            </a>
-        </div>
-        <div class="col-md-4 m-4"  style="width:250px; height: 250px; ">
-            <a href="{{ path('app_message_list_admin') }}" class="text-decoration-none">
-                <div class="card border p-3 bg-light h-100">
-                        <h5 class="card-title text-center m-0" style="color: var(--main);">Nombres de messages enregistrés </h5>
-                        
-                            <p class="card-body text-center m-0 " style="font-size: 25px" >{{data.messages}}</p>
-                        
-                    </div>
-                </div>
-            </a>
-        </div>
-</div>
-<div class="container-fluid">
-    <!-- Première ligne -->
-    <div class="row mb-4 justify-content-center">
-        <!-- Gestion des catégories -->
-        <div class="col-md-4 m-4"  style="width:250px; height: 250px; ">
-            <a href="{{ path('app_category_list_admin') }}" class="text-decoration-none">
-                <div class="card border p-3 bg-light h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <h5 class="card-title text-center m-0" style="color: var(--main);">Gestion des catégories</h5>
-                    </div>
-                </div>
-            </a>
+            </div>
         </div>
 
-        <!-- Gestion des produits -->
-        <div class="col-md-4 m-4"  style="width:250px; height: 250px;">
-            <a href="{{ path('app_product_list_admin') }}" class="text-decoration-none">
-                <div class="card border p-3 bg-light h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <h5 class="card-title text-center m-0" style="color: var(--main);">Gestion des produits</h5>
-                    </div>
+        <div class="kpi-container">
+            <div class="kpi-content">
+                <div class="kpi-body">
+                    <a href="{{ path('app_user_list_admin') }}">
+                        <div>
+                            <h5>Nombre d'utilisateurs </h5>
+                            <p>{{ data.users }}</p>
+                        </div>
+                    </a>
                 </div>
-            </a>
+                <div class="kpi-body">
+                    <a href="{{ path('app_order_list_admin') }}">
+                        <div>
+                            <h5>Nombre de commandes </h5>
+                            <p>{{ data.orders }}</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="kpi-body">
+                    <a href="{{ path('app_order_list_admin') }}">
+                        <div>
+                            <h5>Chiffre d'affaire TTC </h5>
+                            <p>{% if data.revenue is same as(null) %} 0  {% else %} {{ data.revenue }} {% endif %}</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="kpi-body">
+                    <a href="{{ path('app_message_list_admin') }}">
+                        <div>
+                            <h5>Nombres de messages enregistrés </h5>
+                            <p>{{ data.messages }}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <!-- Gestion des promotions -->
-        <div class="col-md-4 m-4"  style="width:250px; height: 250px;">
-            <a href="{{ path('app_sales_list') }}" class="text-decoration-none">
-                <div class="card border p-3 bg-light h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <h5 class="card-title text-center m-0" style="color: var(--main);">Gestion des promotions</h5>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
 
-    <!-- Deuxième ligne -->
-    <div class="row justify-content-center">
-        <!-- Gestion des commandes -->
-        <div class="col-md-4 m-4"  style="width:250px; height: 250px;">
-            <a href="{{ path('app_order_list_admin') }}" class="text-decoration-none">
-                <div class="card border p-3 bg-light h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <h5 class="card-title text-center m-0 " style="color: var(--main);">Gestion des commandes</h5>
-                    </div>
+        <div class="admin-container">
+            <!-- Première ligne -->
+            <div class="admin-content">
+                <!-- Gestion des catégories -->
+                <div class="admin-body">
+                    <a href="{{ path('app_category_list_admin') }}">
+                        <div>
+                            <h5>Gestion des catégories</h5>
+                        </div>
+                    </a>
                 </div>
-            </a>
-        </div>
 
-        <!-- Gestion des administrateurs -->
-        <div class="col-md-4 m-4"  style="width:250px; height: 250px;">
-            <a href="{{ path('app_list_admin') }}" class="text-decoration-none">
-                <div class="card border p-3 bg-light h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <h5 class="card-title text-center m-0" style="color: var(--main);">Gestion des administrateurs</h5>
-                    </div>
+                <!-- Gestion des produits -->
+                <div class="admin-body">
+                    <a href="{{ path('app_product_list_admin') }}">
+                        <div>
+                            <h5>Gestion des produits</h5>
+                        </div>
+                    </a>
                 </div>
-            </a>
-        </div>
 
-        <!-- Gestion des clients -->
-        <div class="col-md-4 m-4 " style="width:250px; height: 250px;">
-            <a href="{{ path('app_user_list_admin') }}" class="text-decoration-none">
-                <div class="card border p-3 bg-light h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <h5 class="card-title text-center m-0" style="color: var(--main);">Gestion des clients</h5>
-                    </div>
+                <!-- Gestion des promotions -->
+                <div class="admin-body">
+                    <a href="{{ path('app_sales_list') }}">
+                        <div>
+                            <h5>Gestion des promotions</h5>
+                        </div>
+                    </a>
                 </div>
-            </a>
-        </div>
-        <div class="col-md-4 m-4 " style="width:250px; height: 250px;">
-            <a href="{{ path('app_message_list_admin') }}" class="text-decoration-none">
-                <div class="card border p-3 bg-light h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <h5 class="card-title text-center m-0" style="color: var(--main);">Gestion des messages</h5>
-                    </div>
+                <!-- Gestion des commandes -->
+                <div class="admin-body">
+                    <a href="{{ path('app_order_list_admin') }}">
+                        <div>
+                            <h5>Gestion des commandes</h5>
+                        </div>
+                    </a>
                 </div>
-            </a>
+                <!-- Gestion des administrateurs -->
+                <div class="admin-body">
+                    <a href="{{ path('app_list_admin') }}">
+                        <div>
+                            <h5>Gestion des administrateurs</h5>
+                        </div>
+                    </a>
+                </div>
+                <!-- Gestion des clients -->
+                <div class="admin-body">
+                    <a href="{{ path('app_user_list_admin') }}">
+                        <div>
+                            <h5>Gestion des clients</h5>
+                        </div>
+                    </a>
+                </div>
+                <div class="admin-body">
+                    <a href="{{ path('app_message_list_admin') }}">
+                        <div>
+                            <h5>Gestion des messages</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
 
-
-    
 {% endblock %}

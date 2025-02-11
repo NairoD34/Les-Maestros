@@ -2,49 +2,40 @@
 
 
 {% block main %}
-    <h2>{{ title }}</h2>
-    <table>
-        <tr>
-            <td>
-            Nom
-            {% if ( trilastname == 'desc') %}
-                <a href="{{ path('app_user_list_admin') }}?lastname={{ lastname }}&trilastname=asc&trifirstname={{ trifirstname }}">></a>
-            {% else %}
-                <a href="{{ path('app_user_list_admin') }}?lastname={{ lastname }}&trilastname=desc&trifirstname={{ trifirstname }}"><</a>
-            {% endif %}
-            </td>
-            <td>
-            Prénom
-            {% if ( trifirstname == 'desc') %}
-                <a href="{{ path('app_user_list_admin') }}?lastname={{ lastname }}&trifirstname=asc&trilastname={{ trilastname }}">></a>
-            {% else %}
-                <a href="{{ path('app_user_list_admin') }}?lastname={{ lastname }}&trifirstname=desc&trilastname={{ trilastname }}"><</a>
-            {% endif %}
-            </td>
-        </tr>
-        <div class="row">
-    <div class="d-flex justify-content-center gap-5">
-        <div class="d-flex flex-wrap">
-    {% for item in users %}
-            <div class="card border p-3 bg-light d-flex flex-wrap align-items-center m-2 justify-content-center" style="width: 15rem; height: 15rem;">
-                <div class="card-body d-flex align-items-center">
-                    <a href ="{{ path('app_user_show_admin', { 'id': item.id })}}" class="card-text text-decoration-none">
-                        <h5 class="card-title text-center">{{ item.lastname }} {{ item.firstname }}</h5>
-                        
-                </div>
-                    </a>
-                    <a href="{{ path('app_user_show_admin', { 'id': item.id })}}">Voir</a>
-                    {{ include('BackOffice/User/user_delete.html.twig', { 'id': item.id })}} 
-                      </div>
-    {% else %}
-        <tr>
-            <td colspan="5">Aucun enregistrement</td>
-        </tr>
-    {% endfor %}
-    </table>
-    <form>
-        <input type='text' name='lastname' placeholder='recherchez par le nom' value='{{ lastname }}'>
-        <input type='submit' name='submit' value='rechercher'>
-    </form>
-    <a href="{{ path('app_admin_dashboard') }}" class="btn btn-secondary">Retour</a>
+    <section class="admin-section">
+        <div class="title-container">
+            <a href="{{ path('app_admin_dashboard') }}" class="come-back">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                    <path fill="#000000"
+                          d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                </svg>
+            </a>
+            <h2>{{ title }}</h2>
+        </div>
+        <form class="mt-4 w-50 mx-auto">
+            <input type='text' name='lastname' placeholder='recherchez par le nom' value='{{ lastname }}'>
+            <input type='submit' name='submit' value='rechercher'>
+        </form>
+        <div class="details-container">
+            <div class="details-content">
+                {% for item in users %}
+                    <div class="details-body">
+                        <div class="admin-action">
+                            <a href="{{ path('app_user_show_admin', { 'id': item.id }) }}">
+                                <div>
+                                    <h4>{{ item.lastname }} {{ item.firstname }}</h4>
+                                </div>
+                            </a>
+                            <div class="action-container">
+                                {{ include('BackOffice/User/user_delete.html.twig', { 'id': item.id }) }}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>Aucun enregistrement</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 {% endblock %}

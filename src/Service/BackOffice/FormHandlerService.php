@@ -80,20 +80,25 @@ class FormHandlerService
                     $audioDirectory = $this->upload->getTargetDirectoryAudio();
                     $audio_path = $audioDirectory . '/' . $audio_name;
                 } else {
-                    dd('une erreur est survenue à l\'audio');
+                    echo('une erreur est survenue à l\'audio');
                 }
+                $product->setAudio($audio_path);
             }
             $category = $form['category']->getData();
             $product->setCategory($category);
-            $product->setAudio($audio_path);
+
             if ($update) {
-                $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
+                if ($file) {
+                    $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
+                }
                 $this->em->persist($product);
                 $this->em->flush();
             } else {
                 $this->em->persist($product);
                 $this->em->flush();
-                $photo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $file_name);
+                if ($file) {
+                    $photo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $file_name);
+                }
             }
 
             return [
@@ -116,8 +121,7 @@ class FormHandlerService
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($update !== true) {
-                $selectedRoles = $form->get('roles')->getData();
-                $admin->setRoles($selectedRoles);
+                $admin->setRoles(['ROLE_ADMIN']);
                 $admin->setPassword(
                     $adminPasswordHasher->hashPassword(
                         $admin,
@@ -147,12 +151,18 @@ class FormHandlerService
         if ($form->isSubmitted()) {
             $this->em->persist($order);
             $this->em->flush();
-            return true;
+            return [
+                'validate' => true,
+                'form' => $form,
+            ];
         }
-        return $form;
+        return [
+            'validate' => false,
+            'form' => $form,
+        ];
     }
 
-    public function  handleCategory(bool $update, Request $request, Category $category, $photo, $categoryRepo)
+    public function handleCategory(bool $update, Request $request, Category $category, $photo, $categoryRepo)
     {
         $form = $this->formFactory->create(AdminCategoryFormType::class, $category);
 
@@ -163,17 +173,16 @@ class FormHandlerService
                 if ($file) {
                     $file_name = $this->upload->uploadCategory($file);
 
-                    if ($file_name) // for example
-                    {
+                    if ($file_name) {
                         $directory = $this->upload->getTargetDirectory();
                         $full_path = $directory . '/' . $file_name;
                         if (file_exists($full_path)) {
                             $error = 'une erreur est survenue';
                         }
                     }
-                    $photo->updatePhotoInCategory($category->getId(), '/upload/photo_category/' . $file_name);
                     $this->em->persist($category);
                     $this->em->flush();
+                    $photo->updatePhotoInCategory($category->getId(), '/upload/photo_category/' . $file_name);
                 }
             } else {
                 if ($file) {
@@ -187,8 +196,9 @@ class FormHandlerService
                 }
                 $this->em->persist($category);
                 $this->em->flush();
-                $photo->insertPhotoWithCategorie($categoryRepo->getLastId()->getId(), '/upload/photo_category/' . $file_name);
-
+                if ($file) {
+                    $photo->insertPhotoWithCategorie($categoryRepo->getLastId()->getId(), '/upload/photo_category/' . $file_name);
+                }
             }
             return [
                 "validate" => true,
@@ -197,7 +207,7 @@ class FormHandlerService
 
         }
         return [
-            "validate"=> false,
+            "validate" => false,
             "form" => $form,
         ];
 

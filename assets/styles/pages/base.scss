@@ -48,6 +48,12 @@
             align-items: center;
             flex-direction: column;
             gap: 15px;
+
+            .open-burger {
+              height: 50%;
+              @include mixins.center-flex-column(center);
+              justify-content: space-evenly;
+            }
           }
         }
 
@@ -170,12 +176,19 @@
   display: flex;
   align-items: center;
   padding: 20px;
+
   @media screen and (max-width: 1368px) {
     height: auto;
   }
 
   &-container {
     width: 100%;
+
+    .copyright-container {
+      color: colors.$main;
+      font-style: italic;
+      text-align: center;
+    }
 
     .content {
       display: flex;
