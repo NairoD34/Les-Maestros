@@ -21,25 +21,8 @@ class AdminProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function searchNew()
-    {
-        return $this->createQueryBuilder('p')
-            ->setMaxResults(6)
-            ->OrderBy('p.id', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
 
-    /*    public function findProduitsByCategorieId($categorieId)
-    {
-        return $this->createQueryBuilder('p')
-            ->join('p.categories', 'c')
-            ->where('c.id = :categorieId')
-            ->setParameter('categorieId', $categorieId)
-            ->getQuery()
-            ->getResult();
-    }
- */
+
     public function searchByName(string $title): ?array
     {
         return $this->createQueryBuilder('s')

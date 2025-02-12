@@ -20,6 +20,7 @@ class OrderLineRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, OrderLine::class);
     }
+
     public function findByOrderId($id)
     {
         return $this->createQueryBuilder('c')

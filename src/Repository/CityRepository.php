@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\City;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,9 +22,12 @@ class CityRepository extends ServiceEntityRepository
         parent::__construct($registry, City::class);
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findOneByNameWithRegion($cityName): ?City
     {
-        $cityName = strtoupper($cityName); // Convertir le nom de la ville en majuscules
+        $cityName = strtoupper($cityName);
 
         return $this->createQueryBuilder('v')
             ->andWhere('v.name = :name')

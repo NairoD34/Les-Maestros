@@ -27,36 +27,28 @@ class OrderRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('s')
             ->where('s.id like :val')
             ->setParameter('val', '%' . $id . '%')
-
             ->getQuery()
             ->getResult();
     }
-    public function insertOrders($date, $total, $delivery, $payment, $user, $cart)
-    {
-        $sql = "INSERT INTO `Orders`(`order_date`, `ti_order_price`, `delivery_id`, `payment_id`, `state_id`, `users_id`, `cart_id`) 
-                VALUES ('" . $date . "'," . $total . "," . $delivery . "," . $payment . ",'1'," . $user . "," . $cart . ")";
-        $this->getEntityManager()->getConnection()
-            ->executeQuery($sql);
-    }
-    public function countOrders()
-       {
-        $result = $this->createQueryBuilder('e')
-        ->select('COUNT(e) ')
-        ->getQuery()->getSingleScalarResult();
-           
-           return $result;
-           
-       }
 
-       public function countTaxIncludedRevenue()
-       {
+    public function countOrders()
+    {
         $result = $this->createQueryBuilder('e')
-        ->select('SUM(e.ti_order_price) ')
-        ->getQuery()->getSingleScalarResult();
-           
-           return $result;
-           ;
-       }
+            ->select('COUNT(e) ')
+            ->getQuery()->getSingleScalarResult();
+
+        return $result;
+
+    }
+
+    public function countTaxIncludedRevenue()
+    {
+        $result = $this->createQueryBuilder('e')
+            ->select('SUM(e.ti_order_price) ')
+            ->getQuery()->getSingleScalarResult();
+
+        return $result;
+    }
 
     //    /**
     //     * @return Orders[] Returns an array of Orders objects
