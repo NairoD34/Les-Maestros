@@ -78,9 +78,9 @@ export default class Burger {
         const navTitle: HTMLHeadingElement = divTitle.getElementsByTagName("h3")[1] as HTMLHeadingElement;
         const followTitle: HTMLHeadingElement = divTitle.getElementsByTagName("h3")[0] as HTMLHeadingElement;
         if (ul) {
-            ul.style.display = changeSize < 1368 ? "none" : "flex";
-            navTitle.style.display = changeSize < 1368 ? "none" : "block";
-            followTitle.style.display = changeSize < 1368 ? "none" : "block";
+            ul.style.display = changeSize <= 1368 ? "none" : "flex";
+            navTitle.style.display = changeSize <= 1368 ? "none" : "block";
+            followTitle.style.display = changeSize <= 1368 ? "none" : "block";
         }
     }
 }

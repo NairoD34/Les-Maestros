@@ -20,12 +20,13 @@ class PhotosRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Photos::class);
     }
+
     public function searchPhotoByCategory($category)
     {
         $sql = "select * from photos p  where p.category_id = ?";
         $query = $this->getEntityManager()->getConnection()
             ->executeQuery($sql, [$category->getId()]);
-        $result =  $query->fetchAllAssociative();
+        $result = $query->fetchAllAssociative();
         $photos = [];
         foreach ($result as $var) {
             $photo = $this->find($var['id']);
@@ -33,21 +34,23 @@ class PhotosRepository extends ServiceEntityRepository
         }
         return $photos;
     }
+
     public function searchOnePhotoByProduct($idProduct)
     {
 
         return $this->createQueryBuilder('p')
             ->where('p.product = :id')
-            ->setParameter('id',   $idProduct)
+            ->setParameter('id', $idProduct)
             ->getQuery()
             ->getOneOrNullResult();
     }
+
     public function searchPhotoByProduct($idProduct)
     {
 
         return $this->createQueryBuilder('p')
             ->where('p.product = :id')
-            ->setParameter('id',   $idProduct)
+            ->setParameter('id', $idProduct)
             ->getQuery()
             ->getResult();
     }
@@ -58,6 +61,7 @@ class PhotosRepository extends ServiceEntityRepository
         $this->getEntityManager()->getConnection()
             ->executeQuery($sql);
     }
+
     public function insertPhotoWithProduct($id, $path)
     {
         $sql = "INSERT INTO `photos`(`product_id`, `url_photo`) VALUES ('" . $id . "','" . $path . "')";
@@ -68,7 +72,6 @@ class PhotosRepository extends ServiceEntityRepository
     public function updatePhotoInCategory($id, $path)
     {
         $sql = "UPDATE `photos` SET url_photo = '$path' WHERE category_id =  $id ";
-        var_dump($sql);
         $this->getEntityManager()->getConnection()
             ->executeQuery($sql);
     }
@@ -76,7 +79,6 @@ class PhotosRepository extends ServiceEntityRepository
     public function updatePhotoInProduct($id, $path)
     {
         $sql = "UPDATE `photos` SET url_photo = '$path' WHERE product_id =  $id ";
-        var_dump($sql);
         $this->getEntityManager()->getConnection()
             ->executeQuery($sql);
     }

@@ -30,7 +30,7 @@ class UserPanelOrderController extends AbstractController
         if (empty($orders)) {
             return $this->render('FrontOffice/user/emptyCommande.html.twig');
         }
-        return $this->render('user/commande_list.html.twig', [
+        return $this->render('FrontOffice/user/commande_list.html.twig', [
             'title' => 'Liste des commandes',
             'order' => $orders,
             'id' => $request->query->get('id', ''),
@@ -47,7 +47,7 @@ class UserPanelOrderController extends AbstractController
             return $this->redirectToRoute('app_index');
         }
         return $this->render('FrontOffice/user/commande_show.html.twig', [
-            'title' => 'Fiche de la order',
+            'title' => 'Fiche de la commande',
             'order' => $orders,
         ]);
     }

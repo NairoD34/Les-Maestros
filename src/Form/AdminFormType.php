@@ -18,13 +18,6 @@ class AdminFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'Administrateur' => "ROLE_ADMIN",
-                ],
-                'multiple' => false,
-                'expanded' => true,
-            ])
             ->add('lastname')
             ->add('firstname')
             ->add('email')
@@ -39,7 +32,6 @@ class AdminFormType extends AbstractType
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
-
                         'max' => 4096,
                     ])
                 ],

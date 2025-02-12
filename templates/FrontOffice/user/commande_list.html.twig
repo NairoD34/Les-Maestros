@@ -5,47 +5,51 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container mt-5">
-        <h2>{{ title }}</h2>
-
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover mt-4">
-                <thead class="thead-dark">
-                    <tr>
-                        <th class="d-none d-md-table-cell">Commande</th>
-                        <th>Date</th>
-                        <th class="d-none d-md-table-cell">Panier</th>
-                        <th>Prix</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in commande %}
-                        <tr>
-                            <td class="d-none d-md-table-cell">cde n°{{ item.id }}</td>
-                            <td>{{ item.datecommande ? item.datecommande|date('Y-m-d') : '' }}</td>
-                            <td class="d-none d-md-table-cell">panier n°{{ item.panier.id }}</td>
-                            <td>{{ item.prixttccommande }} €TTC</td>
-                            <td><a href="{{ path('app_commande_show', { 'id': item.id }) }}" class="btn button-nl p-1 btn-sm">Voir</a></td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="6">Aucun enregistrement</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    {% for message in app.flashes('success') %}
+        <div class="">
+            {{ message }}
         </div>
-        
-        <form class="mt-4">
-            <div class="form-group">
-                <label for="searchId">Recherchez par ID</label>
-                <input type='text' id="searchId" class="form-control" name='id' placeholder='Recherchez par ID' value='{{ id }}'>
+    {% endfor %}
+    <div class="adress-container">
+
+
+        {% for message in app.flashes('success') %}
+            <div class="log-success">
+                {{ message }}
             </div>
-            {% if app.user %}
-                <a href="{{ path('app_user') }}" class="btn btn-secondary">Retour</a>
-            {% endif %}
-            <button type="submit" class="btn button-nl p-2">Rechercher</button>
-        </form>
+        {% endfor %}
+
+        <div class="active-adress">
+            <div class="title-container">
+                <a href="{{ path('app_user') }}" class="come-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path fill="#000000"
+                              d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                    </svg>
+                </a>
+                <h2>{{ title }}</h2>
+            </div>
+            <div class="adress-content">
+                {% for item in order %}
+                    <div class="active-container">
+                        <div class="adress-card-details">
+                            <p>Commande n°{{ loop.index }} </p>
+                            <p>{{ item.tiOrderPrice }}€ </p>
+                        </div>
+                        <div class="adress-action">
+                            <div>
+                                <a href="{{ path('app_commande_show', { 'id': item.id }) }}"
+                                >Détails</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="empty-message">
+                        Aucun enregistrement actif.
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}

@@ -5,51 +5,49 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container mt-5">
-        <h2>{{ title }}</h2>
-
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover mt-4">
-                <thead class="thead-dark">
-                    <tr>
-                        <th class="d-none d-md-table-cell">Commande</th>
-                        <th>Date</th>
-                        <th class="d-none d-md-table-cell">Client</th>
-                        <th class="d-none d-md-table-cell">Panier</th>
-                        <th>Prix</th>
-                        <th>Détail</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in order %}
-                        <tr>
-                            <td class="d-none d-md-table-cell">cde n°{{ item.id }}</td>
-                            <td>{{ item.orderDate ? item.orderDate|date('Y-m-d H:i:s') : '' }}</td>
-                            <td class="d-none d-md-table-cell">{{ item.users.id }} {{ item.users.lastname }} {{ item.users.firstname }}</td>
-                            <td class="d-none d-md-table-cell">panier n°{{ item.cart.id }}</td>
-                            <td>{{ item.tiOrderPrice }} €TTC</td>
-                            <td><a href="{{ path('app_order_show_admin', { 'id': item.id }) }}" class="btn btn-primary btn-sm">Voir</a></td>
-            <td><a href="{{ path('app_update_order_admin', { 'id': item.id })}}" class="btn btn-primary btn-sm">Mettre à jour</a></td>
-        </tr>
-    {% else %}
-          <tr>
-                            <td colspan="6">Aucun enregistrement</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <section class="admin-section">
+        <div class="title-container">
+            <a href="{{ path('app_admin_dashboard') }}" class="come-back">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                    <path fill="#000000"
+                          d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                </svg>
+            </a>
+            <h2>{{ title }}</h2>
         </div>
-        
-        <form class="mt-4">
-            <div class="form-group">
-                <label for="searchId">Recherchez par ID</label>
-                <input type='text' id="searchId" class="form-control" name='id' placeholder='Recherchez par ID' value='{{ id }}'>
+        <div class="details-container">
+            <div class="details-content">
+                {% for item in order %}
+                    <div class="details-body">
+                        <div class="admin-action">
+                            <a href="{{ path('app_order_show_admin', { 'id': item.id }) }}">
+                                <div>
+                                    <h4>{{ item.id }}</h4>
+                                </div>
+                                <div>
+                                    <h4>{{ item.orderDate ? item.orderDate|date('d/m/Y') : '' }}</h4>
+                                </div>
+                                <div>
+                                    <h4>{{ item.users.id }} {{ item.users.lastname }} {{ item.users.firstname }}</h4>
+                                </div>
+                                <div>
+                                    <h4>panier n°{{ item.cart.id }}</h4>
+                                </div>
+                                <div>
+                                    <h4>{{ item.tiOrderPrice }} €TTC</h4>
+                                </div>
+                            </a>
+                            <div class="action-container">
+                                <a href="{{ path('app_update_order_admin', { 'id': item.id }) }}"
+                                >Mettre à jour</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>Aucun enregistrement</p>
+                {% endfor %}
             </div>
-          
-                <a href="{{ path('app_admin_dashboard') }}" class="btn btn-secondary">Retour</a>
-     
-            <button type="submit" class="btn btn-primary">Rechercher</button>
-        </form>
-    </div>
+        </div>
+    </section>
 {% endblock %}
