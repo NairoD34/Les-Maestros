@@ -5,18 +5,44 @@
 {% endblock %}
 
 {% block main %}
-    <h2>{{ title }}</h2>
-        <div class="row mt-4">
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <strong>ID:</strong> {{ admin.id }} <br>
-                            <strong>Username:</strong> {{ admin.username }} <br>
-                            <strong>Nom:</strong> {{ admin.lastname }} <br>
-                            <strong>Prénom:</strong> {{ admin.firstname }} <br>
-                            <strong>Addresse mail:</strong> {{ admin.email }} <br>
-                        </div>
+    <div class="info_user_container">
+    <div class="info_user_content">
+        <div class="content-form">
+            <div class="show_adress">
+                <div class="title-container">
+                    <a href="{{ path('app_list_admin') }}" class="come-back">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                            <path fill="#000000"
+                                  d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                        </svg>
+                    </a>
+                    <h2>{{ title }}</h2>
+
+                    <div>
+                        <span>ID:</span>
+                        <p>{{ admin.id }}</p>
+                    </div>
+                    <div>
+                        <span>Nom:</span>
+                        <p>{{ admin.lastname }}</p>
+                    </div>
+                    <div>
+                        <span>Prénom:</span>
+                        <p>{{ admin.firstname }}</p>
+                    </div>
+                    <div>
+                        <span>Addresse mail:</span>
+                        <p>{{ admin.email }}</p>
+                    </div>
+                    <div>
+                        <span>Role:</span>
+                        {% for role in admin.roles %}
+                            <p>{{ role }}</p>
+                        {% endfor %}
                     </div>
                 </div>
+            </div>
         </div>
+    </div>
 {% endblock %}

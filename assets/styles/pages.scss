@@ -10,6 +10,7 @@
 @import "pages/address";
 @import "pages/order";
 @import "pages/cart";
+@import "pages/adminDashboard";
 
 @import "components/cardProduct";
 @import "components/breacrumb";
@@ -20,11 +21,18 @@
 @import "base/utilities";
 
 
-body {
+html, body {
+  height: 100%;
   background-color: colors.$background;
   width: 100%;
   margin: 0;
   font-family: var.$secondary-font;
+}
+
+main {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 h1,
@@ -50,4 +58,5 @@ a:hover {
 p {
   margin: 0;
 }
+
 

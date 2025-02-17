@@ -27,8 +27,8 @@ class CartRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->where('p.Users = :id')
-            //->join('p.order','c')
-            //->andWhere('p.order is NULL')
+//            ->join('p.order', 'c')
+//            ->andWhere('p.order is NULL')
             ->orderBy('p.id', 'DESC')
             ->setMaxResults(1)
             ->setParameter('id',   $id)

@@ -35,7 +35,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('show/{id}', name: 'app_show_admin')]
-    public function show(?Admin $admin): Response
+    public function show(?Users $admin): Response
     {
         if (!$admin) {
             return $this->redirectToRoute('app_admin_dashboard');

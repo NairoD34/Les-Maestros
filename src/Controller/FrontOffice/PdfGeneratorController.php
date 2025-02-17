@@ -16,38 +16,41 @@ class PdfGeneratorController extends AbstractController
     public function index(
         int                 $id,
         OrderLineRepository $orderLineRepo,
-        OrderRepository     $orderRepo,
+        OrderRepository     $orderRepo
     ): Response
     {
         $dataProducts = $orderLineRepo->findByOrderId($id);
-        $ordersData = $orderRepo->find($id);
+        $orderData = $orderRepo->find($id);
 
-        foreach ($ordersData as $orderData) {
-            $deliveryAddress = $orderData->getDelivered();
-            $deliveryBill = $orderData->getBilled();
-            $html = $this->renderView('BackOffice/pdf_generator/index.html.twig', [
-                'dataProduit' => $dataProducts,
-                'dataCommande' => $ordersData,
-                'deliveryAddress' => $deliveryAddress,
-                'deliveryBill' => $deliveryBill,
-                'logoUrl' => $this->imageToBase64($this->getParameter('kernel.project_dir') . '/public/img/logo.png'),
-            ]);
-
-            $options = new Options();
-            $options->set('isRemoteEnabled', true);
-
-            $dompdf = new Dompdf($options);
-            $dompdf->loadHtml($html);
-            $dompdf->setPaper('A4', 'portrait');
-            $dompdf->render();
-
-            $pdfOutput = $dompdf->output();
+        if (!$orderData) {
+            throw $this->createNotFoundException('Commande non trouvée.');
         }
+
+        $deliveryAddress = $orderData->getDelivered();
+        $deliveryBill = $orderData->getBilled();
+
+        $html = $this->renderView('BackOffice/pdf_generator/index.html.twig', [
+            'dataProduit' => $dataProducts,
+            'dataCommande' => $orderData,
+            'deliveryAddress' => $deliveryAddress,
+            'deliveryBill' => $deliveryBill,
+            'logoUrl' => $this->imageToBase64($this->getParameter('kernel.project_dir') . '/public/build/images/logo.png'),
+        ]);
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $pdfOutput = $dompdf->output();
 
         return new Response($pdfOutput, 200, [
             'Content-Type' => 'application/pdf',
         ]);
     }
+
 
     private function imageToBase64($path)
     {

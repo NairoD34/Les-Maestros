@@ -187,14 +187,14 @@
     width: 70%;
 
 
-    @media (min-width: 769px) and (max-width: 1368px) {
+    @media (min-width: 768px) and (max-width: 1368px) {
       grid-template-columns: repeat(2, 1fr);
 
     }
     @media screen and (max-width: 880px) {
       width: 80%;
     }
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 666px) {
       grid-template-columns: repeat(1, 1fr);
     }
   }

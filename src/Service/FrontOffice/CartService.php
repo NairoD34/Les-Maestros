@@ -12,11 +12,7 @@ use App\Repository\AdressRepository;
 use App\Repository\CartRepository;
 use App\Repository\PhotosRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class CartService
@@ -45,7 +41,7 @@ class CartService
         $form = $this->formFactory->create(CommandeFormType::class, $orders, [
             'adressesUtilisateur' => $userAdresses,
         ]);
-        $cart = $this->cartRepo->getLastCart($id);
+        $cart = $this->cartRepo->getLastCartOrder($id);
         $result = [
             'form' => $form,
             'Orders' => $orders,
@@ -99,7 +95,7 @@ class CartService
             $Orders->setState($etatUnique);
             $Orders->setUsers($this->security->getUser());
             $Orders->setCart($cart);
-            $Orders->setsetOrderDate(new \DateTimeImmutable());
+            $Orders->setOrderDate(new \DateTimeImmutable());
             $Orders->setTIOrderPrice($total);
 
             foreach ($cart->getCartProducts() as $cart) {
@@ -113,7 +109,7 @@ class CartService
 
                 $users = $Orders->getUsers();
                 if ($users) {
-                    $ligneOrders->setUserLastname($users->getName());
+                    $ligneOrders->setUserLastname($users->getLastname());
                     $ligneOrders->setUserFirstname($users->getFirstname());
                     $ligneOrders->setUserEmail($users->getEmail());
                 }
