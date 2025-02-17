@@ -13,6 +13,7 @@ use App\Form\AdminCategoryFormType;
 use App\Form\AdminOrderFormType;
 use App\Form\AdminFormType;
 use App\Form\AdminProductFormType;
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -162,7 +163,7 @@ class FormHandlerService
         ];
     }
 
-    public function handleCategory(bool $update, Request $request, Category $category, $photo, $categoryRepo)
+    public function handleCategory(bool $update, Request $request, Category $category, $photo, ?CategoryRepository $categoryRepo)
     {
         $form = $this->formFactory->create(AdminCategoryFormType::class, $category);
 

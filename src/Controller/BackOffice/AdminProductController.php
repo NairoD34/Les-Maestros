@@ -20,11 +20,11 @@ class AdminProductController extends AbstractController
 
     #[Route('new_product', name: 'app_new_product')]
     public function new(
-        Request                $request,
-        Security               $security,
-        PhotosRepository       $photo,
-        ProductRepository      $productRepo,
-        FormHandlerService     $formHandler
+        Request            $request,
+        Security           $security,
+        PhotosRepository   $photo,
+        ProductRepository  $productRepo,
+        FormHandlerService $formHandler
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
@@ -87,7 +87,7 @@ class AdminProductController extends AbstractController
         Security           $security,
         PhotosRepository   $photo,
         FormHandlerService $formHandler,
-        ProductRepository $productRepo,
+        ProductRepository  $productRepo,
     )
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
