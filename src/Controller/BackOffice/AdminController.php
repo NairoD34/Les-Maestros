@@ -104,7 +104,7 @@ class AdminController extends AbstractController
     #[Route('delete/{id}', name: 'app_delete_admin', methods: ['POST'])]
     public function delete(
         Request                $request,
-        Admin                  $admin,
+        Users                  $admin,
         EntityManagerInterface $entityManager
     ): Response
     {
