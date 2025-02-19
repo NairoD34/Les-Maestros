@@ -21,6 +21,7 @@ use http\Client\Curl\User;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class FormHandlerService
 {
@@ -115,10 +116,11 @@ class FormHandlerService
         ];
     }
 
-    public function handleAdmin(bool $update, Request $request, Users $admin, UserPasswordHasherInterface $adminPasswordHasher)
+    public function handleAdmin(bool $update, Request $request, Users $admin, UserPasswordHasherInterface $adminPasswordHasher, ValidatorInterface $validatorInterface)
     {
         $form = $this->formFactory->create(AdminFormType::class, $admin);
         $form->handleRequest($request);
+        $errorsString = "";
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($update !== true) {
@@ -136,11 +138,19 @@ class FormHandlerService
             return [
                 'validate' => true,
                 'form' => $form,
+                'errors' => $errorsString,
             ];
-        }
+        }/* 
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $errors = $validatorInterface->validate($admin);
+            dd($errors);
+        } */
+        
         return [
             'validate' => false,
             'form' => $form,
+            'errors' => $errorsString,
         ];
     }
 
