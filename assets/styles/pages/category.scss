@@ -7,10 +7,14 @@
   .banner-container {
     width: 100%;
     height: auto;
+    display: flex;
+    justify-content: center;
+    background-color: #212529 ;
+
 
     img {
-      width: 100%;
-      height: auto;
+      width: 50%;
+      max-height: 480px;
     }
   }
 
@@ -26,7 +30,9 @@
     margin: 10px 0 20px 0;
   }
 }
-
+.image-cate{
+  max-height: 400px;
+}
 
 .child-container {
   height: auto;
