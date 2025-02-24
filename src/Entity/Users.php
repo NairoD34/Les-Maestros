@@ -40,6 +40,13 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 6,
+        max: 25,
+        minMessage: 'Votre mot de passe doit contenir au moins 6 caractères.',
+        maxMessage: 'Votre mot de passe ne peut pas excéder 25 caractères',
+    )]
     private ?string $password = null;
 
    
