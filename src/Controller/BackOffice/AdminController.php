@@ -65,13 +65,6 @@ class AdminController extends AbstractController
 
         if ($formResult['validate']) {
             return $this->redirectToRoute('app_list_admin');
-        }/* 
-
-        $temp = $validatorInterface->validate($admin);
-        dd($temp); */
-        
-        if (strlen($formResult['errors']) > 0) {
-            dd($formResult['errors']);
         }
 
         return $this->render('BackOffice/Admin/new.html.twig', [

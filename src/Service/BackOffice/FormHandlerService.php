@@ -2,7 +2,6 @@
 
 namespace App\Service\BackOffice;
 
-use App\Entity\Admin;
 use App\Entity\Category;
 use App\Entity\Orders;
 use App\Entity\Product;
@@ -17,7 +16,6 @@ use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Client\Curl\User;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -120,7 +118,8 @@ class FormHandlerService
     {
         $form = $this->formFactory->create(AdminFormType::class, $admin);
         $form->handleRequest($request);
-        $errorsString = "";
+        $validate = false;
+        $errors = [];
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($update !== true) {
@@ -128,29 +127,25 @@ class FormHandlerService
                 $admin->setPassword(
                     $adminPasswordHasher->hashPassword(
                         $admin,
-                        $form->get('plainPassword')->getData()
+                        $form->get('password')->getData()
                     )
                 );
             }
             $this->em->persist($admin);
             $this->em->flush();
-
-            return [
-                'validate' => true,
-                'form' => $form,
-                'errors' => $errorsString,
-            ];
-        }/* 
+            $validate = true;
+        }
 
         if ($form->isSubmitted() && !$form->isValid()) {
-            $errors = $validatorInterface->validate($admin);
-            dd($errors);
-        } */
+            $errors = $validatorInterface->validate($admin);/* 
+            $errorsString = (string) $errors;
+            dd($errors); */
+        }
         
         return [
-            'validate' => false,
+            'validate' => $validate,
             'form' => $form,
-            'errors' => $errorsString,
+            'errors' => $errors,
         ];
     }
 

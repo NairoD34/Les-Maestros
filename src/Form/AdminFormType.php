@@ -2,12 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\Admin;
 use App\Entity\Users;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -21,9 +19,9 @@ class AdminFormType extends AbstractType
             ->add('lastname')
             ->add('firstname')
             ->add('email')
-            ->add('plainPassword', PasswordType::class, [
+            ->add('password', PasswordType::class, [
 
-                'mapped' => false,
+                'mapped' => true,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
