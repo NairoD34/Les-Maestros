@@ -3,11 +3,11 @@
 .card-container {
   box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
   box-sizing: border-box;
+  background-color: colors.$white;
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: space-between;
   align-items: center;
-  background-color: colors.$white;
   @media screen and (max-width: 1368px) {
     margin: 0 auto;
     display: flex;
@@ -16,6 +16,83 @@
     justify-content: end;
     align-items: center;
     background-color: colors.$white;
+
+  }
+  .flag-percent {
+    padding: 5px;
+    background-color: colors.$header;
+    color: colors.$main;
+    @media screen and (max-width: 800px) {
+      width: 25%;
+    }
+
+    span {
+      display: inline-block;
+      text-align: center;
+      font-weight: bold;
+      width: 100%;
+    }
+  }
+
+  .flag-news {
+    padding: 5px;
+    background-color: colors.$header;
+    color: colors.$main;
+    font-weight: bold;
+    @media screen and (max-width: 800px) {
+      width: 45%;
+    }
+    @media (min-width: 800px) and (max-width: 1024px) {
+      width: 50%;
+    }
+
+
+    span {
+      display: inline-block;
+      text-align: center;
+      width: 100%;
+    }
+  }
+
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .price-container {
+    padding: 5px;
+    width: 100%;
+    background-color: colors.$header;
+    color: colors.$text;
+    text-align: center;
+
+    .title {
+      font-weight: bold;
+      margin: 5px 0;
+      @media screen and (max-width: 1024px) {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .price-content {
+    margin: 5px 0;
+    @media screen and (max-width: 1024px) {
+      font-size: 1rem;
+    }
+
+    .new-price {
+      color: colors.$main;
+      font-weight: bold;
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      text-decoration-color: colors.$main;
+    }
   }
 
 
@@ -30,84 +107,7 @@
     width: 100%;
     box-sizing: border-box;
 
-    .flag-percent {
-      width: 15%;
-      padding: 5px;
-      background-color: colors.$header;
-      color: colors.$main;
-      @media screen and (max-width: 800px) {
-        width: 25%;
-      }
-
-      span {
-        display: inline-block;
-        text-align: center;
-        font-weight: bold;
-        width: 100%;
-      }
-    }
-
-    .flag-news {
-      width: 30%;
-      padding: 5px;
-      background-color: colors.$header;
-      color: colors.$main;
-      font-weight: bold;
-      @media screen and (max-width: 800px) {
-        width: 45%;
-      }
-      @media (min-width: 800px) and (max-width: 1024px) {
-        width: 50%;
-      }
-
-
-      span {
-        display: inline-block;
-        text-align: center;
-        width: 100%;
-      }
-    }
-
-    a {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .price-container {
-      padding: 5px;
-      width: 100%;
-      background-color: colors.$header;
-      color: colors.$text;
-      text-align: center;
-
-      .title {
-        font-weight: bold;
-        margin: 5px 0;
-        @media screen and (max-width: 1024px) {
-          font-size: 1rem;
-        }
-      }
-    }
-
-    .price-content {
-      margin: 5px 0;
-      @media screen and (max-width: 1024px) {
-        font-size: 1rem;
-      }
-
-      .new-price {
-        color: colors.$main;
-        font-weight: bold;
-      }
-
-      .old-price {
-        text-decoration: line-through;
-        text-decoration-color: colors.$main;
-      }
-    }
+   
 
   }
 

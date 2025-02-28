@@ -119,7 +119,6 @@
             <div class="scroll-container">
                 {% for productData in randomProducts %}
                     <div class="card-container">
-                        <div class="card-content">
                             {% if productData.details.products.sales is not empty %}
                                 <div class="flag-percent">
                                     <span>{{ productData.details.products.sales }}</span>
@@ -140,7 +139,6 @@
                                     </p>
                                 </div>
                             </a>
-                        </div>
                     </div>
                 {% else %}
                     <div class="no-products">
