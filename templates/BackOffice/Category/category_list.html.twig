@@ -24,7 +24,7 @@
                         <div class="details-body">
                             {% for photo in item.photos %}
                                 <div class="admin-image">
-                                    <img src="{{ photo.urlPhoto }}" alt="Image de {{ item.title }}">
+                                    <img src="{{ photo.urlPhoto }}" alt="{{ item.title }}">
                                 </div>
                             {% endfor %}
                             <div class="admin-action">
@@ -53,7 +53,7 @@
                         >
                             {% for photo in item.photos %}
                                 <div class="admin-image">
-                                    <img src="{{ photo.urlPhoto }}" alt="Image de {{ item.title }}">
+                                    <img src="{{ photo.urlPhoto }}" alt="{{ item.title }}">
                                 </div>
                             {% endfor %}
                             <div class="admin-action">

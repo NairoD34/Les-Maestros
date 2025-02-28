@@ -9,7 +9,7 @@
         <!-- Bannière principale -->
         <div class="banner-container">
             {% for photo in photos %}
-                <img src="{{ photo.URLPhoto }}" alt="Image de {{cate.title}}"/>
+                <img src="{{ photo.URLPhoto }}" alt="{{cate.title}}"/>
             {% endfor %}
         </div>
         <nav class="breadcrumb-container" aria-label="breadcrumb-container">
@@ -42,7 +42,7 @@
                 {% for item in enfants %}
                     <div class="child-items">
                         <a href="{{ path('app_produit_categorie', { 'id': item.id }) }}">
-                            <img src="{{ item.photos[0].urlPhoto }}" alt="Image de {{item.title}}"
+                            <img src="{{ item.photos[0].urlPhoto }}" alt="{{item.title}}"
                                  style=" object-fit: cover;">
                             <div>
                                 <h5>{{ item.title }}</h5>
