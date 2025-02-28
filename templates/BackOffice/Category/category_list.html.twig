@@ -35,8 +35,10 @@
                                 </a>
                                 <div class="action-container">
                                     <a href="{{ path('app_update_category', { 'id': item.id }) }}">Mettre à jour</a>
+                                    <a href="{{ path('app_product_categorie', { 'id': item.id }) }}">Voir les produits </a>
                                     {{ include('BackOffice/Category/category_delete.html.twig', { 'id': item.id }) }}
                                 </div>
+                                
                             </div>
                         </div>
                     {% endif %}
@@ -63,6 +65,8 @@
                                 </a>
                                 <div class="action-container">
                                     <a href="{{ path('app_update_category', { 'id': item.id }) }}">Mettre à jour</a>
+                                    <a href="{{ path('app_product_categorie', { 'id': item.id }) }}">Voir les produits </a>
+
                                     {{ include('BackOffice/Category/category_delete.html.twig', { 'id': item.id }) }}
                                 </div>
                             </div>
