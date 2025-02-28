@@ -42,7 +42,7 @@
                 {% for item in enfants %}
                     <div class="child-items">
                         <a href="{{ path('app_produit_categorie', { 'id': item.id }) }}">
-                            <img src="{{ item.photos[0].urlPhoto }}" alt="child-img"
+                            <img src="{{ item.photos[0].urlPhoto }}" alt="Image de {{item.photos[0].title}}"
                                  style=" object-fit: cover;">
                             <div>
                                 <h5>{{ item.title }}</h5>

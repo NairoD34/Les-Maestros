@@ -52,7 +52,7 @@
                                     <span>{{ item.produit.sales.title }}</span>
                                 </div>
                                 <a href="{{ path('app_show_produit', { 'id': item.produit.id }) }}">
-                                    <img src="{{ item.photos[0].urlPhoto }}" alt="...">
+                                    <img src="{{ item.photos[0].urlPhoto }}" alt="Image de {{item.photos[0].title}}">
                                     <div class="price-container">
                                         <p class="title">{{ item.produit.title }}</p>
                                         <p class="price-content">
@@ -75,7 +75,7 @@
                                     <span>0%</span>
                                 </div>
                                 <a href="{{ path('app_show_produit', { 'id': item.produit.id }) }}">
-                                    <img src="{{ item.photos[0].urlPhoto }}" alt="...">
+                                    <img src="{{ item.photos[0].urlPhoto }}" alt="Image de {{item.photos[0].title}}">
                                     <div class="price-container">
                                         <p class="title">{{ item.produit.title }}</p>
                                         <p class="price-content">

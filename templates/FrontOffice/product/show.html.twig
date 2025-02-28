@@ -53,7 +53,7 @@
             <div class="productLeft-container">
                 <div class="content">
                     {% for item in mainProduct.photos %}
-                        <img src='{{ item.URLPhoto }}' alt='Image Produit'/>
+                        <img src='{{ item.URLPhoto }}' alt='Image de {{item.title}}'/>
                     {% endfor %}
                     {% if mainProduct.details.products.sales %}
                         <div class="flag-percent">
