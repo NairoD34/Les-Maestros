@@ -91,13 +91,13 @@ class AdminController extends AbstractController
 
         $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher);
 
-        if ($formResult) {
+        if ($formResult['validate']) {
             return $this->redirectToRoute('app_list_admin');
         }
 
         return $this->render('BackOffice/Admin/new.html.twig', [
             'title' => 'Mise à jour d\'un administrateur',
-            'form' => $formResult,
+            'form' => $formResult["form"],
         ]);
     }
 
