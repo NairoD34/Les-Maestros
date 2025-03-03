@@ -17,6 +17,15 @@
                 </a>
                 <h2>{{ title }}</h2>
             </div>
+            {% block form_errors %}
+                {% if errors|length > 0 %}
+                    <ul class='log-danger'>
+                        {% for error in errors %}
+                            <li> {{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endblock form_errors %}
             <div class="content-form">
                 {{ form_start(form) }}
                 <div>
@@ -32,8 +41,8 @@
                     {{ form_widget(form.email) }}
                 </div>
                 <div>
-                    {{ form_label(form.plainPassword, 'Mot de passe') }}
-                    {{ form_widget(form.plainPassword) }}
+                    {{ form_label(form.password, 'Mot de passe') }}
+                    {{ form_widget(form.password) }}
                 </div>
 
                 <div class="submit-container">

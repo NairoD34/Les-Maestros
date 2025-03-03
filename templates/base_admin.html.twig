@@ -34,24 +34,8 @@
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script>
-            $(document).ready(function (e) {
-                $('input[type="file"]').on('change', (e) => {
-                    console.log('change file');
-                    let that = e.currentTarget
-                    if (that.files && that.files[0]) {
-                        $(that).next('.custom-file-label').html(that.files[0].name)
-                        let reader = new FileReader()
-                        reader.onload = (e) => {
-                            $('#preview').attr('src', e.target.result)
-                        }
-                        reader.readAsDataURL(that.files[0])
-                    }
-                })
-            });
+                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
         </script>
-
     {% endblock %}
 
 

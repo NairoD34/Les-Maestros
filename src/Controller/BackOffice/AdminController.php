@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('admin/')]
 class AdminController extends AbstractController
@@ -52,23 +53,24 @@ class AdminController extends AbstractController
         Request                     $request,
         Security                    $security,
         UserPasswordHasherInterface $adminPasswordHasher,
-        FormHandlerService          $formHandler
+        FormHandlerService          $formHandler,
+        ValidatorInterface          $validatorInterface,
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
         $admin = new Users();
-        $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher);
+        $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher, $validatorInterface);
 
         if ($formResult['validate']) {
             return $this->redirectToRoute('app_list_admin');
         }
 
-
         return $this->render('BackOffice/Admin/new.html.twig', [
             'title' => 'Création d\'un nouvel administrateur',
             'form' => $formResult['form']->createView(),
+            'errors' => $formResult['errors'],
         ]);
     }
 
@@ -79,6 +81,7 @@ class AdminController extends AbstractController
         Security                    $security,
         FormHandlerService          $formHandler,
         UserPasswordHasherInterface $adminPasswordHasher,
+        ValidatorInterface          $validatorInterface,
     )
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
@@ -89,7 +92,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_list_admin');
         }
 
-        $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher);
+        $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher, $validatorInterface);
 
         if ($formResult['validate']) {
             return $this->redirectToRoute('app_list_admin');

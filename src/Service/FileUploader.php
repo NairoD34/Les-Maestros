@@ -46,8 +46,11 @@ class FileUploader
         }
         return $fileName;
     }
-    public function uploadProductAudio(UploadedFile $file)
+    public function uploadProductAudio(?UploadedFile $file)
     {
+        if ($file === null) {
+            return null;
+        }
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();

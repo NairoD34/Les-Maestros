@@ -2,7 +2,6 @@
 
 namespace App\Service\BackOffice;
 
-use App\Entity\Admin;
 use App\Entity\Category;
 use App\Entity\Orders;
 use App\Entity\Product;
@@ -17,10 +16,10 @@ use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Client\Curl\User;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class FormHandlerService
 {
@@ -62,9 +61,19 @@ class FormHandlerService
         $form = $this->formFactory->create(AdminProductFormType::class, $product);
 
         $form->handleRequest($request);
+        $audio_name = "";
+        $file_name = "";
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form['upload_file']->getData();
             $audio = $form['upload_audio']->getData();
+
+            if (!$file || !$audio) {
+                return [
+                    'condition' => false,
+                    'form' => $form,
+                ];
+            }
+
             if ($file) {
                 $file_name = $this->upload->uploadProductPhoto($file);
                 if ($file_name) // for example
@@ -118,10 +127,12 @@ class FormHandlerService
         ];
     }
 
-    public function handleAdmin(bool $update, Request $request, Users $admin, UserPasswordHasherInterface $adminPasswordHasher)
+    public function handleAdmin(bool $update, Request $request, Users $admin, UserPasswordHasherInterface $adminPasswordHasher, ValidatorInterface $validatorInterface)
     {
         $form = $this->formFactory->create(AdminFormType::class, $admin);
         $form->handleRequest($request);
+        $validate = false;
+        $errors = [];
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($update !== true) {
@@ -129,21 +140,25 @@ class FormHandlerService
                 $admin->setPassword(
                     $adminPasswordHasher->hashPassword(
                         $admin,
-                        $form->get('plainPassword')->getData()
+                        $form->get('password')->getData()
                     )
                 );
             }
             $this->em->persist($admin);
             $this->em->flush();
-
-            return [
-                'validate' => true,
-                'form' => $form,
-            ];
+            $validate = true;
         }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $errors = $validatorInterface->validate($admin);/* 
+            $errorsString = (string) $errors;
+            dd($errors); */
+        }
+        
         return [
-            'validate' => false,
+            'validate' => $validate,
             'form' => $form,
+            'errors' => $errors,
         ];
     }
 
