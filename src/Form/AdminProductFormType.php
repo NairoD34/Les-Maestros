@@ -49,7 +49,7 @@ class AdminProductFormType extends AbstractType
                             'image/jpeg',
 
                         ],
-                        'mimeTypesMessage' => "This document isn't valid.",
+                        'mimeTypesMessage' => "Veuillez choisir une image au format PNG ou JPG.",
                     ])
                 ]
             ])
@@ -65,7 +65,7 @@ class AdminProductFormType extends AbstractType
                             'audio/webm',
                             'audio/aac',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid audio file.'
+                        'mimeTypesMessage' => "Merci d'envoyer un fichier audio au format mpeg, wav, webm ou aac."
                     ])
                 ]
             ]);

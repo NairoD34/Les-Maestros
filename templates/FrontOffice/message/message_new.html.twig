@@ -4,6 +4,9 @@
         'method': 'POST',
     }
     ) }}
+
+    {{ form_errors(form, {'attr': {'class': 'log-danger'}} ) }}
+
     <div class="identity">
         <label for="{{ form.firstname.vars.id }}">
             {{ form_widget(form.firstname) }}

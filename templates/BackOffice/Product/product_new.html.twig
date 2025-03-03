@@ -22,6 +22,9 @@
         <div class="content-form">
             {{ form_start(form) }}
             <div>
+                {{ form_errors(form, {'attr': {'class': 'log-danger'}}) }}
+            </div>
+            <div>
                 {{ form_label(form.title, 'Libellé') }}
                 {{ form_widget(form.title) }}
             </div>

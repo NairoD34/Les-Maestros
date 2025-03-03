@@ -61,9 +61,19 @@ class FormHandlerService
         $form = $this->formFactory->create(AdminProductFormType::class, $product);
 
         $form->handleRequest($request);
+        $audio_name = "";
+        $file_name = "";
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form['upload_file']->getData();
             $audio = $form['upload_audio']->getData();
+
+            if (!$file || !$audio) {
+                return [
+                    'condition' => false,
+                    'form' => $form,
+                ];
+            }
+
             if ($file) {
                 $file_name = $this->upload->uploadProductPhoto($file);
                 if ($file_name) // for example

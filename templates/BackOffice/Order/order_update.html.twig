@@ -19,6 +19,7 @@
             </div>
             <div class="content-form">
                 {{ form_start(form) }}
+                {{ form_errors(form, {'attr': {'class': 'log-danger'}} ) }}
                 {{ form_label(form.State, 'Etat') }}
                 {{ form_widget(form.State) }}
 
