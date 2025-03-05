@@ -26,9 +26,11 @@ class CartProductRepository extends ServiceEntityRepository
     public function AddProductToCartProduct($idProduct, $idCart, $qty)
     {
         $sql = "INSERT INTO `cart_product`(`product_id`, `cart_id`, `quantity`) VALUES (" . $idProduct . "," . $idCart . "," . $qty . ")";
-        $this->getEntityManager()->getConnection()
-            ->executeQuery($sql);
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->executeQuery();
     }
+
     public function getCartProductbyId($Product, $Cart)
     {
         return $this->createQueryBuilder('p')
@@ -43,41 +45,40 @@ class CartProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+//    public function updateQuantityInCartProduct($qty, $idProduct, $idCart)
+//    {
+//        $sql = "UPDATE `cart_product` SET `quantity`='$qty' WHERE product_id = $idProduct and cart_id = $idCart ";
+//        $this->getEntityManager()->getConnection()
+//            ->executeQuery($sql);
+//    }
+
     public function updateQuantityInCartProduct($qty, $idProduct, $idCart)
     {
-        $sql = "UPDATE `panier_produit` SET `quantite`='$qty' WHERE produit_id = $idProduct and panier_id = $idCart ";
-        $this->getEntityManager()->getConnection()
-            ->executeQuery($sql);
-    }
+        $conn = $this->getEntityManager()->getConnection();
 
-    public function removeProductFromCart($idProduct, $idCart)
-    {
-        return $this->createQueryBuilder('pp')
-            ->delete()
-            ->where('pp.product = :idProduct')
-            ->andWhere('pp.Cart = :idCart')
-            ->setParameter('idProduct', $idProduct)
-            ->setParameter('idCart', $idCart)
-            ->getQuery();
+        $sql = "UPDATE cart_product 
+            SET quantity = :qty 
+            WHERE product_id = :idProduct AND cart_id = :idCart";
 
-        return $qb->execute();
+        $stmt = $conn->prepare($sql);
+        $stmt->executeQuery();
     }
 
 
     //    /**
     //     * @return CartProduct[] Returns an array of CartProduct objects
     //     */
-        public function findByCartId($value): array
-        {
-            return $this->createQueryBuilder('p')
-                ->andWhere('p.Cart = :val')
-                ->setParameter('val', $value)
-                ->orderBy('p.id', 'ASC')
-                ->setMaxResults(10)
-                ->getQuery()
-                ->getResult()
-            ;
-        }
+    public function findByCartId($value): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.Cart = :val')
+            ->setParameter('val', $value)
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 
     //    public function findOneBySomeField($value): ?CartProduct
     //    {

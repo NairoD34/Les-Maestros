@@ -3,7 +3,9 @@
 namespace App\Controller\BackOffice;
 
 use App\Entity\Admin;
+use App\Entity\Users;
 use App\Repository\AdminRepository;
+use App\Repository\UsersRepository;
 use App\Service\BackOffice\FormHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,12 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('admin/')]
 class AdminController extends AbstractController
 {
     #[Route('list_admin', name: 'app_list_admin')]
-    public function list(AdminRepository $adminRepo, Request $request): Response
+    public function list(UsersRepository $adminRepo, Request $request): Response
     {
         $trinom = $request->query->get('trinom', 'asc');
         $triprenom = $request->query->get('triprenom', 'asc');
@@ -33,7 +36,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('show/{id}', name: 'app_show_admin')]
-    public function show(?Admin $admin): Response
+    public function show(?Users $admin): Response
     {
         if (!$admin) {
             return $this->redirectToRoute('app_admin_dashboard');
@@ -50,59 +53,61 @@ class AdminController extends AbstractController
         Request                     $request,
         Security                    $security,
         UserPasswordHasherInterface $adminPasswordHasher,
-        FormHandlerService          $formHandler
+        FormHandlerService          $formHandler,
+        ValidatorInterface          $validatorInterface,
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        $admin = new Admin();
-        $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher);
+        $admin = new Users();
+        $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher, $validatorInterface);
 
         if ($formResult['validate']) {
             return $this->redirectToRoute('app_list_admin');
         }
 
-
         return $this->render('BackOffice/Admin/new.html.twig', [
             'title' => 'Création d\'un nouvel administrateur',
             'form' => $formResult['form']->createView(),
+            'errors' => $formResult['errors'],
         ]);
     }
 
     #[Route('update/{id}', name: 'app_update_admin')]
     public function update(
         Request                     $request,
-        ?Admin                      $admin,
+        ?Users                      $admin,
         Security                    $security,
         FormHandlerService          $formHandler,
         UserPasswordHasherInterface $adminPasswordHasher,
+        ValidatorInterface          $validatorInterface,
     )
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
-        
+
         if (!$admin) {
             return $this->redirectToRoute('app_list_admin');
         }
 
-        $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher);
+        $formResult = $formHandler->handleAdmin(false, $request, $admin, $adminPasswordHasher, $validatorInterface);
 
-        if ($formResult) {
+        if ($formResult['validate']) {
             return $this->redirectToRoute('app_list_admin');
         }
 
         return $this->render('BackOffice/Admin/new.html.twig', [
             'title' => 'Mise à jour d\'un administrateur',
-            'form' => $formResult,
+            'form' => $formResult["form"],
         ]);
     }
 
     #[Route('delete/{id}', name: 'app_delete_admin', methods: ['POST'])]
     public function delete(
         Request                $request,
-        Admin                  $admin,
+        Users                  $admin,
         EntityManagerInterface $entityManager
     ): Response
     {

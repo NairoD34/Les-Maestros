@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block main %}
+    <div class="info_user_container">
+        <div class="info_user_content">
+            <div class="title-container">
+                <a href="{{ path('app_user') }}" class="come-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
+                    <title>Revenir en arrière</title>
+                        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path fill="#000000"
+                              d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                    </svg>
+                </a>
+                <h2>{{ title }}</h2>
+            </div>
+            <div class="content-form">
+                {{ form_start(form, {'attr': {'class': 'info_user_form'}}) }}
+                <div>
+                    {{ form_label(form.lastname, 'Nom', {'label_attr': {'class': 'form_label'}}) }}
+                    {{ form_widget(form.lastname, {'attr': {'class': 'form_input'}}) }}
+                </div>
+                <div>
+                    {{ form_label(form.firstname, 'Prénom', {'label_attr': {'class': 'form_label'}}) }}
+                    {{ form_widget(form.firstname, {'attr': {'class': 'form_input'}}) }}
+                </div>
+                <div>
+                    {{ form_label(form.email, 'Adresse email', {'label_attr': {'class': 'form_label'}}) }}
+                    {{ form_widget(form.email, {'attr': {'class': 'form_input'}}) }}
+                </div>
+
+                <a href="{{ path( 'app_list_adresse' ) }}"> Vos adresses de livraison </a>
+
+                <div class="submit-container">
+                    <button type='submit' name='créer'>Modifier</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+

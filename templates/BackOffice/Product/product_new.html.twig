@@ -5,47 +5,67 @@
 {% endblock %}
 
 {% block main %}
-    <h2>{{ title }}</h2>
-   <section class="section-info-user">
-    <div class="container  mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8"> <!-- Utilisez col-md-8 pour une largeur maximale de 600px sur les écrans moyens et plus petits -->
-            
-                <h2 class="text-center mb-4">{{ title }}</h2>
-                {{ form_start(form, {'attr': {'class': 'mb-4 p-4 d-flex flex-column form-user align-items-center justify-content-center'}}) }}
-                    {{ form_label(form.title, 'Libellé', {'label_attr': {'class': 'mb-2'}}) }}
-                    {{ form_widget(form.title, {'attr': {'class': 'w-75 p-2 my-3'}}) }}
+    <div class="info_user_container">
+    <div class="info_user_content">
 
-                    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'mb-2'}}) }}
-                    {{ form_widget(form.description, {'attr': {'class': 'w-75 p-2 my-3'}}) }}
-
-                    {{ form_label(form.tax_free_price, 'Prix HT', {'label_attr': {'class': 'mb-2'}}) }}
-                    {{ form_widget(form.tax_free_price, {'attr': {'class': 'w-75 p-2 my-3'}}) }}
-
-                    {{ form_label(form.TaxRate, 'Taux de TVA', {'label_attr': {'class': 'mb-2'}}) }}
-                    {{ form_widget(form.TaxRate, {'attr': {'class': 'w-75 p-2 my-3'}}) }}
-
-                    {{ form_label(form.sales, 'Promotion', {'label_attr': {'class': 'mb-2'}}) }}
-                    {{ form_widget(form.sales, {'attr': {'class': 'w-75 p-2 my-3'}}) }}
-
-                    {{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'mb-2'}}) }}
-                    {{ form_widget(form.category, {'attr': {'class': 'w-75 p-2 my-3'}}) }}
-
-                    {{ form_label(form.upload_file, 'Choisissez une image d\'illustration', {'label_attr': {'class': 'mb-2'}}) }}
-                    {{ form_widget(form.upload_file, {'attr': {'class': 'w-75 p-2 my-3'}}) }}
-
-                    {{ form_label(form.upload_audio, 'Choisissez un échantillon audio', {'label_attr': {'class': 'mb-2'}}) }}
-                    {{ form_widget(form.upload_audio, {'attr': {'class': 'w-75 p-2 my-3'}}) }}
-
-                    {# {{ form_label() }} #}
-
-                    <div class="text-center my-3"> <!-- Centrer le bouton d'envoi -->
-                        <input type='submit' name='créer' class="button-nl">
-                    </div>
-
-                {{ form_end(form) }}
-                 <a href="{{ path('app_product_list_admin') }}" class="btn btn-secondary">Retour</a>
-            </div>
+        <div class="title-container">
+            <a href="{{ path('app_product_list_admin') }}" class="come-back">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
+                    <title>Revenir en arrière</title>
+                    <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                    <path fill="#000000"
+                          d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                </svg>
+            </a>
+            <h2>{{ title }}</h2>
         </div>
+
+        <div class="content-form">
+            {{ form_start(form) }}
+            <div>
+                {{ form_errors(form, {'attr': {'class': 'log-danger'}}) }}
+            </div>
+            <div>
+                {{ form_label(form.title, 'Libellé') }}
+                {{ form_widget(form.title) }}
+            </div>
+            <div>
+                {{ form_label(form.description, 'Description') }}
+                {{ form_widget(form.description) }}
+            </div>
+            <div>
+                {{ form_label(form.tax_free_price, 'Prix HT') }}
+                {{ form_widget(form.tax_free_price) }}
+            </div>
+            <div>
+                {{ form_label(form.TaxRate, 'Taux de TVA') }}
+                {{ form_widget(form.TaxRate) }}
+            </div>
+            <div>
+                {{ form_label(form.sales, 'Promotion') }}
+                {{ form_widget(form.sales) }}
+            </div>
+            <div>
+                {{ form_label(form.category, 'Catégorie') }}
+                {{ form_widget(form.category) }}
+            </div>
+            <div>
+                {{ form_label(form.upload_file, 'Choisissez une image d\'illustration') }}
+                {{ form_widget(form.upload_file) }}
+            </div>
+            <div>
+                {{ form_label(form.upload_audio, 'Choisissez un échantillon audio') }}
+                {{ form_widget(form.upload_audio) }}
+            </div>
+            {# {{ form_label() }} #}
+
+
+            <div class="submit-container">
+                <button type='submit'>Soumettre</button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+
     </div>
 {% endblock %}

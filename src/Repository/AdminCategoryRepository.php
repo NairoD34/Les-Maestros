@@ -21,30 +21,6 @@ class AdminCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
-    public function searchCategorieParente(string $name): ?array
-    {
-        return $this->createQueryBuilder('c')
-            ->where('c.title like :title')
-            ->andWhere('c.parent_category is null',)
-            ->setParameter('title', '%' . $name . '%')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function searchCategorieEnfant($category)
-    {
-        $sql = "select * from category c where c.prent_category_id = ?";
-        $query = $this->getEntityManager()->getConnection()
-            ->executeQuery($sql, [$category->getId()]);
-        $result =  $query->fetchAllAssociative();
-        $children = [];
-        foreach ($result as $cate) {
-            $child = $this->find($cate['id']);
-            $children[] = $child;
-        }
-        return $children;
-    }
-
     public function searchByName(string $title): ?array
     {
         return $this->createQueryBuilder('s')

@@ -1,4 +1,0 @@
-<form method="post" action="{{ path('app_add_produit_to_panier', {'id': produit.id}) }}" >
-    <input type="hidden" name="_token" value="{{ csrf_token('addToPanier' ~ produit.id) }}">
-    <button class="btn button-nl p-2">Ajouter au panier</button>
-</form>

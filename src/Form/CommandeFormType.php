@@ -3,8 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Adress;
+use App\Entity\Delivery;
 use App\Entity\Orders;
-use App\Entity\Sales;
 use App\Entity\Payment;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -17,13 +17,12 @@ class CommandeFormType extends AbstractType
     {
         $adressesUtilisateur = $options['adressesUtilisateur'];
         $builder
-
-/*             ->add('Sales', EntityType::class, [
-                'class' => Sales::class,
+            ->add('delivery', EntityType::class, [
+                'class' => Delivery::class,
                 'choice_label' => 'title',
 
-            ]) */
-            ->add('Payment', EntityType::class, [
+            ])
+            ->add('payment', EntityType::class, [
                 'class' => Payment::class,
 
                 'choice_label' => 'title',

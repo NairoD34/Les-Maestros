@@ -28,9 +28,8 @@ class Category
     #[ORM\OneToMany(mappedBy: 'parent_category', targetEntity: self::class)]
     private Collection $child_category;
 
-    
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Photos::class, orphanRemoval:true, cascade:["persist"])]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Photos::class, orphanRemoval: true, cascade: ["persist"])]
     private Collection $Photos;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
@@ -39,11 +38,11 @@ class Category
     public function __construct()
     {
         $this->child_category = new ArrayCollection();
-        
+
         $this->Photos = new ArrayCollection();
         $this->products = new ArrayCollection();
     }
-    
+
 
     public function getId(): ?int
     {
@@ -116,7 +115,6 @@ class Category
         return $this;
     }
 
-  
 
     /**
      * @return Collection<int, Photos>

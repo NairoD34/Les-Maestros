@@ -7,8 +7,6 @@ use App\Repository\CategoryRepository;
 use App\Repository\PhotosRepository;
 use Symfony\Component\HttpFoundation\Request;
 
-use function PHPUnit\Framework\isEmpty;
-
 class CategoryService
 {
 
@@ -47,7 +45,7 @@ class CategoryService
         Request $request,
     ): array
     {
-        $dataCate=[];
+        $dataCate = [];
         $categories = $this->cateRepo->searchParentCategory(
             $request->query->get('title', ''),
         );
@@ -60,7 +58,7 @@ class CategoryService
             }
             $dataCate[] = [
                 'categorie' => $cate,
-                'photos' => $photoURL,
+                'photos' => $photoURL ?? "",
             ];
         }
         return $dataCate;

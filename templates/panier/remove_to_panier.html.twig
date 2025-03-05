@@ -1,4 +1,0 @@
-<form method="post" action="{{ path('app_remove_produit_panier', {'id': ligneProduit.produit.id}) }}" >
-    <input type="hidden" name="_token" value="{{ csrf_token('removeToPanier' ~ ligneProduit.produit.id) }}">
-    <button class="btn btn-danger mr-5">-</button>
-</form>

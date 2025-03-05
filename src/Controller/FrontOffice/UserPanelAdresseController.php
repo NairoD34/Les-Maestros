@@ -18,15 +18,15 @@ class UserPanelAdresseController extends AbstractController
     #[Route('/user/list_address', name: 'app_list_adresse')]
     public function listAddress(
         Request       $request,
-        Users         $users,
+        Security      $security,
         AdressService $adressService,
     ): Response
     {
+        $users = $security->getUser();
         $result = $adressService->AdressList($request, $users);
-
-        return $this->render('user/list.html.twig', [
+        return $this->render('FrontOffice/user/list.html.twig', [
             'title' => 'Liste de vos adresses',
-            'adresses' => $result['$filteredAdresses'],
+            'adresses' => $result['filteredAdresses'],
             'rue' => $result['rue'],
         ]);
     }
@@ -39,7 +39,7 @@ class UserPanelAdresseController extends AbstractController
         }
         $user = $this->getUser();
 
-        return $this->render('user/showAdresse.html.twig', [
+        return $this->render('FrontOffice/user/showAdresse.html.twig', [
             'title' => 'Information de l\'adresse ',
             'adresse' => $adress,
             'user' => $user
@@ -127,10 +127,9 @@ class UserPanelAdresseController extends AbstractController
             if ($this->getUser()) {
                 return $this->redirectToRoute('app_list_adresse');
             }
-
             return $this->redirectToRoute('app_login');
         }
-        return $this->render('user/new.html.twig', [
+        return $this->render('FrontOffice/user/new.html.twig', [
             'title' => 'adresse',
             'message' => $message,
             'flag' => $isUpdate,

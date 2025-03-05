@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block main %}
+    <section class="log">
+        <div class="log-container">
+            <div class="log-content">
+                <div class="log-block">
+                    <div class="img-block">
+                        <img src="{{ asset('build/images/logo.svg') }}" alt="logo-symfony">
+                        <h2>Les maestros de la <span>Symfony</span></h2>
+                    </div>
+                    <div class="right-block">
+                        <form method="post" class="log-form">
+                            {% block form_errors %}
+                                {% if errors|length > 0 %}
+                                    <ul class='log-danger'>
+                                        {% for error in errors %}
+                                            <li> {{ error.message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            {% endblock %}
+
+                            <h1 class="title">Inscrivez vous !</h1>
+                            {{ form_start(form) }}
+                                <div class="form-block">
+                                    {{ form_label(form.lastname, 'Nom') }}
+                                    {{ form_widget(form.lastname) }}
+                                </div>
+                                <div class="form-block">
+                                    {{ form_label(form.firstname, 'Prénom') }}
+                                    {{ form_widget(form.firstname) }}
+                                </div>
+                                <div class="form-block">
+                                    {{ form_label(form.email, 'Adresse email') }}
+                                    {{ form_widget(form.email) }}
+                                </div>
+                                <div class="form-block">
+                                    {{ form_label(form.password, 'Mot de passe') }}
+                                    {{ form_widget(form.password) }}
+                                </div>
+
+                                <div class="form-block-agree">
+                                    {{ form_row(form.agreeTerms, {'label': 'Accepter les termes'}) }}
+                                </div>
+
+                                <div class="form-block">
+                                    <button type="submit">Inscription</button>
+                                </div>
+                            {{ form_end(form) }}
+                        </form>
+
+                        <div class="redirect-container">
+                            <a href='{{ path('app_login') }}'>J'ai déjà un compte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+{% endblock %}

@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\SecurityBundle\Security;
 
@@ -45,21 +47,28 @@ class CategoryRepository extends ServiceEntityRepository
 
     }
 
-    public function searchChildCategory($category)
+    /**
+     * @throws Exception
+     */
+    public function searchChildCategory($category): array
     {
-        $sql = "select * from category c where c.parent_category_id = ?";
-        $query = $this->getEntityManager()->getConnection()
-            ->executeQuery($sql, [$category->getId()]);
-        $results = $query->fetchAllAssociative();
-        $children = [];
-        foreach ($results as $result) {
-            $child = $this->find($result['id']);
-            if ($child) {
-                $children[] = $child;
-            }
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "SELECT id FROM category WHERE parent_category_id = :categoryId";
+
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->executeQuery([
+            'categoryId' => $category->getId()
+        ]);
+
+        $ids = $result->fetchFirstColumn();
+
+        if (empty($ids)) {
+            return [];
         }
-        return $children;
+        return $this->findBy(['id' => $ids]);
     }
+
 
     public function searchByName(string $title): ?array
     {
@@ -70,8 +79,7 @@ class CategoryRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public
-    function getLastId()
+    public function getLastId()
     {
         return $this->createQueryBuilder('c')
             ->setMaxResults(1)
@@ -79,7 +87,6 @@ class CategoryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
     //    /**
     //     * @return Category[] Returns an array of Category objects
     //     */

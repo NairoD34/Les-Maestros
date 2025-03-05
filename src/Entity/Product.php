@@ -37,7 +37,7 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Photos::class, cascade: ["persist"], orphanRemoval: true)]
     private Collection $Photos;
 
-    #[ORM\OneToMany(mappedBy: 'Produit', targetEntity: CartProduct::class)]
+    #[ORM\OneToMany(mappedBy: 'Product', targetEntity: CartProduct::class)]
     private Collection $cartProducts;
 
     #[ORM\ManyToOne(inversedBy: 'products')]

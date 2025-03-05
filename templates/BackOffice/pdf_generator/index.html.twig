@@ -1,0 +1,114 @@
+<style>
+    h1 {
+        font-size: 18px;
+        text-align: center;
+        color: #DFBE31;
+    }
+
+    h2 {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+    table {
+        border: solid 1px black;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 80px;
+    }
+
+    th {
+        border: solid 1px black;
+    }
+
+    td {
+        border: solid 1px black;
+    }
+
+    .destC {
+        text-align: right;
+        padding-bottom: 80px;
+        overflow: hidden;
+    }
+
+    .date {
+        text-align: right;
+        padding-right: 30px;
+    }
+
+    .logo {
+        width: 150px;
+        height: auto;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 800px;
+        margin: auto;
+    }
+
+    #logo {
+        float: left;
+        margin-right: 20px;
+    }
+
+
+</style>
+
+{% block main %}
+    <div class='container'>
+        <div id="logo">
+            <img src="{{ logoUrl }}" alt='logo' class="logo">
+        </div>
+        {# Acheteur #}
+        <div class="destC">
+            <h2>Client</h2>
+            {% for dataLc in dataCommande.orderLine %}
+                <p>{{ dataLc.userFirstname }} {{ dataLc.userLastname }}</p>
+                <p> {{ dataLc.userEmail }} </p>
+            {% endfor %}
+            {# Adresse de livraison #}
+            <h3>Adresse de Livraison</h3>
+            <p>{{ deliveryAddress.number }}  {{ deliveryAddress.street }}  {{ deliveryAddress.city.name }} {{ deliveryAddress.city.county.name }} {{ deliveryAddress.city.county.region.name }} </p>
+
+            {# Adresse de facturation #}
+            <h3>Adresse de Facturation</h3>
+            <p>{{ deliveryBill.number }}  {{ deliveryBill.street }}  {{ deliveryBill.city.name }} {{ deliveryBill.city.county.name }} {{ deliveryBill.city.county.region.name }} </p>
+        </div>
+        <h1>Facture </h1>
+
+        {# Produit #}
+        {% for dataP in dataProduit %}
+            <table>
+                <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix HT</th>
+                    <th>TVA</th>
+                    <th>Prix TTC</th>
+                    <th>Total de la commande</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ dataP.productName }}</td>
+                    <td>{{ dataP.quantity }}</td>
+                    {% if dataP.quantity > 1 %}
+                        <td>{{ dataP.productPrice * dataP.quantity }} €</td>
+                    {% else %}
+                        <td>{{ dataP.productPrice }} €</td>
+                    {% endif %}
+                    <td>{{ dataP.taxRate }} %</td>
+                    <td>{{ dataP.productPrice  + (dataP.productPrice * dataP.taxRate)/100 }} €</td>
+                    <td> {{ dataP.totalPrice }} €</td>
+                </tr>
+                </tbody>
+            </table>
+        {% endfor %}
+    </div>
+{% endblock %}

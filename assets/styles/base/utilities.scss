@@ -1,0 +1,76 @@
+@use "colors";
+@use "mixins";
+
+.redirect-btn-product {
+  background-color: colors.$header;
+  padding: 10px;
+  border-radius: 10px;
+  color: colors.$main;
+}
+
+.redirect-btn-product:hover {
+  color: colors.$main;
+}
+
+
+.log-success {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.log-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  li {
+    list-style-type: none;
+  }
+}
+
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  .come-back {
+    width: 20px;
+    height: 30px;
+    background: none;
+  }
+
+  h1, h2 {
+    width: 70%;
+    text-align: center;
+
+  }
+
+  h1 {
+    margin: inherit;
+  }
+}
+
+.nickname {
+  color: colors.$text;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.delete {
+  width: 100%;
+
+  button {
+    width: 100%;
+    border: none;
+    background: none;
+    padding: 20px;
+    color: red;
+  }
+}

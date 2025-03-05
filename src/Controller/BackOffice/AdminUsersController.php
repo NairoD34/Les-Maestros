@@ -6,6 +6,7 @@ use App\Entity\Users;
 use App\Repository\AdminUsersRepository;
 use App\Repository\CartProductRepository;
 use App\Repository\CartRepository;
+use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,9 +20,9 @@ class AdminUsersController extends AbstractController
 
     #[Route('user_list', name: 'app_user_list_admin')]
     public function list(
-        AdminUsersRepository $usersRepo,
-        Security             $security,
-        Request              $request
+        UsersRepository    $usersRepo,
+        Security $security,
+        Request  $request
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
@@ -29,7 +30,7 @@ class AdminUsersController extends AbstractController
         }
         $triLastName = $request->query->get('trilastname', 'asc');
         $triFirstName = $request->query->get('trifirstname', 'asc');
-        $users = $usersRepo->searchByName($request->query->get('lastname', ''), $triLastName, $triFirstName);
+        $users = $usersRepo->searchByClients($request->query->get('lastname', ''), $triLastName, $triFirstName);
 
         return $this->render('BackOffice/User/admin_user_list.html.twig', [
             'title' => 'Liste des utilisateurs',

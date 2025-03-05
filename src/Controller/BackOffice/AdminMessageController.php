@@ -17,7 +17,7 @@ class AdminMessageController extends AbstractController
 
     #[Route('message_show/{id}', name: 'app_message_show_admin')]
     public function show(
-        Message $message,
+        Message  $message,
         Security $security,
     ): Response
     {
@@ -35,8 +35,8 @@ class AdminMessageController extends AbstractController
     #[Route('message_list', name: 'app_message_list_admin')]
     public function list(
         MessageRepository $messageRepo,
-        Security           $security,
-        Request            $request
+        Security          $security,
+        Request           $request
     ): Response
     {
 
@@ -47,16 +47,15 @@ class AdminMessageController extends AbstractController
         $messages = $messageRepo->searchByName($request->query->get('title', ''));
 
         return $this->render('BackOffice/Message/message_list.html.twig', [
-            'title' => 'Liste des catégories',
+            'title' => 'Liste des messages',
             'message' => $messages,
-            'libelle' => $request->query->get('id', ''),
         ]);
     }
 
 
     #[Route('delete_message/{id}', name: 'app_delete_message', methods: ['POST'])]
     public function delete(
-        ?Message              $message,
+        ?Message               $message,
         Security               $security,
         EntityManagerInterface $em
     ): Response

@@ -5,24 +5,66 @@
 {% endblock %}
 
 {% block main %}
-    <h2>{{ title }} {{ order.id }}</h2>
-<div class="row mt-4">
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body ">
-                            <strong>Commande n°</strong> {{ order.id }} <br>
-                            <strong>Client n°</strong> {{ order.users.id }}, {{ order.users.lastname }} {{ order.users.firstname }} <br>
-                            <strong>Panier n°</strong>  {{ order.cart.id }}<br>
-                            <strong>Date de la commande:</strong>  {{ order.orderDate?order.orderDate|date('Y-m-d') : ''  }}<br>
-                            <strong>Total de la commande :</strong>  {{ order.TIOrderPrice }}€ TTC<br>
-                             <strong>Addresse de livraison :</strong>  {{ order.delivered.number }}  {{ order.delivered.street }},  {{ order.delivered.city.name }}<br> 
-                             <strong>Addresse de facturation :</strong>  {{ order.billed.number}} {{ order.billed.street}}, {{ order.billed.city.name}}<br>  
-                            <strong>Moyen de paiement :</strong>  {{ order.payment.title }}<br>
-                            <strong>Mode de livraison :</strong>  {{ order.delivery.title }}<br>
-                            <strong>Etat de la commande :</strong>  {{ order.state.title }}<br>
-                        </div>
+    <div class="info_user_container">
+        <div class="info_user_content">
+            <div class="content-form">
+                <div class="show_adress">
+                    <div class="title-container">
+                        <a href="{{ path('app_order_list_admin') }}" class="come-back">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
+                    <title>Revenir en arrière</title>
+                                <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <path fill="#000000"
+                                      d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                            </svg>
+                        </a>
+                        <h2>{{ title }}</h2>
+                    </div>
+                    <div>
+                        <span>Commande n°</span>
+                        <p>{{ order.id }}</p>
+                    </div>
+                    <div>
+                        <span>Client n°</span>
+                        <p>{{ order.users.id }}, {{ order.users.lastname }} {{ order.users.firstname }}</p>
+                    </div>
+                    <div>
+                        <span>Panier n°</span>
+                        <p>{{ order.cart.id }}</p>
+                    </div>
+                    <div>
+                        <span>Date de la commande:</span>
+                        <p>{{ order.orderDate ? order.orderDate|date('d/m/Y') : '' }}</p>
+                    </div>
+                    <div>
+                        <span>Total de la commande:</span>
+                        <p>{{ order.TIOrderPrice }}€ TTC</p>
+                    </div>
+                    <div>
+                        <span>Addresse de livraison:</span>
+                        <p>{{ order.delivered.number }}  {{ order.delivered.street }}
+                            , {{ order.delivered.city.name }}</p>
+                    </div>
+                    <div>
+                        <span>Addresse de facturation:</span>
+                        <p>{{ order.billed.number }} {{ order.billed.street }}, {{ order.billed.city.name }}</p>
+                    </div>
+                    <div>
+                        <span>Moyen de paiement:</span>
+                        <p> {{ order.payment.title }}</p>
+                    </div>
+                    <div>
+                        <span>Mode de livraison:</span>
+                        <p> {{ order.delivery.title }}</p>
+                    </div>
+                    <div>
+                        <span>Etat de la commande :</span>
+                        <p> {{ order.state.title }}</p>
                     </div>
                 </div>
+            </div>
+        </div>
     </div>
-    <a href="{{ path('app_order_list_admin') }}" class="btn btn-secondary">Retour</a>
 {% endblock %}
+
+

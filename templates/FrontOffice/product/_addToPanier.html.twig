@@ -1,0 +1,6 @@
+<form method="post" class="add-to-cart" action="{{ path('app_add_produit_to_Cart', {'id': id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('addToCart' ~ id) }}" aria-label="ajouter au panier">
+    <div class="cta-button">
+        <button>Ajouter au panier</button>
+    </div>
+</form>

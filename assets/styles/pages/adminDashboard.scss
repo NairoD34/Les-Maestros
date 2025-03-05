@@ -1,0 +1,14 @@
+@use "../base/colors";
+@use "../base/mixins";
+
+.admin-section {
+  .title-container {
+    h2 {
+      margin: 20px 0;
+    }
+  }
+}
+
+@include mixins.admin-card("kpi-container", "kpi-content", "kpi-body");
+@include mixins.admin-card("admin-container", "admin-content", "admin-body", repeat(3, 1fr));
+@include mixins.admin-card("details-container", "details-content", "details-body", repeat(3, 1fr), column);

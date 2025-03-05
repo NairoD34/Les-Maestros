@@ -22,16 +22,22 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Assert\Regex('/^\w+/')]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(
+        message: 'Vous devez définir un nom de famille',
+    )]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Regex('/^\w+/')]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(
+        message: 'Vous devez définir un prénom',
+    )]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(
+        message: 'Vous devez définir une adresse mail',
+    )]
     #[Assert\NoSuspiciousCharacters]
 
     private ?string $email = null;
@@ -40,6 +46,19 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(
+        message: 'Vous devez définir un mot de passe',
+    )]
+    #[Assert\Length(
+        min: 6,
+        max: 25,
+        minMessage: 'Votre mot de passe doit contenir au moins 6 caractères.',
+        maxMessage: 'Votre mot de passe ne peut pas excéder 25 caractères',
+    )]
+    #[Assert\Regex(
+        pattern: '#^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.* )(?=.*[^a-zA-Z0-9])#',
+        message: 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre et 1 symbole',
+        )]
     private ?string $password = null;
 
    

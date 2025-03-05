@@ -1,0 +1,10 @@
+<form method="post" class="add-qte" action="{{ path('app_add_qte_product_cart', {'id': product.produit.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('addQteToCart' ~ product.produit.id) }}">
+    <button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton ajouter produit au panier" alt="bouton ajouter produit au panier">
+                    <title>ajouter produit au panier</title>
+            <path fill="#ffffff"
+                  d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/>
+        </svg>
+    </button>
+</form>

@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block main %}
+    <section class="info_user_container">
+        <div class="info_user_content">
+            <div class="content-form">
+                <div class="show_order">
+                    <div class="title-container">
+                        <a href="{{ path('app_commande_list') }}" class="come-back">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
+                    <title>Revenir en arrière</title>>
+                                <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <path fill="#000000"
+                                      d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                            </svg>
+                        </a>
+                        <h2>{{ title }}</h2>
+                    </div>
+
+
+                    <!-- Bloc Commande -->
+                    <div class="order-content">
+                        <h4>Détails de la Commande</h4>
+                        <p><span>Client n° :</span> {{ order.users.firstname }} {{ order.users.lastname }}</p>
+                        <p>
+                            <span>Date de la commande :</span> {{ order.orderDate ? order.orderDate|date('Y-m-d') : '' }}
+                        </p>
+                    </div>
+
+
+                    <!-- Bloc Informations Supplémentaires -->
+                    <div class="order-content">
+                        <h4>Informations Supplémentaires</h4>
+                        {% for orderInfo in order.orderLine %}
+                            <p><span>Nom :</span> {{ orderInfo.userLastname }}</p>
+                            <p><span>Prénom :</span> {{ orderInfo.userFirstname }}</p>
+                            <p><span>Email :</span> {{ orderInfo.userEmail }}</p>
+                        {% endfor %}
+
+                        <p><span>Total de la commande :</span> {{ order.tiOrderPrice }}€ TTC</p>
+                        <p>
+                            <span>Adresse de livraison :</span> {{ order.delivered.number }} {{ order.delivered.street }}
+                            , {{ order.delivered.city.name }}</p>
+                        <p>
+                            <span>Adresse de facturation :</span> {{ order.billed.number }} {{ order.billed.street }}
+                            , {{ order.billed.city.name }}</p>
+                        <p><span>Moyen de paiement :</span> {{ order.payment.title }}</p>
+                        <p><span>Mode de livraison :</span> {{ order.delivery.title }}</p>
+                        <p><span>État de la commande :</span> {{ order.state.title }}</p>
+                    </div>
+
+
+                    <!-- Bloc Produits et Lignes de Commande -->
+                    <div class="order-content">
+                        <h4>Produits achetés</h4>
+                        {% for orderItems in order.orderLine %}
+                            <p><span>Produit :</span> {{ orderItems.productName }}</p>
+                            <p><span>Quantité :</span> {{ orderItems.quantity }}</p>
+                            <p><span>Prix unitaire HT :</span> {{ orderItems.productPrice }}€</p>
+                            <p><span>Prix Unitaire TTC :</span>
+                                {{ orderItems.productPrice + (orderItems.productPrice * orderItems.taxRate) / 100 }}
+                                €
+                            </p>
+                            {% if orderItems.quantity > 1 %}
+                                <p><span>Prix total HT :</span> {{ orderItems.productPrice * orderItems.quantity }}€
+                                </p>
+                            {% else %}
+                                <p><span>Prix total HT :</span> {{ orderItems.productPrice }}€</p>
+                            {% endif %}
+                            <p><span>Taux TVA :</span> {{ orderItems.taxRate }}</p>
+                            <p><span>Total :</span> {{ orderItems.totalPrice }}€ TTC</p>
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="submit-container">
+                        <a href="{{ path('app_pdf_generator', {'id': order.id}) }}">Télécharger
+                            le PDF</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

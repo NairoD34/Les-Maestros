@@ -1,0 +1,10 @@
+<form method="post" class="remove-qte" action="{{ path('app_remove_product_cart', {'id': product.produit.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('removeToCart' ~ product.produit.id) }}">
+    <button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton diminuer la quantité produit au panier" alt="bouton diminuer la quantité produit au panier">
+                    <title>diminuer la quantité produit au panier</title>>
+            <path fill="#ffffff"
+                  d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"/>
+        </svg>
+    </button>
+</form>

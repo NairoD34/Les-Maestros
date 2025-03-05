@@ -28,7 +28,7 @@ class AdminOrderController extends AbstractController
         }
         $orders = $orderRepo->findAll();
         $id = $orderRepo->searchByName($request->query->get('id', ''));
-        if (empty($orders)) { 
+        if (empty($orders)) {
             return $this->render('BackOffice/Order/emptyOrder.html.twig');
         }
 
@@ -67,18 +67,20 @@ class AdminOrderController extends AbstractController
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
+
         if (!$order) {
             return $this->redirectToRoute('app_admin_dashboard');
         }
 
         $formResult = $formHandler->handleOrder($request, $order);
 
-        if ($formResult) {
+        if ($formResult['validate']) {
             return $this->redirectToRoute('app_order_list_admin');
         }
+
         return $this->render('BackOffice/Order/order_update.html.twig', [
             'title' => 'Mise à jour de la commande',
-            'form' => $formResult->createView(),
+            'form' => $formResult["form"]->createView(),
         ]);
     }
 

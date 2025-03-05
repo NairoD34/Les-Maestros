@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PasswordService
 {
@@ -20,19 +21,19 @@ class PasswordService
         
     }
 
-    public function CreatePasswordForm($request)
+    public function CreatePasswordForm($request, Users $user, ValidatorInterface $validatorInterface)
     {
-        $user = new Users();
         $form = $this->formFactory->create(RegistrationFormType::class, $user);
         $form->handleRequest($request);
         $validate = false;
+        $errors = [];
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
                 $this->userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get('password')->getData()
                 )
             );
 
@@ -41,9 +42,15 @@ class PasswordService
             // do anything else you need here, like send an email
             $validate = true;
         }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $errors = $validatorInterface->validate($user);
+        }
+
         return [
             'validate' => $validate,
             'form' => $form,
+            'errors' => $errors,
         ];
     }
 

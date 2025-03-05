@@ -5,20 +5,26 @@
 {% endblock %}
 
 {% block main %}
-    <h2>{{ title }}</h2>
-    {% if is_granted('ROLE_ADMIN') %}
-    <h3><a href="{{ path('app_new_admin') }}">Créer</a></h3>
-    {% endif %}
+    <section class="admin-section">
+        <div class="title-container">
+            <a href="{{ path('app_admin_dashboard') }}" class="come-back">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
+                    <title>Revenir en arrière</title>
+                    <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                    <path fill="#000000"
+                          d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                </svg>
+            </a>
+            <h2>{{ title }}</h2>
+        </div>
 
-            <td>
+        <div>
             Nom
             {% if ( trinom == 'desc') %}
                 <a href="{{ path('app_list_admin') }}?nom={{ nom }}&trinom=asc&triprenom={{ triprenom }}">></a>
             {% else %}
                 <a href="{{ path('app_list_admin') }}?nom={{ nom }}&trinom=desc&triprenom={{ triprenom }}"><</a>
             {% endif %}
-            </td>
-            <td>
             Prénom
             {% if ( triprenom == 'desc') %}
                 <a href="{{ path('app_list_admin') }}?nom={{ nom }}&triprenom=asc&trinom={{ trinom }}">></a>
@@ -26,33 +32,32 @@
                 <a href="{{ path('app_list_admin') }}?nom={{ nom }}&triprenom=desc&trinom={{ trinom }}"><</a>
             {% endif %}
             <form>
-        <input type='text' name='nom' placeholder='recherchez par le nom' value='{{ nom }}'>
-        <input type='submit' name='submit' value='rechercher'>
-    </form>
-            <div class="row">
-    <div class="d-flex justify-content-center gap-5">
-    {% for item in administrateur %}
-        <tr>
-            <div class="card border p-3 bg-light d-flex flex-wrap align-items-center m-2 justify-content-center" style="width: 15rem; height: 15rem;">
-                <div class="card-body d-flex align-items-center">
-                    <a href ="{{ path('app_show_admin', { 'id': item.id })}}" class="card-text text-decoration-none">
-                        <h5 class="card-title text-center">{{ item.lastname }} {{ item.firstname }}</h5>
-                        <p class="card-text text-center">{{ item.username }}</p>
-                </div>
-                    </a>
-                    <a href="{{ path('app_update_admin', { 'id': item.id })}}">Mettre à jour</a>
-                    {{ include('BackOffice/Admin/admin_delete.html.twig', { 'id': item.id })}} 
-                      </div>
-        </tr> 
-        
-    {% else %}
-        <tr>
-            <td colspan="5">Aucun enregistrement</td>
-        </tr>
-        
-    {% endfor %}
-   
-    </div>
-    </div>
-  <a href="{{ path('app_admin_dashboard') }}" class="btn btn-secondary">Retour</a>
+                <input type='text' name='nom' placeholder='recherchez par le nom' value='{{ nom }}'>
+                <input type='submit' name='submit' value='rechercher'>
+            </form>
+        </div>
+
+        <div class="details-container">
+            <a href="{{ path('app_new_admin') }}">Ajouter un admin</a>
+            <div class="details-content">
+                {% for item in administrateur %}
+                    <div class="details-body">
+                        <div class="admin-section">
+                            <a href="{{ path('app_show_admin', { 'id': item.id }) }}">
+                                <div>
+                                    <h4>{{ item.lastname }} {{ item.firstname }}</h4>
+                                </div>
+                            </a>
+                            <div class="action-container">
+                                <a href="{{ path('app_update_admin', { 'id': item.id }) }}">Mettre à jour</a>
+                                {{ include('BackOffice/Admin/admin_delete.html.twig', { 'id': item.id }) }}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>Aucun enregistrement</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 {% endblock %}

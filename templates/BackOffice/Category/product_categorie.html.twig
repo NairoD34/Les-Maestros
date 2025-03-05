@@ -3,19 +3,36 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block main %}
-    <h1>Produits de la catégorie {{ categorie.libelle }}</h1>
-    <div class='banner'>
-    {% for photo in photos %}
-    <img src='{{ asset(photo.URLPhoto) }}' alt='test' class='banner-item'/>
-    {% endfor %}
-    </div>
-    {% if products is empty %}
-        <p>Aucun produit trouvé pour cette catégorie.</p>
+    
+
+        <section class="section-list">
+            <h1>Produits de la catégorie <span
+                        style="color:#8B6A4B;">{{ category.title }}</span></h1>
+            <div class="list-products">
+            {% if products %}
+        
+                {% for item in products %}
+                    <div class="card-container">
+                        <div class="card-content">
+                                <a href="{{ path('app_product_show_admin', { 'id': item.id }) }}">
+                                    <img src="{{ item.photos[0].urlPhoto }}" alt=" {{category.title}}">
+                                    <div class="price-container">
+                                        <p class="title">{{ item.title }}</p>
+                                        <p class="price-content">
+                                                {{ item.TaxFreePrice }} € HT
+                                        </p>
+                                    </div>
+                                </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+            </div>
+            
     {% else %}
-        <ul>
-            {% for product in products %}
-                <li>{{ product.libelle }} - {{ product.prixHt }}</li>
-            {% endfor %}
-        </ul>
+    <p>Aucun produit trouvé pour cette catégorie.</p>
     {% endif %}
+
+        </section>
+    
+ 
 {% endblock %}

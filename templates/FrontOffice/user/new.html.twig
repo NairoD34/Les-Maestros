@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+{{ encore_entry_script_tags('adresse') }}
+{% endblock %}
+
+{% block main %}
+    <div class="info_user_container">
+        <div class="info_user_content">
+            <div class="title-container">
+                <a href="{{ path('app_user') }}" class="come-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
+                    <title>Revenir en arrière</title>
+                                            <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path fill="#000000"
+                              d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                    </svg>
+                </a>
+                <h2>{{ flag ? "Modification d'addresse" : "Creation d'addresse" }}</h2>
+            </div>
+            <div class="content-form">
+                <form method='POST' id="createAdresse" class="info_user_form">
+                    <p><span>*</span> Champs obligatoires</p>
+                    <!-- Numero de voie -->
+                    <div>
+                        <label for="num_voie" class="form-label">Numero de voie <span>*</span></label>
+                        <input type="text" class="form_input" name="num_voie" id="num_voie" required
+                               placeholder="Exemple : 10 rue nomDeLaRue" value="{{ flag ? adresse.number : '' }}">
+                    </div>
+                    <!-- Rue -->
+                    <div>
+                        <label for="rue" class="form-label">Rue <span>*</span></label>
+                        <input type="text" class="form_input" name="rue" id="rue" required
+                               placeholder="Exemple : 10 rue nomDeLaRue" value="{{ flag ? adresse.street : '' }}">
+                    </div>
+                    <!-- Complément -->
+                    <div>
+                        <label for="complement" class="form-label">Complément</label>
+                        <textarea class="form_input" name="complement" id="complement"
+                                  placeholder="Exemple : Bâtiment B">{{ flag ? adresse.complement : '' }}</textarea>
+                    </div>
+                    <!-- Ville -->
+                    <div>
+                        <label for="ville" class="form-label">Ville <span>*</span></label>
+                        <input type="text" class="form_input" name="ville" id="ville" list="cityList" required
+                               placeholder="Exemple : Nom-De-La-Ville" value="{{ flag ? adresse.city.name : '' }}">
+                        <input type="hidden" name="villeId" id="villeId" value="{{ flag ? adresse.city.id : '' }}">
+                        <datalist id="cityList"></datalist>
+                    </div>
+                    <div>
+                        <label for="postalCodeSelect" class="form-label">Code Postal <span>*</span></label>
+                        <select class="form_input" name="postalCodeSelect" id="postalCodeSelect" required>
+                            <option value={{ flag ? adresse.ZIPcode.title : '' }}>
+                                {{ flag ? adresse.ZIPcode.title : 'Sélectionnez un code postal' }}
+                            </option>
+                        </select>
+                        <input type="hidden" id="selectedPostalCodesId" name="selectedPostalCodesId"
+                               class="form_select"
+                               value="{{ flag ? adresse.ZIPcode.id : '' }}">
+                    </div>
+                    <div class="submit-container">
+                        <button type="submit" name="submitAdresse">
+                            Enregistrer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

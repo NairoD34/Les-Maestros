@@ -1,48 +1,62 @@
-@import "pages/home.scss";
-@import "pages/base.scss";
-@import "pages/cardProduct.scss";
-@import "pages/category.scss";
-@import "pages/breacrumb.scss";
-@import "pages/products.scss";
+@use 'base/colors';
+@use 'base/var';
 
-:root {
-  --main: #D2AC62;
-  --second: #D2AC62;
-  --header: #201e1a;
-  --background: #e8e5d6;
-  --text: #c3bca6;
+@import "pages/home";
+@import "pages/base";
+@import "pages/category";
+@import "pages/products";
+@import "pages/login";
+@import "pages/userDashboard";
+@import "pages/address";
+@import "pages/order";
+@import "pages/cart";
+@import "pages/adminDashboard";
 
-}
+@import "components/cardProduct";
+@import "components/breacrumb";
+@import "components/form";
+@import "components/userForm";
+@import "components/userCard";
 
-body {
-  background-color: var(--background);
+@import "base/utilities";
+
+
+html, body {
+  height: 100%;
+  background-color: colors.$background;
   width: 100%;
   margin: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: var.$secondary-font;
+}
+
+main {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 h1,
 h2,
 h3 {
-  font-family: "Libre Bodoni", sans-serif;
+  font-family: var.$primary-font;
 }
 
 a {
   text-decoration: none !important;
-  color: var(--header);
 }
 
 header {
-  font-family: "Libre Bodoni", sans-serif;
+  font-family: var.$primary-font;
 
 }
 
 a:hover {
-  color: var(--second);
+  color: inherit;
   text-decoration: underline;
 }
 
 p {
   margin: 0;
 }
+
 

@@ -37,7 +37,7 @@ class AdminCategoryController extends AbstractController
         $photo = $photoRepo->searchPhotoByCategory($categories);
 
 
-        return $this->render('BackOffice/Category/product_category.html.twig', [
+        return $this->render('BackOffice/Category/product_categorie.html.twig', [
             'products' => $products,
             'category' => $category,
             'photos' => $photo,

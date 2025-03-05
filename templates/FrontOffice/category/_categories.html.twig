@@ -1,0 +1,16 @@
+{% block main %}
+    <li class="nav-li" style="white-space: nowrap;">
+        <a href="{{ path('app_index') }}">Accueil</a>
+    </li>
+    {% for item in cate %}
+        <li class="nav-li" style="white-space: nowrap;">
+        {% if item.childCategory is empty%}
+        <a href="{{ path('app_produit_categorie',{ 'id': item.id }) }}"> {{ item.title }} </a>
+
+        {% else %}
+            <a href="{{ path('app_categorie_show',{ 'id': item.id }) }}"> {{ item.title }} </a>
+
+        </li>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
