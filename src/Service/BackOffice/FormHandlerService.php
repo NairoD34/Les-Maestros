@@ -162,28 +162,33 @@ class FormHandlerService
     public function handleOrder(Request $request, Orders $order)
     {
         $form = $this->formFactory->create(AdminOrderFormType::class, $order);
+        $validate = false;
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($order);
             $this->em->flush();
-            return [
-                'validate' => true,
-                'form' => $form,
-            ];
+            $validate = true;
         }
         return [
-            'validate' => false,
+            'validate' => $validate,
             'form' => $form,
         ];
     }
 
-    public function handleCategory(bool $update, Request $request, Category $category, $photo, ?CategoryRepository $categoryRepo)
+    public function handleCategory(
+        bool $update,
+        Request $request,
+        Category $category,
+        $photo,
+        ?CategoryRepository $categoryRepo,
+        )
     {
         $form = $this->formFactory->create(AdminCategoryFormType::class, $category);
+        $validate = false;
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $file = $form['upload_file']->getData();
             if ($update) {
                 if ($file) {
@@ -199,6 +204,7 @@ class FormHandlerService
                     $this->em->persist($category);
                     $this->em->flush();
                     $photo->updatePhotoInCategory($category->getId(), '/upload/photo_category/' . $file_name);
+                    $validate = true;
                 }
             } else {
                 if ($file) {
@@ -215,15 +221,12 @@ class FormHandlerService
                 if ($file) {
                     $photo->insertPhotoWithCategorie($categoryRepo->getLastId()->getId(), '/upload/photo_category/' . $file_name);
                 }
+                $validate = true;
             }
-            return [
-                "validate" => true,
-                "form" => $form,
-            ];
-
         }
+
         return [
-            "validate" => false,
+            "validate" => $validate,
             "form" => $form,
         ];
 

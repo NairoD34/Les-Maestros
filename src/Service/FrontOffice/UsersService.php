@@ -24,18 +24,16 @@ class UsersService
     )
     {
         $form = $this->formFactoryInterface->create(UserFormType::class, $users);
+        $validate = false;
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($users);
             $this->em->flush();
-            return [
-                'validate' => true,
-                'form' => $form,
-            ];
+            $validate = true;
         }
 
         return [
-            'validate' => false,
+            'validate' => $validate,
             'form' => $form,
         ];
     }

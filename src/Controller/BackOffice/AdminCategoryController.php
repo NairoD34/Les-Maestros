@@ -89,7 +89,6 @@ class AdminCategoryController extends AbstractController
         PhotosRepository   $photo,
         CategoryRepository $categoryRepo,
         FormHandlerService $formHandler,
-
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
@@ -115,7 +114,6 @@ class AdminCategoryController extends AbstractController
         CategoryRepository $categoryRepo,
         PhotosRepository   $photo,
         FormHandlerService $formHandler,
-
     )
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
