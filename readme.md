@@ -18,7 +18,7 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 1. **Clonez le dépôt :**
 
    ```bash
-   git clone https://github.com/votre-utilisateur/Les-Maestros.git
+   git clone https://github.com/NairoD34/Les-Maestros
    cd Les-Maestros
 
 2. **Installé les dépendances :**
