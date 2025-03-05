@@ -21,6 +21,7 @@ class CategoryController extends AbstractController
     public function index(CategoryRepository $cateRepo): Response
     {
         //Recherche toutes les catégories.
+        return $this->redirectToRoute('app_index');
         $category = $cateRepo->findAll();
         return $this->render('FrontOffice/category/index.html.twig', [
             'controller_name' => 'CategoryController',

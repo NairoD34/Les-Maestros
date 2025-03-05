@@ -4,10 +4,8 @@ namespace App\Controller\FrontOffice;
 
 use App\Entity\Cart;
 use App\Entity\Product;
-use App\Repository\CategoryRepository;
 use App\Repository\CartProductRepository;
 use App\Repository\CartRepository;
-use App\Repository\PhotosRepository;
 use App\Repository\ProductRepository;
 use App\Service\FrontOffice\ProductService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,9 +24,10 @@ class ProductController extends AbstractController
     {
         //Recherche des nouveaux produits
         $products = $productRepo->searchNew();
-        return $this->render('FrontOffice/product/index.html.twig', [
+        return $this->render('FrontOffice/product/show.html.twig', [
             'controller_name' => 'ProductController',
-            'produits' => $products
+            'produits' => $products,
+            'title' => 'Liste des produits',
         ]);
     }
 
@@ -40,8 +39,8 @@ class ProductController extends AbstractController
     ): Response
     {
         if (!$product) {
-            //Redirige vers la liste si le produit n'existe pas.
-            return $this->redirectToRoute('app_produit');
+            //Redirige vers la home page si le produit n'existe pas.
+            return $this->redirectToRoute('app_index');
         }
 
         //Affiche les détails d'un produit.
@@ -69,8 +68,8 @@ class ProductController extends AbstractController
         }
 
         if (!$product) {
-            // Redirige vers la liste si le produit n'existe pas.
-            return $this->redirectToRoute('app_produit');
+            // Redirige vers la home page si le produit n'existe pas.
+            return $this->redirectToRoute('app_index');
         }
 
         //Recherche du panier.

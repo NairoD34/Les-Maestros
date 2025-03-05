@@ -47,7 +47,6 @@ class AdminProductController extends AbstractController
         return $this->render('BackOffice/Product/product_new.html.twig', [
             'title' => 'Création d\'un nouveau produit',
             'form' => $formResult['form']->createView(),
-            'errors' => $formResult['errors'],
         ]);
     }
 
