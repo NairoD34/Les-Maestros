@@ -55,7 +55,7 @@
                             </div>
                             <a href="{{ path('app_show_produit', { 'id': productData.produit.id }) }}">
                                 {% for photo in productData.photos %}
-                                    <img src='{{ photo.URLPhoto }}' alt='{{ productData.produit.title }}'
+                                    <img src='{{ photo.URLPhoto }}' alt=''
                                          class='img-product'/>
                                 {% endfor %}
                                 <div class="price-container">
@@ -109,7 +109,7 @@
                         </div>
                         <a href="{{ path('app_show_produit', { 'id': productData.produit.id }) }}">
                             {% for photo in productData.photos %}
-                                <img src='{{ photo.URLPhoto }}' alt='{{ productData.produit.title }}'
+                                <img src='{{ photo.URLPhoto }}' alt=''
                                      class='img-product'/>
                             {% endfor %}
 
