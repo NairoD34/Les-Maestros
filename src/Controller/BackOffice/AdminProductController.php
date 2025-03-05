@@ -14,10 +14,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PhotosRepository;
 use App\Service\BackOffice\FormHandlerService;
 
+// Contrôleur pour gérer les opérations liées aux produits dans le back-office.
 #[Route('admin/')]
 class AdminProductController extends AbstractController
 {
 
+    // Crée un nouveau produit.
     #[Route('new_product', name: 'app_new_product')]
     public function new(
         Request            $request,
@@ -28,20 +30,28 @@ class AdminProductController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
+
+        // Instancie un nouveau produit.
         $product = new Product();
         $formResult = $formHandler->handleProduct(false, $request, $product, $photo, $productRepo);
 
         if ($formResult['condition']) {
+            // Redirige vers la liste si le produit a été créé.
             return $this->redirectToRoute('app_product_list_admin');
         }
+
+        // Rend la vue avec les données du formulaire et les erreurs.
         return $this->render('BackOffice/Product/product_new.html.twig', [
             'title' => 'Création d\'un nouveau produit',
             'form' => $formResult['form']->createView(),
+            'errors' => $formResult['errors'],
         ]);
     }
 
+    // Liste tous les produits.
     #[Route('product_list', name: 'app_product_list_admin')]
     public function list(
         AdminProductRepository $productRepo,
@@ -51,6 +61,7 @@ class AdminProductController extends AbstractController
     {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
 
@@ -64,6 +75,7 @@ class AdminProductController extends AbstractController
         ]);
     }
 
+    // Affiche les détails d'un produit spécifique.
     #[Route('product_show/{id}', name: 'app_product_show_admin')]
     public function showProducts(
         ?Product $product,
@@ -71,7 +83,13 @@ class AdminProductController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
+        }
+
+        if (!$product) {
+            // Redirige vers la liste si le produit n'existe pas.
+            return $this->redirectToRoute('app_product_list_admin');
         }
 
         return $this->render('BackOffice/Product/product_show_admin.html.twig', [
@@ -80,6 +98,7 @@ class AdminProductController extends AbstractController
         ]);
     }
 
+    // Mise à jour d'un produit existant.
     #[Route('update_product/{id}', name: 'app_update_product')]
     public function update(
         Request            $request,
@@ -91,16 +110,19 @@ class AdminProductController extends AbstractController
     )
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
 
         if (!$product) {
-            return $this->redirectToRoute('app_admin_dashboard');
+            // Redirige vers la liste si le produit n'existe pas.
+            return $this->redirectToRoute('app_product_list_admin');
         }
 
         $formResult = $formHandler->handleProduct(true, $request, $product, $photo, $productRepo);
 
         if ($formResult['condition']) {
+            // Redirige vers la liste si le produit a été mis à jour.
             return $this->redirectToRoute('app_product_list_admin');
         }
         return $this->render('BackOffice/Product/product_new.html.twig', [
@@ -109,6 +131,7 @@ class AdminProductController extends AbstractController
         ]);
     }
 
+    // Suppression d'un produit.
     #[Route('delete_product/{id}', name: 'app_delete_product', methods: ['POST'])]
     public function delete(
         ?Product               $product,
@@ -117,11 +140,15 @@ class AdminProductController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
         if (!$product) {
-            return $this->redirectToRoute('app_admin_dashboard');
+            // Redirige vers la liste si le produit n'existe pas.
+            return $this->redirectToRoute('app_product_list_admin');
         }
+
+        // Détachement des produits du panier.
         foreach ($product->getCartProduct() as $cartProduct) {
             $em->remove($cartProduct); // ou $em->detach($panierProduit);
         }

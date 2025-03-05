@@ -13,16 +13,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+//Contrôleur pour gérer les opérations liées aux adresses des utilisateurs dans le panel utilisateur.
+#[Route('/user')]
 class UserPanelAdresseController extends AbstractController
 {
-    #[Route('/user/list_address', name: 'app_list_adresse')]
+    //Affichage de la liste des adresses
+    #[Route('/list_address', name: 'app_list_adresse')]
     public function listAddress(
         Request       $request,
         Security      $security,
         AdressService $adressService,
     ): Response
     {
+        //Recuperation de l'utilisateur connecté
         $users = $security->getUser();
+        //Appel du service pour obtenir la liste des adresses
         $result = $adressService->AdressList($request, $users);
         return $this->render('FrontOffice/user/list.html.twig', [
             'title' => 'Liste de vos adresses',
@@ -31,14 +36,25 @@ class UserPanelAdresseController extends AbstractController
         ]);
     }
 
-    #[Route('/user/address/{id}', name: 'app_show_adresse')]
+    //Affichage d'une adresse
+    #[Route('/address/{id}', name: 'app_show_adresse')]
     public function showAddress(?Adress $adress)
     {
-        if (!$adress) {
-            return $this->redirectToRoute('app_create_adresse');
-        }
+        //Recuperation de l'utilisateur connecté
         $user = $this->getUser();
 
+        if (!$user) {
+            // Redirige vers la page de connexion si l'utilisateur n'a pas les droits.
+            return $this->redirectToRoute('app_login');
+        }
+
+        if (!$adress) {
+            //Affiche un message d'erreur si l'adresse n'existe pas et redirige vers la page de creation d'adresse
+            $this->addFlash('error', 'Adresse non trouvé.');
+            return $this->redirectToRoute('app_create_adresse');
+        }
+
+       
         return $this->render('FrontOffice/user/showAdresse.html.twig', [
             'title' => 'Information de l\'adresse ',
             'adresse' => $adress,
@@ -47,6 +63,7 @@ class UserPanelAdresseController extends AbstractController
         ]);
     }
 
+    //Desactivation d'une adresse
     #[Route('/user/desactivate_address/{id}', name: 'app_desactivate_adresse')]
     public function desactivateAddress(
         ?Adress                $adress,
@@ -54,19 +71,36 @@ class UserPanelAdresseController extends AbstractController
     ): Response
     {
 
+        //Recuperation de l'utilisateur connecté
+        $user = $this->getUser();
+
+        if (!$user) {
+            // Redirige vers la page de connexion si l'utilisateur n'a pas les droits.
+            return $this->redirectToRoute('app_login');
+        }
+
+        //Verification que l'adresse existe
         if (!$adress) {
+            //Affiche un message d'erreur si l'adresse n'existe pas et redirige vers la page de creation d'adresse
+            $this->addFlash('error', 'Adresse non trouvé.');
             return $this->redirectToRoute('app_user');
         }
+
+        //Verification que l'adresse est active
         if (!$adress->isIsActive()) {
+            //Affiche un message d'erreur si l'adresse n'est pas active et redirige vers la page des adresses
             $this->addFlash('warning', 'L\'adresse est déjà inactive.');
             return $this->redirectToRoute('app_list_adresse');
         }
+
+        //Modification de l'etat de l'adresse
         $adress->setIsActive(false);
         $em->persist($adress);
         $em->flush();
         return $this->redirectToRoute('app_list_adresse');
     }
 
+    //Suppression d'une adresse
     #[Route('/user/delete_address/{id}', name: 'app_delete_adresse')]
     public function deleteAddress(
         ?Adress                $adress,
@@ -74,15 +108,28 @@ class UserPanelAdresseController extends AbstractController
     ): Response
     {
 
-        if (!$adress) {
-            return $this->redirectToRoute('app_user');
+        //Recuperation de l'utilisateur connecté
+        $user = $this->getUser();
+
+        if (!$user) {
+            // Redirige vers la page de connexion si l'utilisateur n'a pas les droits.
+            return $this->redirectToRoute('app_login');
         }
 
+        //Verification que l'adresse existe
+        if (!$adress) {
+            //Affiche un message d'erreur si l'adresse n'existe pas et redirige vers la page des adresses
+            $this->addFlash('error', 'Adresse non trouvé.');
+            return $this->redirectToRoute('app_list_adresse');
+        }
+
+        //Suppression de l'adresse
         $em->remove($adress);
         $em->flush();
         return $this->redirectToRoute('app_list_adresse');
     }
 
+    //Reactivation d'une adresse
     #[Route('/user/reactivate_address/{id}', name: 'app_reactivate_adresse')]
     public function reactivateAdresse(
         ?Adress                $adress,
@@ -90,22 +137,41 @@ class UserPanelAdresseController extends AbstractController
     ): Response
     {
 
+        //Recuperation de l'utilisateur connecté
+        $user = $this->getUser();
+
+        if (!$user) {
+            // Redirige vers la page de connexion si l'utilisateur n'a pas les droits.
+            return $this->redirectToRoute('app_login');
+        }
+
+        //Verification que l'adresse existe
+        if (!$adress) {
+            //Affiche un message d'erreur si l'adresse n'existe pas et redirige vers la page des adresses
+            $this->addFlash('error', 'Adresse non trouvé.');
+            return $this->redirectToRoute('app_list_adresse');
+        }
+
+        //Verification que l'adresse est active
         if ($adress->isIsActive()) {
+            //Affiche un message d'erreur si l'adresse est active et redirige vers la page des adresses
             $this->addFlash('warning', 'L\'adresse est déjà active.');
             return $this->redirectToRoute('app_list_adresse');
         }
 
+        //Activation de l'adresse
         $adress->setIsActive(true);
         $em->persist($adress);
         $em->flush();
 
 
+        //Affichage du message de succès
         $this->addFlash('success', 'L\'adresse a été réactivée avec succès.');
 
         return $this->redirectToRoute('app_list_adresse');
     }
 
-    //Affichage Formulaire pour l'entité Adresse
+    //Affichage du Formulaire pour l'entité Adresse
     private function formAddress(
         ?Adress       $adress,
         Request       $request,
@@ -115,20 +181,29 @@ class UserPanelAdresseController extends AbstractController
     )
     {
         $message = '';
-        $users = $security->getUser();
         if ($adressService->SaveAdressForm($adress, $request, $users)) {
 
             if ($request->get('id')) {
+                //Affichage du message de succès pour la mise à jour et redirection vers la page des adresses
                 $this->addFlash("succes", "l\'adresse a bien été modifiée");
                 return $this->redirectToRoute('app_list_adresse');
             }
 
+            //Affichage du message de succès pour la création et redirection vers la page des adresses
             $this->addFlash("succes", 'L\'adresse a bien été créée');
-            if ($this->getUser()) {
-                return $this->redirectToRoute('app_list_adresse');
-            }
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_list_adresse');
         }
+        if ($this->getUser()) {
+            //Affichage du message d'erreur si l'utilisateur n'a pas les droits et redirection vers la page des adresses
+            $this->addFlash("error", 'Vous n\'avez pas les droits pour effectuer cette action');
+            return $this->redirectToRoute('app_list_adresse');
+        }
+
+        //Affichage du message d'erreur si l'utilisateur n'est pas connecté et redirection vers la page de connexion
+        $this->addFlash("error", 'Vous devez être connecté pour effectuer cette action');
+        return $this->redirectToRoute('app_login');
+
+        //Appel du formulaire
         return $this->render('FrontOffice/user/new.html.twig', [
             'title' => 'adresse',
             'message' => $message,
@@ -146,6 +221,7 @@ class UserPanelAdresseController extends AbstractController
         AdressService $adressService,
     ): Response
     {
+        //Instanciation d'un nouvel objet Adress
         $adresse = new Adress();
         return $this->formAddress($adresse, $request, $security, $adressService);
     }
@@ -159,16 +235,20 @@ class UserPanelAdresseController extends AbstractController
         AdressService $adressService,
     ): Response
     {
+        //Recuperation de l'utilisateur connecté
         $users = $this->getUser();
+        //Appel du formulaire
         return $this->formAddress($adress, $request, $security, $adressService, true);
     }
 
+    //Route pour la recherche de ville
     #[Route('/adresse/ajax/ville/{name}', name: 'ajax_ville')]
     public function ajaxCity(
         Request       $request,
         AdressService $adressService,
     ): Response
     {
+        //Appel du service
         return new JsonResponse($adressService->ReturnJsonCity($request), 200);
     }
 }

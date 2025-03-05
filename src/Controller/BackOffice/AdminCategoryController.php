@@ -14,10 +14,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use App\Service\BackOffice\FormHandlerService;
 
+// Contrôleur pour gérer les opérations liées aux catégories dans le back-office.
 #[Route('admin/')]
 class AdminCategoryController extends AbstractController
 {
-
+// Affiche les produits d'une catégorie spécifique.
     #[Route('category/{id}', name: 'app_product_categorie')]
     public function displayProductsByCategories(
         Category           $categories,
@@ -44,6 +45,7 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
+// Affiche les détails d'une catégorie spécifique.
     #[Route('category_show/{id}', name: 'app_category_show_admin')]
     public function show(
         Category $category,
@@ -61,6 +63,7 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
+// Liste toutes les catégories, avec une option de recherche par nom.
     #[Route('category_list', name: 'app_category_list_admin')]
     public function list(
         CategoryRepository $categoryRepo,
@@ -82,6 +85,8 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
+    // Crée une nouvelle catégorie.
+// Gère le formulaire pour la création de la catégorie.
     #[Route('new_category', name: 'app_new_category')]
     public function new(
         Request            $request,
@@ -106,7 +111,7 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
-
+// Met à jour une catégorie existante.
     #[Route('update_category/{id}', name: 'app_update_category')]
     public function update(
         Request            $request,
@@ -138,6 +143,9 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
+    // Supprime une catégorie existante.
+// Vérifie si l'utilisateur a le rôle ADMIN avant de continuer.
+// Détache les produits et les sous-catégories de la catégorie à supprimer.
     #[Route('delete_category/{id}', name: 'app_delete_category', methods: ['POST'])]
     public function delete(
         ?Category              $category,
