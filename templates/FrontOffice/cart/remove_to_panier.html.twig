@@ -1,3 +1,4 @@
+{# permet de créer le bouton afin de diminuer la quantité d'un produit au panier #}
 <form method="post" class="remove-qte" action="{{ path('app_remove_product_cart', {'id': product.produit.id}) }}">
     <input type="hidden" name="_token" value="{{ csrf_token('removeToCart' ~ product.produit.id) }}">
     <button>

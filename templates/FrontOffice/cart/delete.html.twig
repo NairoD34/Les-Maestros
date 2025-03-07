@@ -1,3 +1,4 @@
+{# permet de créer le bouton afin de supprimer un produit au panier #}
 <form method="post" class="delete-product" action="{{ path('app_delete_product_cart', {'id': product.id}) }}"
       onsubmit="return confirm('Etes-vous sur de vouloir supprimer ce produit de votre panier ?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
