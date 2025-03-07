@@ -14,8 +14,10 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File as ConstraintsFile;
 
+// Classe pour gérer les opérations liées aux produits dans le back-office.
 class AdminProductFormType extends AbstractType
 {
+    //Methode pour construire le formulaire.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -37,6 +39,8 @@ class AdminProductFormType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'title',
             ])
+            
+            //Methode pour ajouter un fichier image.
             ->add('upload_file', FileType::class, [
                 'label' => false,
                 'mapped' => false,
@@ -47,12 +51,17 @@ class AdminProductFormType extends AbstractType
                             'image/jpg',
                             'image/png',
                             'image/jpeg',
+                            'allowLandScape' => false,
+                            'maxWidth' => s,
+                            'maxHeight' => 1080
 
                         ],
                         'mimeTypesMessage' => "Veuillez choisir une image au format PNG ou JPG.",
                     ])
                 ]
             ])
+
+            //Methode pour ajouter un fichier audio.
             ->add('upload_audio', FileType::class, [
                 'label' => "music",
                 'mapped' => false,
@@ -71,6 +80,7 @@ class AdminProductFormType extends AbstractType
             ]);
     }
 
+    //Methode pour configurer les options du formulaire.
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

@@ -11,8 +11,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+// Classe pour gérer les formulaires pour les commandes.
 class CommandeFormType extends AbstractType
 {
+    // Methode pour construire le formulaire.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $adressesUtilisateur = $options['adressesUtilisateur'];
@@ -39,6 +41,7 @@ class CommandeFormType extends AbstractType
             ]);
     }
 
+    // Methode pour configurer les options du formulaire.
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
