@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 //Classe pour gérer les opérations liées au panel utilisateur.
-#[Route('/user', name: 'app_user')]
+#[Route('/user')]
 class UserPanelController extends AbstractController
 {
     //Affiche la page d'accueil du panel utilisateur.
