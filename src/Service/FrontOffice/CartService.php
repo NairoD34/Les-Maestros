@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 
+// Service pour gérer le panier dans le front-office.
 class CartService
 {
     public function __construct(
@@ -32,6 +33,7 @@ class CartService
     /**
      * Return array with specific user's id, command object and a form with user's adresses
      */
+    // Methode pour obtenir les données de l'utilisateur, de la commande et du formulaire avec les adresses de l'utilisateur.
     public function GetUserData()
     {
         $user = $this->security->getUser();
@@ -55,6 +57,7 @@ class CartService
      * returns an array with cart's price and products datas
      */
 
+    // Methode pour calculer le panier.
     public function CalculCart()
     {
         $carts = $this->GetUserData()['cart'];
@@ -78,6 +81,10 @@ class CartService
         ];
     }
 
+    /**
+     * Validate the form and create the order
+     */
+    // Methode pour valider le formulaire et créer la commande.
     public function FormOrdersValidation($request)
     {
         $cart = $this->GetUserData()['cart'];
