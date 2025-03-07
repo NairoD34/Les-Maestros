@@ -21,6 +21,7 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    // Methode pour rechercher les produits les plus nouveaux.
     public function searchNew()
     {
         return $this->createQueryBuilder('p')
@@ -30,6 +31,7 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Methode pour rechercher les produits en fonction de la catégorie demandé.
     public function findProductsByCategoryId($categoryId)
     {
         return $this->createQueryBuilder('p')
@@ -39,6 +41,7 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Methode pour rechercher les produits en fonction du titre demandé.
     public function searchByName(string $title): ?array
     {
         return $this->createQueryBuilder('s')
@@ -48,6 +51,7 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Methode pour rechercher le dernier ID.
     public function getLastId()
     {
         return $this->createQueryBuilder('p')
@@ -57,6 +61,7 @@ class ProductRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    // Methode pour rechercher les produits en promo.
     public function findTopSalesProducts(): array
     {
         return $this->createQueryBuilder('p')
@@ -67,6 +72,7 @@ class ProductRepository extends ServiceEntityRepository
     }
 
 
+    
     public function getSixRandomProducts(): array
     {
         $newProducts = $this->searchNew();

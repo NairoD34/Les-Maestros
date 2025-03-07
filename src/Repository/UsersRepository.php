@@ -15,6 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Users[]    findAll()
  * @method Users[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les opérations liées aux utilisateurs.
 class UsersRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -22,6 +23,7 @@ class UsersRepository extends ServiceEntityRepository
         parent::__construct($registry, Users::class);
     }
 
+    // Methode pour convertir l'objet en une chaîne de caractères.
     public function __toString()
     {
         return $this->name;
@@ -31,6 +33,7 @@ class UsersRepository extends ServiceEntityRepository
     //     * @return Users[] Returns an array of Users objects
     //     */
 
+    // Methode pour compter les utilisateurs.
     public function countUsers(): int
     {
         return $this->createQueryBuilder('e')
@@ -45,6 +48,7 @@ class UsersRepository extends ServiceEntityRepository
     /**
      * @throws \JsonException
      */
+    // Methode pour rechercher les utilisateurs par nom.
     public function searchByName(?string $name = '', ?string $lastname = 'ASC', ?string $firstname = 'ASC'): array
     {
         $qb = $this->createQueryBuilder('s');
@@ -64,6 +68,7 @@ class UsersRepository extends ServiceEntityRepository
     }
 
 
+    // Methode pour rechercher les clients.
     public function searchByClients(?string $name = '', ?string $lastname = 'ASC', ?string $firstname = 'ASC'): array
     {
         $qb = $this->createQueryBuilder('s');

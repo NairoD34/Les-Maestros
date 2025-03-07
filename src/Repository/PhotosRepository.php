@@ -59,6 +59,7 @@ class PhotosRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Methode pour inserer une photo en fonction de la catégorie demandé.
     public function insertPhotoWithCategorie($id, $path)
     {
         $sql = "INSERT INTO `photos`(`category_id`, `url_photo`) VALUES ('" . $id . "','" . $path . "')";
@@ -66,6 +67,7 @@ class PhotosRepository extends ServiceEntityRepository
             ->executeQuery($sql);
     }
 
+    // Methode pour inserer une photo en fonction du produit demandé.
     public function insertPhotoWithProduct($id, $path)
     {
         $sql = "INSERT INTO `photos`(`product_id`, `url_photo`) VALUES ('" . $id . "','" . $path . "')";
@@ -73,6 +75,7 @@ class PhotosRepository extends ServiceEntityRepository
             ->executeQuery($sql);
     }
 
+    // Methode pour modifier une photo en fonction de la catégorie demandé.
     public function updatePhotoInCategory($id, $path)
     {
         $sql = "UPDATE `photos` SET url_photo = '$path' WHERE category_id =  $id ";
@@ -80,6 +83,7 @@ class PhotosRepository extends ServiceEntityRepository
             ->executeQuery($sql);
     }
 
+    // Methode pour modifier une photo en fonction du produit demandé.
     public function updatePhotoInProduct($id, $path)
     {
         $sql = "UPDATE `photos` SET url_photo = '$path' WHERE product_id =  $id ";
