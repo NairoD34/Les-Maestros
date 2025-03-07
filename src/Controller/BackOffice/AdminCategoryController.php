@@ -52,7 +52,6 @@ class AdminCategoryController extends AbstractController
         Security $security,
     ): Response
     {
-
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
@@ -63,7 +62,7 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
-// Liste toutes les catégories, avec une option de recherche par nom.
+// Liste toutes les catégories.
     #[Route('category_list', name: 'app_category_list_admin')]
     public function list(
         CategoryRepository $categoryRepo,
@@ -85,7 +84,6 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
-    // Crée une nouvelle catégorie.
 // Gère le formulaire pour la création de la catégorie.
     #[Route('new_category', name: 'app_new_category')]
     public function new(
@@ -111,7 +109,7 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
-// Met à jour une catégorie existante.
+// Met à jour d'une catégorie existante.
     #[Route('update_category/{id}', name: 'app_update_category')]
     public function update(
         Request            $request,
@@ -143,9 +141,7 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
-    // Supprime une catégorie existante.
-// Vérifie si l'utilisateur a le rôle ADMIN avant de continuer.
-// Détache les produits et les sous-catégories de la catégorie à supprimer.
+// Supprime une catégorie existante et détache les produits et les sous-catégories de la catégorie à supprimer.
     #[Route('delete_category/{id}', name: 'app_delete_category', methods: ['POST'])]
     public function delete(
         ?Category              $category,
@@ -158,11 +154,12 @@ class AdminCategoryController extends AbstractController
         }
 
         if (!$category) {
-            return $this->redirectToRoute('app_dashboard_admin');
+            return $this->redirectToRoute('app_category_list_admin');
         }
 
         foreach ($category->getProducts() as $product) {
             $product->setCategory(null);
+            $em->persist($product);
         }
         foreach ($category->getChildCategory() as $cateChild) {
             $cateChild->setParentCategory(null);
