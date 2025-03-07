@@ -1,3 +1,4 @@
+{# permet de créer le bouton afin d'augmenter la quantité d'un produit au panier #}
 <form method="post" class="add-qte" action="{{ path('app_add_qte_product_cart', {'id': product.produit.id}) }}">
     <input type="hidden" name="_token" value="{{ csrf_token('addQteToCart' ~ product.produit.id) }}">
     <button>

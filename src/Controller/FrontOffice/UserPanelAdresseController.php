@@ -181,29 +181,19 @@ class UserPanelAdresseController extends AbstractController
     )
     {
         $message = '';
+        $users = $this->getUser();
+        
+        if (!$users) {
+            //Redirige vers la page de connexion si aucun utilisateur n'est connecté
+            return $this->redirectToRoute('app_login');
+        }
+
         if ($adressService->SaveAdressForm($adress, $request, $users)) {
-
-            if ($request->get('id')) {
-                //Affichage du message de succès pour la mise à jour et redirection vers la page des adresses
-                $this->addFlash("succes", "l\'adresse a bien été modifiée");
-                return $this->redirectToRoute('app_list_adresse');
-            }
-
-            //Affichage du message de succès pour la création et redirection vers la page des adresses
-            $this->addFlash("succes", 'L\'adresse a bien été créée');
-            return $this->redirectToRoute('app_list_adresse');
-        }
-        if ($this->getUser()) {
-            //Affichage du message d'erreur si l'utilisateur n'a pas les droits et redirection vers la page des adresses
-            $this->addFlash("error", 'Vous n\'avez pas les droits pour effectuer cette action');
+            //Redirige vers la liste des adresses en cas de succès
             return $this->redirectToRoute('app_list_adresse');
         }
 
-        //Affichage du message d'erreur si l'utilisateur n'est pas connecté et redirection vers la page de connexion
-        $this->addFlash("error", 'Vous devez être connecté pour effectuer cette action');
-        return $this->redirectToRoute('app_login');
-
-        //Appel du formulaire
+        //Affichage de la page de création d'adresse
         return $this->render('FrontOffice/user/new.html.twig', [
             'title' => 'adresse',
             'message' => $message,
