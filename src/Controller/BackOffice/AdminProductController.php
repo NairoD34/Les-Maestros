@@ -43,7 +43,7 @@ class AdminProductController extends AbstractController
             return $this->redirectToRoute('app_product_list_admin');
         }
 
-        // Rend la vue avec les données du formulaire et les erreurs.
+        // Rend la vue avec les données du formulaire.
         return $this->render('BackOffice/Product/product_new.html.twig', [
             'title' => 'Création d\'un nouveau produit',
             'form' => $formResult['form']->createView(),

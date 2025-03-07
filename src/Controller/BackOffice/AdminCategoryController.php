@@ -126,7 +126,7 @@ class AdminCategoryController extends AbstractController
         }
 
         if (!$category) {
-            return $this->redirectToRoute('app_dashboard_admin');
+            return $this->redirectToRoute('app_category_list_admin');
         }
 
         $formResult = $formHandler->handleCategory(true, $request, $category, $photo, $categoryRepo);
