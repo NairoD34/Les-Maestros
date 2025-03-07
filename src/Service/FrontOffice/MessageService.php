@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+// Service pour gérer les messages dans le front-office.
 class MessageService
 {
     private $formFactory;
@@ -24,6 +25,10 @@ class MessageService
     }
 
 
+    /**
+     * Handle message form.
+     */
+    //Methode pour traiter le formulaire de message.
     public function handleMessage(
         Message $message,
         Request $request,

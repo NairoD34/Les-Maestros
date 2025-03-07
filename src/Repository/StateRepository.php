@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Etat[]    findAll()
  * @method Etat[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les opérations liées aux Etats.
 class StateRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

@@ -1,73 +1,83 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block title %}
-    {{ title }}
+    {{ title }} {# Titre de la page, récupéré dynamiquement #}
 {% endblock %}
 
 {% block main %}
+    {# Section principale pour la liste des catégories #}
     <section class="admin-section">
         <div class="title-container">
+            {# Lien pour revenir au tableau de bord #}
             <a href="{{ path('app_admin_dashboard') }}" class="come-back">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
                     <title>Revenir en arrière</title>
-                    <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
                     <path fill="#000000"
                           d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
                 </svg>
             </a>
-            <h2>{{ title }}</h2>
+            <h2>{{ title }}</h2> {# Titre principal de la section #}
         </div>
         <div class="details-container">
+            {# Lien pour ajouter une nouvelle catégorie #}
             <a href="{{ path('app_new_category') }}">Ajouter une catégorie</a>
             <div class="details-content">
+                {# Boucle pour afficher les catégories principales #}
                 {% for item in category %}
                     {% if item.parentCategory is null %}
                         <div class="details-body">
+                            {# Boucle pour afficher les photos de la catégorie #}
                             {% for photo in item.photos %}
                                 <div class="admin-image">
                                     <img src="{{ photo.urlPhoto }}" alt="{{ item.title }}">
                                 </div>
                             {% endfor %}
                             <div class="admin-action">
+                                {# Lien pour afficher les détails de la catégorie #}
                                 <a href="{{ path('app_category_show_admin', { 'id': item.id }) }}">
                                     <div>
-                                        <h4>{{ item.title }}</h4>
+                                        <h4>{{ item.title }}</h4> {# Affiche le titre de la catégorie #}
                                     </div>
                                 </a>
                                 <div class="action-container">
+                                    {# Lien pour mettre à jour la catégorie #}
                                     <a href="{{ path('app_update_category', { 'id': item.id }) }}">Mettre à jour</a>
+                                    {# Lien pour voir les produits associés à la catégorie #}
                                     <a href="{{ path('app_product_categorie', { 'id': item.id }) }}">Voir les produits </a>
+                                    {# Inclusion du formulaire de suppression de catégorie #}
                                     {{ include('BackOffice/Category/category_delete.html.twig', { 'id': item.id }) }}
                                 </div>
-                                
                             </div>
                         </div>
                     {% endif %}
                 {% else %}
-                    <p>Aucun enregistrement</p>
+                    <p>Aucun enregistrement</p> {# Message si aucune catégorie n'est trouvée #}
                 {% endfor %}
             </div>
             <div class="details-content">
+                {# Boucle pour afficher les sous-catégories #}
                 {% for item in category %}
                     {% for item in item.childCategory %}
-                        <div class="details-body"
-                        >
+                        <div class="details-body">
+                            {# Boucle pour afficher les photos de la sous-catégorie #}
                             {% for photo in item.photos %}
                                 <div class="admin-image">
                                     <img src="{{ photo.urlPhoto }}" alt="{{ item.title }}">
                                 </div>
                             {% endfor %}
                             <div class="admin-action">
-                                <a href="{{ path('app_category_show_admin', { 'id': item.id }) }}"
-                                >
+                                {# Lien pour afficher les détails de la sous-catégorie #}
+                                <a href="{{ path('app_category_show_admin', { 'id': item.id }) }}">
                                     <div>
-                                        <h4>{{ item.title }}</h4>
+                                        <h4>{{ item.title }}</h4> {# Affiche le titre de la sous-catégorie #}
                                     </div>
                                 </a>
                                 <div class="action-container">
+                                    {# Lien pour mettre à jour la sous-catégorie #}
                                     <a href="{{ path('app_update_category', { 'id': item.id }) }}">Mettre à jour</a>
+                                    {# Lien pour voir les produits associés à la sous-catégorie #}
                                     <a href="{{ path('app_product_categorie', { 'id': item.id }) }}">Voir les produits </a>
-
+                                    {# Inclusion du formulaire de suppression de sous-catégorie #}
                                     {{ include('BackOffice/Category/category_delete.html.twig', { 'id': item.id }) }}
                                 </div>
                             </div>

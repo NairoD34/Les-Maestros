@@ -1,71 +1,91 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block title %}
-    {{ title }}
+    {{ title }} {# Titre de la page, récupéré dynamiquement #}
 {% endblock %}
 
 {% block main %}
+    {# Conteneur principal pour afficher le formulaire de création d'un nouveau produit #}
     <div class="info_user_container">
-    <div class="info_user_content">
+        <div class="info_user_content">
 
-        <div class="title-container">
-            <a href="{{ path('app_product_list_admin') }}" class="come-back">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
-                    <title>Revenir en arrière</title>
-                    <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-                    <path fill="#000000"
-                          d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
-                </svg>
-            </a>
-            <h2>{{ title }}</h2>
+            <div class="title-container">
+                {# Lien pour revenir à la liste des produits #}
+                <a href="{{ path('app_product_list_admin') }}" class="come-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
+                        <title>Revenir en arrière</title>
+                        <path fill="#000000"
+                              d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                    </svg>
+                </a>
+                <h2>{{ title }}</h2> {# Titre principal de la section #}
+            </div>
+
+            <div class="content-form">
+                {# Démarre le formulaire Symfony pour créer un nouveau produit #}
+                {{ form_start(form) }}
+                <div>
+                    {# Affiche les erreurs du formulaire, le cas échéant #}
+                    {{ form_errors(form, {'attr': {'class': 'log-danger'}}) }}
+                </div>
+                <div>
+                    {# Affiche le label pour le champ de titre du produit #}
+                    {{ form_label(form.title, 'Libellé') }}
+                    {# Affiche le champ pour le titre du produit #}
+                    {{ form_widget(form.title) }}
+                </div>
+                <div>
+                    {# Affiche le label pour le champ de description du produit #}
+                    {{ form_label(form.description, 'Description') }}
+                    {# Affiche le champ pour la description du produit #}
+                    {{ form_widget(form.description) }}
+                </div>
+                <div>
+                    {# Affiche le label pour le champ de prix HT du produit #}
+                    {{ form_label(form.tax_free_price, 'Prix HT') }}
+                    {# Affiche le champ pour le prix HT du produit #}
+                    {{ form_widget(form.tax_free_price) }}
+                </div>
+                <div>
+                    {# Affiche le label pour le champ de taux de TVA du produit #}
+                    {{ form_label(form.TaxRate, 'Taux de TVA') }}
+                    {# Affiche le champ pour le taux de TVA du produit #}
+                    {{ form_widget(form.TaxRate) }}
+                </div>
+                <div>
+                    {# Affiche le label pour le champ de promotion du produit #}
+                    {{ form_label(form.sales, 'Promotion') }}
+                    {# Affiche le champ pour la promotion du produit #}
+                    {{ form_widget(form.sales) }}
+                </div>
+                <div>
+                    {# Affiche le label pour le champ de catégorie du produit #}
+                    {{ form_label(form.category, 'Catégorie') }}
+                    {# Affiche le champ pour la catégorie du produit #}
+                    {{ form_widget(form.category) }}
+                </div>
+                <div>
+                    {# Affiche le label pour le champ d'image d'illustration du produit #}
+                    {{ form_label(form.upload_file, 'Choisissez une image d\'illustration') }}
+                    {# Affiche le champ pour télécharger une image d'illustration #}
+                    {{ form_widget(form.upload_file) }}
+                </div>
+                <div>
+                    {# Affiche le label pour le champ d'échantillon audio du produit #}
+                    {{ form_label(form.upload_audio, 'Choisissez un échantillon audio') }}
+                    {# Affiche le champ pour télécharger un échantillon audio #}
+                    {{ form_widget(form.upload_audio) }}
+                </div>
+
+                <div class="submit-container">
+                    {# Bouton pour soumettre le formulaire de création #}
+                    <button type='submit'>Soumettre</button>
+                </div>
+
+                {# Termine le formulaire Symfony #}
+                {{ form_end(form) }}
+            </div>
+
         </div>
-
-        <div class="content-form">
-            {{ form_start(form) }}
-            <div>
-                {{ form_errors(form, {'attr': {'class': 'log-danger'}}) }}
-            </div>
-            <div>
-                {{ form_label(form.title, 'Libellé') }}
-                {{ form_widget(form.title) }}
-            </div>
-            <div>
-                {{ form_label(form.description, 'Description') }}
-                {{ form_widget(form.description) }}
-            </div>
-            <div>
-                {{ form_label(form.tax_free_price, 'Prix HT') }}
-                {{ form_widget(form.tax_free_price) }}
-            </div>
-            <div>
-                {{ form_label(form.TaxRate, 'Taux de TVA') }}
-                {{ form_widget(form.TaxRate) }}
-            </div>
-            <div>
-                {{ form_label(form.sales, 'Promotion') }}
-                {{ form_widget(form.sales) }}
-            </div>
-            <div>
-                {{ form_label(form.category, 'Catégorie') }}
-                {{ form_widget(form.category) }}
-            </div>
-            <div>
-                {{ form_label(form.upload_file, 'Choisissez une image d\'illustration') }}
-                {{ form_widget(form.upload_file) }}
-            </div>
-            <div>
-                {{ form_label(form.upload_audio, 'Choisissez un échantillon audio') }}
-                {{ form_widget(form.upload_audio) }}
-            </div>
-            {# {{ form_label() }} #}
-
-
-            <div class="submit-container">
-                <button type='submit'>Soumettre</button>
-            </div>
-
-            {{ form_end(form) }}
-        </div>
-
     </div>
 {% endblock %}

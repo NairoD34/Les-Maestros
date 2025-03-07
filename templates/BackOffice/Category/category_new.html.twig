@@ -1,51 +1,58 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block title %}
-    {{ title }}
+    {{ title }} {# Titre de la page, récupéré dynamiquement #}
 {% endblock %}
 
 {% block main %}
-
+    {# Conteneur principal pour le formulaire d'ajout d'une nouvelle catégorie #}
     <div class="info_user_container">
         <div class="info_user_content">
             <div class="title-container">
+                {# Lien pour revenir à la liste des catégories #}
                 <a href="{{ path('app_category_list_admin') }}" class="come-back">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
-                    <title>Revenir en arrière</title>
-                        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <title>Revenir en arrière</title>
                         <path fill="#000000"
                               d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
                     </svg>
                 </a>
-                <h2>{{ title }}</h2>
+                <h2>{{ title }}</h2> {# Titre principal de la section #}
             </div>
             <div class="content-form">
+                {# Démarre le formulaire Symfony #}
                 {{ form_start(form) }}
 
+                {# Affiche les erreurs du formulaire, le cas échéant #}
                 {{ form_errors(form, {'attr': {'class': 'log-danger'}} ) }}
 
                 <div>
+                    {# Champ pour le libellé de la catégorie #}
                     {{ form_label(form.title, 'Libelle') }}
                     {{ form_widget(form.title) }}
                 </div>
                 <div>
+                    {# Champ pour la catégorie parente #}
                     {{ form_label(form.parent_category, 'Categorie parente') }}
                     {{ form_widget(form.parent_category) }}
                 </div>
                 <div>
+                    {# Champ pour la description de la catégorie #}
                     {{ form_label(form.description, 'Description') }}
                     {{ form_widget(form.description) }}
                 </div>
                 <div>
+                    {# Champ pour télécharger un fichier associé à la catégorie #}
                     {{ form_label(form.upload_file, 'Choisissez un fichier') }}
                     {{ form_widget(form.upload_file) }}
                 </div>
                 <div class="submit-container">
+                    {# Bouton de soumission pour le formulaire #}
                     <button type='submit'>Soumettre</button>
                 </div>
 
+                {# Termine le formulaire Symfony #}
                 {{ form_end(form) }}
-
             </div>
         </div>
     </div>
