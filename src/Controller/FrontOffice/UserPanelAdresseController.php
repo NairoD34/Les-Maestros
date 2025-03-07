@@ -181,19 +181,22 @@ class UserPanelAdresseController extends AbstractController
     )
     {
         $message = '';
-        $users = $this->getUser();
-        
-        if (!$users) {
-            //Redirige vers la page de connexion si aucun utilisateur n'est connecté
+        $users = $security->getUser(); //Récupère l'utilisateur connecté
+        if ($adressService->SaveAdressForm($adress, $request, $users)) { //True|False adresse sauvegardée ?
+
+            if ($request->get('id')) { //Si l'adresse existait déjà, renvoie vers la liste
+                $this->addFlash("succes", "l\'adresse a bien été modifiée");
+                return $this->redirectToRoute('app_list_adresse');
+            }
+
+            $this->addFlash("succes", 'L\'adresse a bien été créée');
+            if ($this->getUser()) { //Si l'utilisateur est bien connecté
+                return $this->redirectToRoute('app_list_adresse');
+            }
             return $this->redirectToRoute('app_login');
         }
 
-        if ($adressService->SaveAdressForm($adress, $request, $users)) {
-            //Redirige vers la liste des adresses en cas de succès
-            return $this->redirectToRoute('app_list_adresse');
-        }
-
-        //Affichage de la page de création d'adresse
+        //Render pour le template du formulaire d'adresses
         return $this->render('FrontOffice/user/new.html.twig', [
             'title' => 'adresse',
             'message' => $message,
