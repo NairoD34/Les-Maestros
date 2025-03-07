@@ -1,7 +1,9 @@
 <form method="post" action="{{ path('app_delete_user', {'id': item.id}) }}"
-      onsubmit="return confirm('Etes-vous sur de vouloir supprimer ce client ?');">
+      onsubmit="return confirm('Etes-vous sûr de vouloir supprimer ce client ?');">
+    {# Champ caché pour le token CSRF, utilisé pour la sécurité du formulaire #}
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
     <div class="delete">
+        {# Bouton pour soumettre le formulaire de suppression #}
         <button>Supprimer</button>
     </div>
 </form>

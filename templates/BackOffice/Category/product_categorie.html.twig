@@ -1,38 +1,33 @@
-
-
 {% extends 'base_admin.html.twig' %}
 
 {% block main %}
-    
-
-        <section class="section-list">
-            <h1>Produits de la catégorie <span
-                        style="color:#8B6A4B;">{{ category.title }}</span></h1>
-            <div class="list-products">
+    {# Section principale pour afficher les produits de la catégorie #}
+    <section class="section-list">
+        <h1>Produits de la catégorie <span style="color:#8B6A4B;">{{ category.title }}</span></h1>
+        <div class="list-products">
+            {# Vérifie si des produits existent pour la catégorie #}
             {% if products %}
-        
+                {# Boucle pour afficher chaque produit #}
                 {% for item in products %}
                     <div class="card-container">
                         <div class="card-content">
-                                <a href="{{ path('app_product_show_admin', { 'id': item.id }) }}">
-                                    <img src="{{ item.photos[0].urlPhoto }}" alt=" {{category.title}}">
-                                    <div class="price-container">
-                                        <p class="title">{{ item.title }}</p>
-                                        <p class="price-content">
-                                                {{ item.TaxFreePrice }} € HT
-                                        </p>
-                                    </div>
-                                </a>
+                            {# Lien vers la page de détails du produit #}
+                            <a href="{{ path('app_product_show_admin', { 'id': item.id }) }}">
+                                <img src="{{ item.photos[0].urlPhoto }}" alt="{{ category.title }}">
+                                <div class="price-container">
+                                    <p class="title">{{ item.title }}</p> {# Affiche le titre du produit #}
+                                    <p class="price-content">
+                                        {{ item.TaxFreePrice }} € HT {# Affiche le prix hors taxes du produit #}
+                                    </p>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                    {% endfor %}
+                {% endfor %}
             </div>
-            
-    {% else %}
-    <p>Aucun produit trouvé pour cette catégorie.</p>
-    {% endif %}
-
+            {# Message si aucun produit n'est trouvé pour la catégorie #}
+            {% else %}
+                <p>Aucun produit trouvé pour cette catégorie.</p>
+            {% endif %}
         </section>
-    
- 
 {% endblock %}
