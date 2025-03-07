@@ -2,9 +2,7 @@
 
 namespace App\Controller\BackOffice;
 
-use App\Entity\Admin;
 use App\Entity\Users;
-use App\Repository\AdminRepository;
 use App\Repository\UsersRepository;
 use App\Service\BackOffice\FormHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -123,7 +121,8 @@ class AdminController extends AbstractController
     public function delete(
         Request                $request,
         Users                  $admin,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        Security               $security,
     ): Response
     {
         // Vérifie si l'utilisateur a le rôle ADMIN avant de continuer.
