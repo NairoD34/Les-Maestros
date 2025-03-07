@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method OrderLine[]    findAll()
  * @method OrderLine[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les requêtes liées aux lignes de commande.
 class OrderLineRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -21,6 +22,7 @@ class OrderLineRepository extends ServiceEntityRepository
         parent::__construct($registry, OrderLine::class);
     }
 
+    // Methode pour rechercher une ligne de commande par son Id.
     public function findByOrderId($id)
     {
         return $this->createQueryBuilder('c')

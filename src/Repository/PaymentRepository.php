@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Paiement[]    findAll()
  * @method Paiement[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les requêtes liées aux paiements.
 class PaymentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

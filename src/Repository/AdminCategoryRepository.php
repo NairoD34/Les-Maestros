@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Categorie[]    findAll()
  * @method Categorie[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les requêtes liées aux catégories dans le back-office.
 class AdminCategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -21,6 +22,7 @@ class AdminCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
+    // Methode pour rechercher une catégorie par son titre.
     public function searchByName(string $title): ?array
     {
         return $this->createQueryBuilder('s')
