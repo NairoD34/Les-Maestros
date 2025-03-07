@@ -21,7 +21,7 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
    git clone https://github.com/NairoD34/Les-Maestros
    cd Les-Maestros
 
-2. **Installé les dépendances :**
+2. **Installez les dépendances :**
 
     ```bash
     composer install
@@ -35,7 +35,7 @@ Copiez le fichier .env en .env.local et modifiez les variables d'environnement s
     symfony console make:migration
     symfony console d:m:m
 
-## Lancer le serveur
+## Lancez le serveur
     symfony serve -d
     npm run watch
 ## Features
@@ -73,16 +73,22 @@ Copiez le fichier .env en .env.local et modifiez les variables d'environnement s
 3. **Gestion des produits :**
     Ajoutez, modifiez ou supprimez des produits depuis le tableau de bord.
     Gérez les catégories de produits et les promotions associées.
+
 4. **Gestion des commandes :**
     Consultez toutes les commandes passées par les utilisateurs.
     Suivez le statut des commandes et gérez les retours ou les problèmes.
+    
 5. **Gestion des promotions :**
     Consultez et créer modifier ou supprimer des promotions applicables à vos produits.
+
 6. **Gestion des messages :**
     Consultez tous les messages laissés par les utilisateurs.
     Permet de voir l'adresse mail de l'utilisateur afin de lui répondre et de supprimer    les messages lorsqu'ils ont été traités
+
 7. **Déconnexion :**
     Déconnectez-vous depuis le tableau de bord pour sécuriser votre session.
+
+
 ## Authors
 
 - [@NairoD34](https://www.github.com/NairoD34)
