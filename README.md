@@ -20,12 +20,12 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants sur v
 - PHP 8.1 et Composer
 - Node.js et npm
 - Symfony CLI
-- Une base de données compatible avec Symfony (ex: MySQL, PostgreSQL, SQLite)
+- Une base de données compatible avec Symfony (MySQL)
 
 ### Étapes d'installation
 1. Clonez le projet :
    ```sh
-   git clone <URL_DU_REPO>
+   git clone (https://github.com/NairoD34/Les-Maestros.git)
    cd les-Maestros
    ```
 2. Installez les dépendances PHP avec Composer :
@@ -39,7 +39,7 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants sur v
 4. Configurez votre fichier `.env` en renseignant les paramètres de connexion à la base de données.
 5. Exécutez les migrations de la base de données :
    ```sh
-   symfony console doctrine:migrations:migrate
+   symfony console doctrine:migrations:migrate ou alors symfony console d:m:m
    ```
 
 ### Démarrage du projet
