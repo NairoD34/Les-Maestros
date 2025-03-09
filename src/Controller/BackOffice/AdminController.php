@@ -41,8 +41,8 @@ class AdminController extends AbstractController
     public function show(?Users $admin): Response
     {
         if (!$admin) {
-            // Redirige vers le tableau de bord si l'administrateur n'existe pas.
-            return $this->redirectToRoute('app_admin_dashboard');
+            // Redirige vers la liste des admins si l'administrateur n'existe pas.
+            return $this->redirectToRoute('app_list_admin');
         }
 
         return $this->render('BackOffice/Admin/show.html.twig', [
@@ -51,7 +51,6 @@ class AdminController extends AbstractController
         ]);
     }
 
-    // Crée un nouvel administrateur.
 // Gère le formulaire pour la création d'un nouvel administrateur.
     #[Route('new', name: 'app_new_admin')]
     public function new(
@@ -131,7 +130,7 @@ class AdminController extends AbstractController
         }
 
         if (!$admin) {
-            // Redirige vers la liste si l'administrateur n'existe pas.
+            // Redirige vers la liste des admins si l'administrateur n'existe pas.
             return $this->redirectToRoute('app_list_admin');
         }
         if ($this->isCsrfTokenValid('delete' . $admin->getId(), $request->request->get('_token'))) {
@@ -139,6 +138,6 @@ class AdminController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_list_admin', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_list_admin');
     }
 }

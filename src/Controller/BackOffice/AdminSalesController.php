@@ -58,19 +58,9 @@ class AdminSalesController extends AbstractController
 
         $sales = $salesRepo->findAll();
         
-        // Recherche des promotions par titre.
-        if (isEmpty($sales)) {
-            // Affiche un message si aucune promotion n'existe.
-            $salesByName = '';
-        } else {
-            // Affiche la liste des promotions.
-            $salesByName = $salesRepo->searchByName($request->query->get('title', ''));
-        }
-        
         return $this->render('BackOffice/Sales/sales_list.html.twig', [
             'title' => 'Liste des promotions',
             'sales' => $sales,
-            'libelle' => $salesByName,
         ]);
     }
 
