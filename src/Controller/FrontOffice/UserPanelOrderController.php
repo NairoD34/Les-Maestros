@@ -60,6 +60,11 @@ class UserPanelOrderController extends AbstractController
             //Redirection vers la page des commandes si la commande n'existe pas
             return $this->redirectToRoute('app_commande_list');
         }
+
+        if($orders->getUsersID() !== $security->getUser()->getId()){
+            //Redirection vers la page des commandes si la commande n'existe pas
+            return $this->redirectToRoute('app_commande_list');
+        }
         return $this->render('FrontOffice/user/commande_show.html.twig', [
             'title' => 'Fiche de la commande',
             'order' => $orders,
