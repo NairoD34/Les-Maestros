@@ -35,7 +35,10 @@ class UserPanelAdresseController extends AbstractController
 
     //Affichage d'une adresse
     #[Route('/user/address/{id}', name: 'app_show_adresse')]
-    public function showAddress(?Adress $adress)
+    public function showAddress(
+        ?Adress $adress,
+        Security $security,
+    )
     {
         //Recuperation de l'utilisateur connecté
         $user = $this->getUser();
@@ -51,7 +54,7 @@ class UserPanelAdresseController extends AbstractController
             return $this->redirectToRoute('app_list_adresse');
         }
 
-        if($adress->getUsers() !== $security->getUser()->getId() ){
+        if($adress->getUsers()->getId() !== $security->getUser()->getId() ){
             // redirige vers la page de creation d'adresse
             return $this->redirectToRoute('app_list_adresse');
         }
