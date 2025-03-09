@@ -36,6 +36,7 @@ class UserPanelController extends AbstractController
         ?Users       $users,
         Request      $request,
         UsersService $usersService,
+        Security     $security,
     ): Response
     {
         //Recuperation de l'utilisateur connecté
