@@ -51,7 +51,7 @@ class UserPanelAdresseController extends AbstractController
             return $this->redirectToRoute('app_list_adresse');
         }
 
-        if($adress->getUsersId() !== $security->getUser()->getId() ){
+        if($adress->getUsers() !== $security->getUser()->getId() ){
             // redirige vers la page de creation d'adresse
             return $this->redirectToRoute('app_list_adresse');
         }

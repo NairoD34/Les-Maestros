@@ -50,14 +50,18 @@
                         <span>Adresse de facturation:</span>
                         <p>{{ order.billed.number }} {{ order.billed.street }}, {{ order.billed.city.name }}</p> {# Affiche l'adresse de facturation #}
                     </div>
+                    {%if order.payment%}
                     <div>
                         <span>Moyen de paiement:</span>
                         <p>{{ order.payment.title }}</p> {# Affiche le moyen de paiement utilisé pour la commande #}
                     </div>
+                    {%endif%}
+                    {%if order.delivery%}
                     <div>
                         <span>Mode de livraison:</span>
                         <p>{{ order.delivery.title }}</p> {# Affiche le mode de livraison choisi pour la commande #}
                     </div>
+                    {%endif%}
                     <div>
                         <span>État de la commande :</span>
                         <p>{{ order.state.title }}</p> {# Affiche l'état actuel de la commande #}

@@ -61,7 +61,7 @@ class UserPanelOrderController extends AbstractController
             return $this->redirectToRoute('app_commande_list');
         }
 
-        if($orders->getUsersID() !== $security->getUser()->getId()){
+        if($orders->getUsers()->getId() !== $security->getUser()->getId()){
             //Redirection vers la page des commandes si la commande n'existe pas
             return $this->redirectToRoute('app_commande_list');
         }
