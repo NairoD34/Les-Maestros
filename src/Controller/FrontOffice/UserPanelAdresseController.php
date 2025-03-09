@@ -3,7 +3,6 @@
 namespace App\Controller\FrontOffice;
 
 use App\Entity\Adress;
-use App\Entity\Users;
 use App\Service\FrontOffice\AdressService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,6 +34,7 @@ class UserPanelAdresseController extends AbstractController
     }
 
     //Affichage d'une adresse
+    #[Route('/user/address/{id}', name: 'app_show_adresse')]
     #[Route('/user/address/{id}', name: 'app_show_adresse')]
     public function showAddress(?Adress $adress)
     {
