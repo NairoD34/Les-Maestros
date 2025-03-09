@@ -65,7 +65,11 @@ class CartProductRepository extends ServiceEntityRepository
             WHERE product_id = :idProduct AND cart_id = :idCart";
 
         $stmt = $conn->prepare($sql);
-        $stmt->executeQuery();
+        $stmt->executeQuery([
+            'qty' => $qty,
+            'idProduct' => $idProduct,
+            'idCart' => $idCart,
+        ]);
     }
 
 
