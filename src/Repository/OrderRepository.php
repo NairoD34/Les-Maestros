@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  * @method Orders[]    findAll()
  * @method Orders[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les requêtes liées aux commandes.
 class OrderRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -22,6 +23,7 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Orders::class);
     }
 
+    // Methode pour rechercher une commande par son Id.
     public function searchByName(string $id): ?array
     {
         return $this->createQueryBuilder('s')
@@ -31,6 +33,7 @@ class OrderRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Methode pour compter le nombre de commandes.
     public function countOrders()
     {
         $result = $this->createQueryBuilder('e')
@@ -41,6 +44,7 @@ class OrderRepository extends ServiceEntityRepository
 
     }
 
+    // Methode pour compter le nombre de commandes avec le prix de la commande TTC.
     public function countTaxIncludedRevenue()
     {
         $result = $this->createQueryBuilder('e')

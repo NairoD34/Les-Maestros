@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Panier[]    findAll()
  * @method Panier[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les requêtes liées aux paniers.
 class CartRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -22,7 +23,7 @@ class CartRepository extends ServiceEntityRepository
     }
 
 
-    
+    // Methode pour rechercher le dernier panier de l'utilisateur.
     public function getLastCartOrder($userId)
 {
     return $this->createQueryBuilder('p')
@@ -40,6 +41,7 @@ class CartRepository extends ServiceEntityRepository
     //    /**
     //     * @return Panier[] Returns an array of Panier objects
     //     */
+    //Methode pour rechercher un panier par l'id de l'utilisateur.
         public function findByUserId($value): array
         {
             return $this->createQueryBuilder('p')

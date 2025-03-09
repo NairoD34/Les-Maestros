@@ -16,6 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method CartProduct[]    findAll()
  * @method CartProduct[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les requêtes liées aux produits dans le panier.
 class CartProductRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -23,6 +24,7 @@ class CartProductRepository extends ServiceEntityRepository
         parent::__construct($registry, CartProduct::class);
     }
 
+    // Methode pour ajouter un produit dans le panier.
     public function AddProductToCartProduct($idProduct, $idCart, $qty)
     {
         $sql = "INSERT INTO `cart_product`(`product_id`, `cart_id`, `quantity`) VALUES (" . $idProduct . "," . $idCart . "," . $qty . ")";
@@ -30,7 +32,7 @@ class CartProductRepository extends ServiceEntityRepository
         $stmt = $conn->prepare($sql);
         $stmt->executeQuery();
     }
-
+// Methode pour rechercher un produit dans le panier.
     public function getCartProductbyId($Product, $Cart)
     {
         return $this->createQueryBuilder('p')
@@ -53,6 +55,7 @@ class CartProductRepository extends ServiceEntityRepository
 //            ->executeQuery($sql);
 //    }
 
+// Methode pour modifier la quantité d'un produit dans le panier.
     public function updateQuantityInCartProduct($qty, $idProduct, $idCart)
     {
         $conn = $this->getEntityManager()->getConnection();

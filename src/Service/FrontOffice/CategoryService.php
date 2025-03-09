@@ -7,14 +7,19 @@ use App\Repository\CategoryRepository;
 use App\Repository\PhotosRepository;
 use Symfony\Component\HttpFoundation\Request;
 
+// Service pour gérer les catégories dans le front-office.
 class CategoryService
 {
 
 //    private $photosRepository;
-    public function __construct(private readonly PhotosRepository $photosRepo, readonly CategoryRepository $cateRepo)
+    public function __construct(private readonly PhotosRepository $photosRepo, private readonly CategoryRepository $cateRepo)
     {
     }
 
+    /**
+     * Return array with products datas
+     */
+    // Methode pour obtenir les données des produits.
     public function getProducts($products): array
     {
         $productsData = [];
@@ -41,6 +46,10 @@ class CategoryService
         return $productsData;
     }
 
+    /**
+     * Return array with categories datas
+     */
+    // Methode pour obtenir les photos des catégories.
     public function CategoryPicture(
         Request $request,
     ): array

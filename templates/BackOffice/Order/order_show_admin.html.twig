@@ -1,70 +1,69 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block title %}
-    {{ title }}
+    {{ title }} {# Titre de la page, récupéré dynamiquement #}
 {% endblock %}
 
 {% block main %}
+    {# Conteneur principal pour afficher les détails de la commande #}
     <div class="info_user_container">
         <div class="info_user_content">
             <div class="content-form">
                 <div class="show_adress">
                     <div class="title-container">
+                        {# Lien pour revenir à la liste des commandes #}
                         <a href="{{ path('app_order_list_admin') }}" class="come-back">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
-                    <title>Revenir en arrière</title>
-                                <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <title>Revenir en arrière</title>
                                 <path fill="#000000"
                                       d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
                             </svg>
                         </a>
-                        <h2>{{ title }}</h2>
+                        <h2>{{ title }}</h2> {# Titre principal de la section #}
                     </div>
+                    {# Affichage des détails de la commande #}
                     <div>
                         <span>Commande n°</span>
-                        <p>{{ order.id }}</p>
+                        <p>{{ order.id }}</p> {# Affiche l'ID de la commande #}
                     </div>
                     <div>
                         <span>Client n°</span>
-                        <p>{{ order.users.id }}, {{ order.users.lastname }} {{ order.users.firstname }}</p>
+                        <p>{{ order.users.id }}, {{ order.users.lastname }} {{ order.users.firstname }}</p> {# Affiche les informations du client #}
                     </div>
                     <div>
                         <span>Panier n°</span>
-                        <p>{{ order.cart.id }}</p>
+                        <p>{{ order.cart.id }}</p> {# Affiche l'ID du panier associé à la commande #}
                     </div>
                     <div>
                         <span>Date de la commande:</span>
-                        <p>{{ order.orderDate ? order.orderDate|date('d/m/Y') : '' }}</p>
+                        <p>{{ order.orderDate ? order.orderDate|date('d/m/Y') : '' }}</p> {# Affiche la date de la commande #}
                     </div>
                     <div>
                         <span>Total de la commande:</span>
-                        <p>{{ order.TIOrderPrice }}€ TTC</p>
+                        <p>{{ order.TIOrderPrice }}€ TTC</p> {# Affiche le prix total de la commande, toutes taxes comprises #}
                     </div>
                     <div>
-                        <span>Addresse de livraison:</span>
-                        <p>{{ order.delivered.number }}  {{ order.delivered.street }}
-                            , {{ order.delivered.city.name }}</p>
+                        <span>Adresse de livraison:</span>
+                        <p>{{ order.delivered.number }} {{ order.delivered.street }}, {{ order.delivered.city.name }}</p> {# Affiche l'adresse de livraison #}
                     </div>
                     <div>
-                        <span>Addresse de facturation:</span>
-                        <p>{{ order.billed.number }} {{ order.billed.street }}, {{ order.billed.city.name }}</p>
+                        <span>Adresse de facturation:</span>
+                        <p>{{ order.billed.number }} {{ order.billed.street }}, {{ order.billed.city.name }}</p> {# Affiche l'adresse de facturation #}
                     </div>
                     <div>
                         <span>Moyen de paiement:</span>
-                        <p> {{ order.payment.title }}</p>
+                        <p>{{ order.payment.title }}</p> {# Affiche le moyen de paiement utilisé pour la commande #}
                     </div>
                     <div>
                         <span>Mode de livraison:</span>
-                        <p> {{ order.delivery.title }}</p>
+                        <p>{{ order.delivery.title }}</p> {# Affiche le mode de livraison choisi pour la commande #}
                     </div>
                     <div>
-                        <span>Etat de la commande :</span>
-                        <p> {{ order.state.title }}</p>
+                        <span>État de la commande :</span>
+                        <p>{{ order.state.title }}</p> {# Affiche l'état actuel de la commande #}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
-
-

@@ -11,8 +11,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File as ConstraintsFile;
 
+//Classe pour gérer les opérations liées aux catégories dans le back-office.
 class AdminCategoryFormType extends AbstractType
 {
+    //Methode pour construire le formulaire.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -50,6 +52,7 @@ class AdminCategoryFormType extends AbstractType
             ]);
     }
 
+    //Methode pour configurer les options du formulaire.
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

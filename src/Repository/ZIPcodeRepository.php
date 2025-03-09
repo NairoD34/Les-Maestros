@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method CodePostal[]    findAll()
  * @method CodePostal[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les opérations liées aux codes postaux.
 class ZIPcodeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

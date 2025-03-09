@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Region[]    findAll()
  * @method Region[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+
+ // Classe pour gérer les requêtes liées aux regions.
 class RegionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -21,6 +23,7 @@ class RegionRepository extends ServiceEntityRepository
         parent::__construct($registry, Region::class);
     }
 
+    // Methode pour rechercher une region par son nom.
     public function searchByName(string $name): ?array
     {
         return $this->createQueryBuilder('r')

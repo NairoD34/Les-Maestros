@@ -10,9 +10,10 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-
+//Classe pour gérer les opérations liées aux administrateurs dans le back-office.
 class AdminFormType extends AbstractType
 {
+    //Methode pour construire le formulaire.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -36,6 +37,7 @@ class AdminFormType extends AbstractType
             ]);
     }
 
+    //Methode pour configurer les options du formulaire.
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

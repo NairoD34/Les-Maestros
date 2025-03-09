@@ -7,6 +7,7 @@ use App\Repository\MessageRepository;
 use App\Repository\OrderRepository;
 use App\Repository\UsersRepository;
 
+// Classe pour gérer les opérations liées aux KPIs dans le back-office.
 class KpiService
 {
     private $orderRepository;
@@ -22,6 +23,7 @@ class KpiService
         $this->usersRepository = $usersRepository;
     }
 
+    // Methode pour obtenir toutes les données des KPIs.
     public function getAllData()
     {
         $userCount = $this->usersRepository->countUsers();

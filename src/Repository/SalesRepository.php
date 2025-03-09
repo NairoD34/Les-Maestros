@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Sales[]    findAll()
  * @method Sales[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les opérations liées aux promo.
 class SalesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -21,6 +22,7 @@ class SalesRepository extends ServiceEntityRepository
         parent::__construct($registry, Sales::class);
     }
 
+    // Recherche une promo par son titre.
     public function searchByName(string $title): ?array
     {
         return $this->createQueryBuilder('s')

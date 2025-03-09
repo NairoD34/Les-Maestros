@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+// Classe pour gérer les opérations liées aux formulaires de gestion des utilisateurs dans le front-office.
 class UsersService
 {
     public function __construct(
@@ -18,6 +19,7 @@ class UsersService
 
     }
 
+    // Methode pour traiter le formulaire de gestion des utilisateurs.
     public function UsersForm(
         Users   $users,
         Request $request,

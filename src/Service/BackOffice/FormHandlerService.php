@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+// Classe pour gérer les opérations liées aux formulaires dans le back-office.
 class FormHandlerService
 {
     private $formFactory;
@@ -28,6 +29,7 @@ class FormHandlerService
     private $em;
 
 
+    // Constructeur de la classe FormHandlerService.
     public function __construct(FormFactoryInterface $formFactory, FileUploader $fileUploader, EntityManagerInterface $emi)
     {
         $this->formFactory = $formFactory;
@@ -36,6 +38,7 @@ class FormHandlerService
 
     }
 
+    // Methode pour gérer les opérations liées aux ventes dans le back-office.
     public function handleSales(Request $request, Sales $sales)
     {
         $form = $this->formFactory->create(SalesFormType::class, $sales);
@@ -54,6 +57,7 @@ class FormHandlerService
         ];
     }
 
+    // Methode pour gérer les opérations liées aux produits dans le back-office.
     public function handleProduct($update, Request $request, Product $product, $photo, ?ProductRepository $productRepo)
     {
         $form = $this->formFactory->create(AdminProductFormType::class, $product);
@@ -66,7 +70,7 @@ class FormHandlerService
             $file = $form['upload_file']->getData();
             $audio = $form['upload_audio']->getData();
 
-            if ($file) {
+            /* if ($file) {
                 $file_name = $this->upload->uploadProductPhoto($file);
                 if ($file_name) // for example
                 {
@@ -85,27 +89,28 @@ class FormHandlerService
                     echo('une erreur est survenue à l\'audio');
                 }
                 $product->setAudio($audio_path);
-            }
+            } */
             $category = $form['category']->getData();
             $product->setCategory($category);
             if($audio){
-                $product->setAudio('/upload/audio_product/' . $audio_name);
-
+                $product->setAudio('/upload/audio_product/' . $audio_name); 
             }
+
             if ($update) {
                 if ($file) {
                     $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
                 }
                 $this->em->persist($product);
                 $this->em->flush();
+                $validate = true;
             } else {
-                $this->em->persist($product);
-                $this->em->flush();
                 if ($file) {
+                    $this->em->persist($product);
+                    $this->em->flush();
                     $photo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $file_name);
+                    $validate = true;
                 }
             }
-            $validate = true;
         }
 
         return [
@@ -114,6 +119,7 @@ class FormHandlerService
         ];
     }
 
+    // Methode pour gérer les opérations liées aux administrateurs dans le back-office.
     public function handleAdmin(bool $update, Request $request, Users $admin, UserPasswordHasherInterface $adminPasswordHasher, ValidatorInterface $validatorInterface)
     {
         $form = $this->formFactory->create(AdminFormType::class, $admin);
@@ -149,6 +155,7 @@ class FormHandlerService
         ];
     }
 
+    // Methode pour gérer les opérations liées aux commandes dans le back-office.
     public function handleOrder(Request $request, Orders $order)
     {
         $form = $this->formFactory->create(AdminOrderFormType::class, $order);
@@ -168,6 +175,7 @@ class FormHandlerService
         ];
     }
 
+    // Methode pour gérer les opérations liées aux categories dans le back-office.
     public function handleCategory(bool $update, Request $request, Category $category, $photo, ?CategoryRepository $categoryRepo)
     {
         $form = $this->formFactory->create(AdminCategoryFormType::class, $category);

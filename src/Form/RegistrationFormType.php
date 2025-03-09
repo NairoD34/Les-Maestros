@@ -12,8 +12,10 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+// Classe pour gérer les formulaires pour les inscriptions.
 class RegistrationFormType extends AbstractType
 {
+    // Methode pour construire le formulaire.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -47,6 +49,7 @@ class RegistrationFormType extends AbstractType
             ]);
     }
 
+    // Methode pour configurer les options du formulaire.
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

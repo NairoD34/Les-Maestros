@@ -6,10 +6,9 @@ use App\Service\BackOffice\KpiService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Bundle\SecurityBundle\Security;
 
-// Classe pour gérer l'accès des utilisateurs au back-office.
+//Contrôleur de la landing page des admins
 #[Route(path: 'admin/')]
 class AdminSecurityController extends AbstractController
 {

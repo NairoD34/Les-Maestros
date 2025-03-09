@@ -3,23 +3,28 @@
 {% block title %}Vérification de l'adresse e-mail{% endblock %}
 
 {% block main %}
+    {# Conteneur pour la section de vérification de l'e-mail #}
     <div class="check_email_container">
         <div class="info_user_content">
             <h1 class="">Vérification de l'adresse e-mail</h1>
             <div class="content-form">
+                {# Formulaire pour vérifier l'e-mail pour la réinitialisation du mot de passe #}
                 <form method="post" action="{{ path('app_reset_password_check_email') }}" class="info_user_form"
                       novalidate>
+                    {# Afficher les messages d'erreur s'il y en a #}
                     {% for message in app.flashes('error') %}
                         <div class="alert alert-danger">
                             {{ message }}
                         </div>
                     {% endfor %}
                     <div>
+                        {# Champ de saisie pour l'e-mail #}
                         <label for="email" class="form-label">E-mail: </label>
                         <input type="email" id="email" name="email" required class="form-input"
                                placeholder="Exemple@mail.com">
                     </div>
                     <div class="submit-container">
+                        {# Bouton de soumission pour le formulaire #}
                         <button type="submit">Vérifier</button>
                     </div>
                 </form>

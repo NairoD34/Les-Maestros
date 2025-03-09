@@ -9,12 +9,15 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Message>
  */
+// Classe pour gérer les requêtes liées aux messages.
 class MessageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Message::class);
     }
+
+    // Methode pour rechercher un message par son Id.
     public function searchByName(string $id): ?array
     {
         return $this->createQueryBuilder('s')
@@ -24,6 +27,7 @@ class MessageRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Methode pour compter le nombre de messages.
     public function countMessages()
     {
         $result = $this->createQueryBuilder('e')

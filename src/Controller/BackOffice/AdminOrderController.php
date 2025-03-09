@@ -15,8 +15,7 @@ use App\Service\BackOffice\FormHandlerService;
 #[Route('admin/')]
 class AdminOrderController extends AbstractController
 {
-
-    // Affiche la liste des commandes avec une recherche par ID.
+    // Affiche la liste des commandes.
     #[Route('order_list', name: 'app_order_list_admin')]
     public function list(
         OrderRepository $orderRepo,
@@ -34,7 +33,7 @@ class AdminOrderController extends AbstractController
         $orders = $orderRepo->findAll();
         $id = $orderRepo->searchByName($request->query->get('id', ''));
         if (empty($orders)) {
-            // Redirige vers la liste si aucune commande n'existe.
+            //Affiche la page spécifique aux commandes vides si aucune n'existe.
             return $this->render('BackOffice/Order/emptyOrder.html.twig');
         }
 
@@ -53,12 +52,12 @@ class AdminOrderController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
-            // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
+            //Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
             return $this->redirectToRoute('app_index');
         }
 
         if (!$order) {
-            // Redirige vers la liste si le message n'existe pas.
+            //Redirige vers la liste des commandes si la commande n'existe pas.
             return $this->redirectToRoute('app_order_list_admin');
         }
 
@@ -78,12 +77,12 @@ class AdminOrderController extends AbstractController
     )
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
-            // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
+            //Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
             return $this->redirectToRoute('app_index');
         }
 
         if (!$order) {
-            // Redirige vers la liste si le message n'existe pas.
+            //Redirige vers la liste des commandes si la commande n'existe pas.
             return $this->redirectToRoute('app_order_list_admin');
         }
 
@@ -96,36 +95,6 @@ class AdminOrderController extends AbstractController
         return $this->render('BackOffice/Order/order_update.html.twig', [
             'title' => 'Mise à jour de la commande',
             'form' => $formResult["form"]->createView(),
-        ]);
-    }
-
-    // Affiche les KPI des commandes.
-    #[Route('kpi', name: 'app_kpi_admin')]
-    public function KPI(
-        Request            $request,
-        ?Orders            $order,
-        Security           $security,
-        FormHandlerService $formHandler,
-    )
-    {
-        if (!$security->isGranted('ROLE_ADMIN')) {
-            // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
-            return $this->redirectToRoute('app_index');
-        }
-        if (!$order) {
-            // Redirige vers le dashboard si le message n'existe pas.
-            return $this->redirectToRoute('app_admin_dashboard');
-        }
-
-        $formResult = $formHandler->handleOrder($request, $order);
-
-        if ($formResult) {
-            // Redirige vers la liste si la commande a été mise à jour.
-            return $this->redirectToRoute('app_order_list_admin');
-        }
-        return $this->render('BackOffice/Order/order_update.html.twig', [
-            'title' => 'Mise à jour de la commande',
-            'form' => $formResult->createView(),
         ]);
     }
 }

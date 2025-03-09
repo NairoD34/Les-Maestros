@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Departement[]    findAll()
  * @method Departement[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les requêtes liées aux counties ou départements.
 class CountyRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -21,6 +22,7 @@ class CountyRepository extends ServiceEntityRepository
         parent::__construct($registry, County::class);
     }
 
+    // Methode pour rechercher un county par son nom.
     public function findByRegionId($regionId)
     {
         return $this->createQueryBuilder('d')

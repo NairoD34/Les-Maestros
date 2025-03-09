@@ -13,6 +13,15 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 - [NVM windows](https://github.com/coreybutler/nvm-windows)
 - [NVM linux](https://github.com/nvm-sh/nvm) (pour gérer les versions de node et npm)
 
+## Technologies Utilisées
+
+- Symfony 6.4
+- PHP 8.1
+- MySQL
+- SCSS
+- TypeScript
+- Webpack Encore
+
 ## Installation
 
 1. **Clonez le dépôt :**
@@ -34,6 +43,10 @@ Copiez le fichier .env en .env.local et modifiez les variables d'environnement s
     ```bash
     symfony console make:migration
     symfony console d:m:m
+    cd script
+    php Parse_CSV.php
+    ```
+    
 
 ## Lancez le serveur
     symfony serve -d
