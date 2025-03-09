@@ -3,7 +3,6 @@
 namespace App\Controller\FrontOffice;
 
 use App\Entity\Adress;
-use App\Entity\Users;
 use App\Service\FrontOffice\AdressService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,12 +12,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-//Contrôleur pour gérer les opérations liées aux adresses des utilisateurs dans le panel utilisateur.
-#[Route('/user')]
+
 class UserPanelAdresseController extends AbstractController
 {
     //Affichage de la liste des adresses
-    #[Route('/list_address', name: 'app_list_adresse')]
+    #[Route('/user/list_address', name: 'app_list_adresse')]
     public function listAddress(
         Request       $request,
         Security      $security,
@@ -37,7 +35,7 @@ class UserPanelAdresseController extends AbstractController
     }
 
     //Affichage d'une adresse
-    #[Route('/address/{id}', name: 'app_show_adresse')]
+    #[Route('/user/address/{id}', name: 'app_show_adresse')]
     public function showAddress(?Adress $adress)
     {
         //Recuperation de l'utilisateur connecté
