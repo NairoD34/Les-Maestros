@@ -36,13 +36,12 @@
             {% endif %}
         </ol>
     </nav>
-    {% if produits is null %}
+    {% if produits is empty %}
         <p>Aucun produit trouvé pour cette catégorie.</p>
     {% else %}
 
         <section class="section-list">
-            <h1>Produits de la catégorie <span
-                        style="color:#8B6A4B;">{{ categorie.title }}</span></h1>
+            <h1>Produits de la catégorie <span style="color:#8B6A4B;">{{ categorie.title }}</span></h1>
             <div class="list-products">
                 {% for item in produits %}
                     <div class="card-container">
@@ -52,7 +51,9 @@
                                     <span>{{ item.produit.sales.title }}</span>
                                 </div>
                                 <a href="{{ path('app_show_produit', { 'id': item.produit.id }) }}">
-                                    <img src="{{ item.photos[0].urlPhoto }}" alt="{{item.produit.title}}">
+                                    {% if item.photos is not empty %}
+                                        <img src="{{ item.photos[0].urlPhoto }}" alt="{{item.produit.title}}">
+                                    {% endif %}
                                     <div class="price-container">
                                         <p class="title">{{ item.produit.title }}</p>
                                         <p class="price-content">
@@ -75,7 +76,9 @@
                                     <span>0%</span>
                                 </div>
                                 <a href="{{ path('app_show_produit', { 'id': item.produit.id }) }}">
-                                    <img src="{{ item.photos[0].urlPhoto }}" alt="{{item.produit.title}}">
+                                    {% if item.photos is not empty %}
+                                        <img src="{{ item.photos[0].urlPhoto }}" alt="{{item.produit.title}}">
+                                    {% endif %}
                                     <div class="price-container">
                                         <p class="title">{{ item.produit.title }}</p>
                                         <p class="price-content">
