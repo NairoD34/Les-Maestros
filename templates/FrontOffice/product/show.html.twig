@@ -123,6 +123,8 @@
                                 <div class="flag-percent">
                                     <span>{{ productData.details.products.sales }}</span>
                                 </div>
+                            {% else %}
+                                <div class="flag-percent-placeholder"></div>
                             {% endif %}
                             <a href="{{ path('app_show_produit', { 'id': productData.details.products.id }) }}">
                                 {% for photo in productData.photos %}

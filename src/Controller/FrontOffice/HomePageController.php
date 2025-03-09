@@ -9,8 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+//Contrôleur pour afficher la page d'accueil.
 class HomePageController extends AbstractController
 {
+    //Affiche la page d'accueil.
     #[Route('/', name: 'app_index')]
     public function index(
         ProductRepository $productRepo,
@@ -18,12 +20,15 @@ class HomePageController extends AbstractController
         CategoryService   $categoryService,
     ): Response
     {
+        //Recherche des produits en promo
         $products = $productRepo->findTopSalesProducts();
         $dataPromo = $categoryService->getProducts($products);
 
+        //Recherche des nouveaux produits
         $newProducts = $productRepo->searchNew();
         $dataNewProduct = $categoryService->getProducts($newProducts);
 
+        //Recherche des catégories avec leurs photos
         $dataCate = $categoryService->CategoryPicture($request);
 
         return $this->render('FrontOffice/homepage/indexHomePage.html.twig', [

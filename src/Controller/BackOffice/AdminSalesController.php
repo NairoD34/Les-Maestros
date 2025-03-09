@@ -14,10 +14,12 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 use function PHPUnit\Framework\isEmpty;
 
+// Contrôleur pour gérer les opérations liées aux promotions dans le back-office.
 #[Route('admin/')]
 class AdminSalesController extends AbstractController
 {
 
+    // Affiche la fiche d'une promotion
     #[Route('sales_show/{id}', name: 'app_sales_show')]
     public function showSales(
         ?Sales   $sales,
@@ -25,7 +27,13 @@ class AdminSalesController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
+        }
+
+        if (!$sales) {
+            // Redirige vers la liste si la promotion n'existe pas.
+            return $this->redirectToRoute('app_sales_list');
         }
 
         return $this->render('BackOffice/Sales/sales_show.html.twig', [
@@ -34,6 +42,7 @@ class AdminSalesController extends AbstractController
         ]);
     }
 
+    // Affiche la liste des promotions
     #[Route('sales_list', name: 'app_sales_list')]
     public function list(
         SalesRepository $salesRepo,
@@ -43,14 +52,18 @@ class AdminSalesController extends AbstractController
     {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
 
         $sales = $salesRepo->findAll();
         
+        // Recherche des promotions par titre.
         if (isEmpty($sales)) {
+            // Affiche un message si aucune promotion n'existe.
             $salesByName = '';
         } else {
+            // Affiche la liste des promotions.
             $salesByName = $salesRepo->searchByName($request->query->get('title', ''));
         }
         
@@ -61,6 +74,7 @@ class AdminSalesController extends AbstractController
         ]);
     }
 
+    // Création d'une nouvelle promotion
     #[Route('new_sales', name: 'app_new_sales')]
     public function new(
         Request            $request,
@@ -69,12 +83,14 @@ class AdminSalesController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
         $sales = new Sales();
         $formResult = $formHandler->handleSales($request, $sales);
 
         if ($formResult['validate']) {
+            // Redirige vers la liste si la promotion a été créée.
             return $this->redirectToRoute('app_sales_list');
         }
         return $this->render('BackOffice/Sales/sales_new.html.twig', [
@@ -83,6 +99,7 @@ class AdminSalesController extends AbstractController
         ]);
     }
 
+    // Mise à jour d'une promotion existante
     #[Route('update_sales/{id}', name: 'app_update_sales')]
     public function update(
         Request            $request,
@@ -92,15 +109,18 @@ class AdminSalesController extends AbstractController
     )
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
         if (!$sales) {
-            return $this->redirectToRoute('app_admin_dashboard');
+            // Redirige vers la liste si la promotion n'existe pas.
+            return $this->redirectToRoute('app_sales_list');
         }
 
         $formResult = $formHandler->handleSales($request, $sales);
 
         if ($formResult['validate']) {
+            // Redirige vers la liste si la promotion a été mise à jour.
             return $this->redirectToRoute('app_sales_list');
         }
 
@@ -110,7 +130,7 @@ class AdminSalesController extends AbstractController
         ]);
     }
 
-
+    // Suppression d'une promotion
     #[Route('delete_sales/{id}', name: 'app_delete_sales', methods: ['POST'])]
     public function delete(
         Request                $request,
@@ -120,11 +140,15 @@ class AdminSalesController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
         if (!$sales) {
-            return $this->redirectToRoute('app_admin_dashboard');
+            // Redirige vers la liste si la promotion n'existe pas.
+            return $this->redirectToRoute('app_sales_list');
         }
+
+        // Détachement des promotions des produits.
         $products = $sales->getProduct();
         foreach ($products as $product) {
             $product->setSales(null);
