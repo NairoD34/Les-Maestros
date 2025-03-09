@@ -35,7 +35,6 @@ class UserPanelAdresseController extends AbstractController
 
     //Affichage d'une adresse
     #[Route('/user/address/{id}', name: 'app_show_adresse')]
-    #[Route('/user/address/{id}', name: 'app_show_adresse')]
     public function showAddress(?Adress $adress)
     {
         //Recuperation de l'utilisateur connecté
