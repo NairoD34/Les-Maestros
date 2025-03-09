@@ -76,13 +76,17 @@ class CategoryController extends AbstractController
     //Affiche les produits d'une catégorie spécifique.
     #[Route('/category-products/{id}', name: 'app_produit_categorie')]
     public function displayProductsByCategory(
-        Category           $category,
+        ?Category           $category,
         ProductRepository  $productRepo,
         CategoryRepository $categoryRepo,
         PhotosRepository   $photoRepo,
         CategoryService    $categoryService
     ): Response
     {
+        if (!$category) {
+            //Si la catégorie n'existe pas, on redirige vers la page d'accueil.
+            return $this->redirectToRoute('app_index');
+        }
         //Recherche des produits et photos pour la catégorie
         $categoryId = $category->getId();
         $category = $categoryRepo->find($categoryId);

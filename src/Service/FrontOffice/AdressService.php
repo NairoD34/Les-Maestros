@@ -9,6 +9,7 @@ use App\Repository\ZIPcodeRepository;
 use App\Repository\CityRepository;
 use Symfony\Component\HttpFoundation\Request;
 
+// Service pour gérer les opérations liées aux adresses dans le front-office.
 class AdressService
 {
     public function __construct(
@@ -23,6 +24,7 @@ class AdressService
      * Save the adresse from user's form.
      * Returns true once the adress gets saved, else return false
      */
+    // Methode pour sauvegarder les données de l'adresse depuis le formulaire du front-office.
     public function SaveAdressForm(
         ?Adress $adress,
         Request $request,
@@ -51,6 +53,8 @@ class AdressService
         return false;
     }
 
+
+    // Methode pour obtenir la liste des adresses pour un utilisateur.
     public function AdressList(
         Request $request,
         Users   $users,
@@ -75,6 +79,7 @@ class AdressService
         ];
     }
 
+    // Methode pour retourner un json des villes.
     public function ReturnJsonCity(
         Request $request,
     )

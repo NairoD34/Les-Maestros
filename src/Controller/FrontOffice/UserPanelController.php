@@ -11,12 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-//Classe pour gérer les opérations liées au panel utilisateur.
-#[Route('/user')]
+
 class UserPanelController extends AbstractController
 {
     //Affiche la page d'accueil du panel utilisateur.
-    #[Route('/', name: 'app_user')]
+    #[Route('/user', name: 'app_user')]
     public function indexAccount(
         Security $security,
         ?Adress  $adress

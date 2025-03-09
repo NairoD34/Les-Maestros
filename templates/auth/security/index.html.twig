@@ -3,9 +3,11 @@
 {% block title %}Connexion{% endblock %}
 
 {% block main %}
+    {# Section principale pour la connexion #}
     <section class="log">
         <div class="log-container">
             <div class="log-content">
+                {# Afficher les messages de succès s'il y en a #}
                 {% for message in app.flashes('success') %}
                     <div class="log-success">
                         {{ message }}
@@ -13,11 +15,14 @@
                 {% endfor %}
                 <div class="log-block">
                     <div class="img-block">
+                        {# Logo et titre de l'application #}
                         <img src="{{ asset('build/images/logo.svg') }}" alt="logo-symfony">
                         <h2>Les maestros de la <span>Symfony</span></h2>
                     </div>
                     <div class="right-block">
+                        {# Formulaire de connexion #}
                         <form method="post" class="log-form">
+                            {# Afficher une erreur si elle existe #}
                             {% if error %}
                                 <div class="log-danger">{{ error }}</div>
                             {% endif %}
@@ -25,28 +30,33 @@
                             <h1 class="title">Bonjour cher client !</h1>
 
                             <div class="form-block">
+                                {# Champ pour l'identifiant #}
                                 <label for="inputUsername">Identifiant</label>
                                 <input type="text" value="{{ username }}" name="_username" id="inputUsername"
                                        required autofocus>
                             </div>
 
                             <div class="form-block">
+                                {# Champ pour le mot de passe #}
                                 <label for="inputPassword">Mot de passe</label>
                                 <input type="password" name="_password" id="inputPassword"
                                        autocomplete="current-password" required>
                             </div>
 
+                            {# Token CSRF pour la sécurité du formulaire #}
                             <input type="hidden" name="_csrf_token"
                                    value="{{ csrf_token('authenticate') }}"
                             >
 
                             <div class="form-block">
+                                {# Bouton de soumission pour le formulaire #}
                                 <button type="submit">
                                     Connexion
                                 </button>
                             </div>
                         </form>
                         <div class="redirect-container">
+                            {# Liens pour la création de compte et la réinitialisation du mot de passe #}
                             <a href='{{ path('app_register') }}'>Je crée un compte</a>
                             <a href='{{ path('app_reset_password_check_email') }}'>Mot de passe oublié ?</a>
                         </div>

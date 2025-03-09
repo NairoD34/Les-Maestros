@@ -1,41 +1,52 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block title %}
-    {{ title }}
+    {{ title }} {# Titre de la page, récupéré dynamiquement #}
 {% endblock %}
 
 {% block main %}
+    {# Conteneur principal pour afficher le formulaire de création d'une nouvelle promotion #}
     <div class="info_user_container">
         <div class="info_user_content">
             <div class="title-container">
+                {# Lien pour revenir à la liste des promotions #}
                 <a href="{{ path('app_sales_list') }}" class="come-back">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
-                    <title>Revenir en arrière</title>
-                        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
+                        <title>Revenir en arrière</title>
                         <path fill="#000000"
                               d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
                     </svg>
                 </a>
-                <h2>{{ title }}</h2>
+                <h2>{{ title }}</h2> {# Titre principal de la section #}
             </div>
             <div class="content-form">
+                {# Démarre le formulaire Symfony pour créer une nouvelle promotion #}
                 {{ form_start(form) }}
 
+                {# Affiche les erreurs du formulaire, le cas échéant #}
                 {{ form_errors(form, {'attr': {'class': 'log-danger'}} )}}
 
+                {# Affiche le label pour le champ de titre de la promotion #}
                 {{ form_label(form.title, 'Libellé') }}
+                {# Affiche le champ pour le titre de la promotion #}
                 {{ form_widget(form.title) }}
 
+                {# Affiche le label pour le champ de taux de promotion #}
                 {{ form_label(form.sales_rate, 'Taux de promotion') }}
+                {# Affiche le champ pour le taux de promotion #}
                 {{ form_widget(form.sales_rate) }}
 
+                {# Affiche le label pour le champ de code promotion #}
                 {{ form_label(form.sales_code, 'Code promotion') }}
+                {# Affiche le champ pour le code promotion #}
                 {{ form_widget(form.sales_code) }}
 
                 <div class="submit-container">
+                    {# Bouton pour soumettre le formulaire de création #}
                     <button type='submit'>Soumettre</button>
                 </div>
 
+                {# Termine le formulaire Symfony #}
                 {{ form_end(form) }}
             </div>
         </div>

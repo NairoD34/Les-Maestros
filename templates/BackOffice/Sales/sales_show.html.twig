@@ -1,40 +1,42 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block title %}
-    {{ title }}
+    {{ title }} {# Titre de la page, récupéré dynamiquement #}
 {% endblock %}
 
 {% block main %}
+    {# Conteneur principal pour afficher les détails de la promotion #}
     <div class="info_user_container">
         <div class="info_user_content">
             <div class="content-form">
                 <div class="show_adress">
                     <div class="title-container">
+                        {# Lien pour revenir à la liste des promotions #}
                         <a href="{{ path('app_category_list_admin') }}" class="come-back">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
-                    <title>Revenir en arrière</title>
-                                <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <title>Revenir en arrière</title>
                                 <path fill="#000000"
                                       d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
                             </svg>
                         </a>
-                        <h2>{{ title }}</h2>
+                        <h2>{{ title }}</h2> {# Titre principal de la section #}
                     </div>
+                    {# Affichage des détails de la promotion #}
                     <div>
                         <span>ID:</span>
-                        <p>{{ sales.id }}</p>
+                        <p>{{ sales.id }}</p> {# Affiche l'ID de la promotion #}
                     </div>
                     <div>
                         <span>Libellé:</span>
-                        <p>{{ sales.title }}</p>
+                        <p>{{ sales.title }}</p> {# Affiche le titre de la promotion #}
                     </div>
                     <div>
                         <span>Taux de promotion:</span>
-                        <p>{{ sales.salesRate }}</p>
+                        <p>{{ sales.salesRate }}</p> {# Affiche le taux de la promotion #}
                     </div>
                     <div>
                         <span>Code de promotion:</span>
-                        <p>{{ sales.salesCode }}</p>
+                        <p>{{ sales.salesCode }}</p> {# Affiche le code de la promotion #}
                     </div>
                 </div>
             </div>

@@ -1,38 +1,42 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block title %}
-    {{ title }}
+    {{ title }} {# Titre de la page, récupéré dynamiquement #}
 {% endblock %}
 
 {% block main %}
+    {# Section principale pour afficher la liste des messages #}
     <section class="admin-section">
         <div class="title-container">
+            {# Lien pour revenir au tableau de bord #}
             <a href="{{ path('app_admin_dashboard') }}" class="come-back">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
                     <title>Revenir en arrière</title>
-                    <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
                     <path fill="#000000"
                           d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
                 </svg>
             </a>
-            <h2>{{ title }}</h2>
+            <h2>{{ title }}</h2> {# Titre principal de la section #}
         </div>
         <div class="details-container">
             <div class="details-content">
+                {# Boucle pour afficher chaque message #}
                 {% for item in message %}
                     <div class="details-body">
                         <div class="admin-action">
+                            {# Lien vers la page de détails du message #}
                             <a href="{{ path('app_message_show_admin', { 'id': item.id }) }}">
-                                <h4>{{ item.lastname }} {{ item.firstname }}</h4>
-                                <p>{{ item.email }}</p>
+                                <h4>{{ item.lastname }} {{ item.firstname }}</h4> {# Affiche le nom et le prénom de l'expéditeur #}
+                                <p>{{ item.email }}</p> {# Affiche l'adresse email de l'expéditeur #}
                             </a>
                             <div class="action-container">
+                                {# Inclusion du formulaire de suppression du message #}
                                 {{ include('BackOffice/Message/message_delete.html.twig', { 'id': item.id }) }}
                             </div>
                         </div>
                     </div>
                 {% else %}
-                    <p>Aucun enregistrement</p>
+                    <p>Aucun enregistrement</p> {# Message si aucun message n'est trouvé #}
                 {% endfor %}
             </div>
         </div>

@@ -15,6 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Adress[]    findAll()
  * @method Adress[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les requêtes liées aux adresses dans le back-office.
 class AdressRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -22,6 +23,7 @@ class AdressRepository extends ServiceEntityRepository
         parent::__construct($registry, Adress::class);
     }
 
+    // Methode pour sauvegarder une adresse.
     public function save(Adress $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -31,6 +33,7 @@ class AdressRepository extends ServiceEntityRepository
         }
     }
 
+    // Methode pour rechercher une adresse et trier les adresses par asc ou desc.
     public function searchByName(string $name, string $trirue): ?array
     {
         return $this->createQueryBuilder('a')

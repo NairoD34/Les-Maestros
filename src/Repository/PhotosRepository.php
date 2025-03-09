@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Photos[]    findAll()
  * @method Photos[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les requêtes liées aux photos.
 class PhotosRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -21,6 +22,7 @@ class PhotosRepository extends ServiceEntityRepository
         parent::__construct($registry, Photos::class);
     }
 
+    // Methode pour rechercher une photo en fonction de la catégorie demandé.
     public function searchPhotoByCategory($category)
     {
         $sql = "select * from photos p  where p.category_id = ?";
@@ -35,6 +37,7 @@ class PhotosRepository extends ServiceEntityRepository
         return $photos;
     }
 
+    // Methode pour rechercher une photo en fonction du produit demandé.
     public function searchOnePhotoByProduct($idProduct)
     {
 
@@ -45,6 +48,7 @@ class PhotosRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    // Methode pour rechercher les photos en fonction du produit demandé.
     public function searchPhotoByProduct($idProduct)
     {
 
@@ -55,6 +59,7 @@ class PhotosRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Methode pour inserer une photo en fonction de la catégorie demandé.
     public function insertPhotoWithCategorie($id, $path)
     {
         $sql = "INSERT INTO `photos`(`category_id`, `url_photo`) VALUES ('" . $id . "','" . $path . "')";
@@ -62,6 +67,7 @@ class PhotosRepository extends ServiceEntityRepository
             ->executeQuery($sql);
     }
 
+    // Methode pour inserer une photo en fonction du produit demandé.
     public function insertPhotoWithProduct($id, $path)
     {
         $sql = "INSERT INTO `photos`(`product_id`, `url_photo`) VALUES ('" . $id . "','" . $path . "')";
@@ -69,6 +75,7 @@ class PhotosRepository extends ServiceEntityRepository
             ->executeQuery($sql);
     }
 
+    // Methode pour modifier une photo en fonction de la catégorie demandé.
     public function updatePhotoInCategory($id, $path)
     {
         $sql = "UPDATE `photos` SET url_photo = '$path' WHERE category_id =  $id ";
@@ -76,6 +83,7 @@ class PhotosRepository extends ServiceEntityRepository
             ->executeQuery($sql);
     }
 
+    // Methode pour modifier une photo en fonction du produit demandé.
     public function updatePhotoInProduct($id, $path)
     {
         $sql = "UPDATE `photos` SET url_photo = '$path' WHERE product_id =  $id ";

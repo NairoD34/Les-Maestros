@@ -16,6 +16,7 @@ class ProductService
     {
     }
 
+    // Methode pour obtenir les détails sur un produit.
     public function getDetailsAboutProduct($product): array
     {
         $mainProductDetails = $this->getProductPriceDetails($product);
@@ -47,6 +48,7 @@ class ProductService
         ];
     }
 
+    // Methode pour obtenir les détails de prix d'un produit.
     private function getProductPriceDetails($product): array
     {
         $priceTTC = $product->getTaxFreePrice() + ($product->getTaxFreePrice() * $product->getTaxRate()->getTaxRate() / 100);

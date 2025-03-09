@@ -15,6 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Ville[]    findAll()
  * @method Ville[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les requêtes liées aux villes.
 class CityRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -25,6 +26,7 @@ class CityRepository extends ServiceEntityRepository
     /**
      * @throws NonUniqueResultException
      */
+    // Methode pour rechercher une ville par son nom avec la region associee.
     public function findOneByNameWithRegion($cityName): ?City
     {
         $cityName = strtoupper($cityName);
@@ -38,6 +40,7 @@ class CityRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+    // Methode pour rechercher une ville par son nom.
     public function searchByName(string $name): ?array
     {
         return $this->createQueryBuilder('v')

@@ -17,6 +17,7 @@ use Symfony\Bundle\SecurityBundle\Security;
  * @method Category[]    findAll()
  * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les requêtes liées aux categories.
 class CategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -24,6 +25,7 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
+    // Methode pour rechercher les categories parentes par leur nom.
     public function searchParentCategory(string $name): ?array
     {
         return $this->createQueryBuilder('c')
@@ -34,6 +36,7 @@ class CategoryRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Methode pour rechercher la category parente par l'id de la category enfant.
     public function findParentCategoryIdByChildId($childId): ?int
     {
         $result = $this->createQueryBuilder('c')
@@ -50,6 +53,7 @@ class CategoryRepository extends ServiceEntityRepository
     /**
      * @throws Exception
      */
+    // Methode pour rechercher les categories enfant par leur category parent.
     public function searchChildCategory($category): array
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -79,6 +83,7 @@ class CategoryRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Methode pour rechercher le dernier ID.
     public function getLastId()
     {
         return $this->createQueryBuilder('c')
