@@ -43,6 +43,7 @@ Copiez le fichier .env en .env.local et modifiez les variables d'environnement s
     ```bash
     symfony console make:migration
     symfony console d:m:m
+    symfony console doctrine:fixtures:load
     cd script
     php Parse_CSV.php
     ```
