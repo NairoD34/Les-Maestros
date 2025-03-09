@@ -1,7 +1,7 @@
 <?php
 
 // src/DataFixtures/AppFixtures.php
-namespace App\DataFixtures;
+namespace App\Fixtures;
 
 use App\Entity\Users;
 use App\Entity\State;
