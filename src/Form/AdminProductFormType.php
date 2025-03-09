@@ -52,9 +52,11 @@ class AdminProductFormType extends AbstractType
                             'image/png',
                             'image/jpeg',
                             'allowLandScape' => false,
+                            'maxWidth' => 600,
+                            'maxHeight' => 600
 
                         ],
-                        'mimeTypesMessage' => "Veuillez choisir une image au format PNG ou JPG.",
+                        'mimeTypesMessage' => "Veuillez choisir une image au format PNG ou JPG. Ayant une heuteur et une largeur maximale de 600px",
                     ])
                 ]
             ])
