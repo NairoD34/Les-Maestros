@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    #[Route('/products', name: 'app_produit')]
+    #[Route('/product', name: 'app_produit')]
     public function index(ProductRepository $productRepo): Response
     {
         $products = $productRepo->searchNew();
@@ -37,7 +37,7 @@ class ProductController extends AbstractController
     ): Response
     {
         if (!$product) {
-            return $this->redirectToRoute('app_produit');
+            return $this->redirectToRoute('app_index');
         }
 
         $results = $productService->getDetailsAboutProduct($product);
@@ -62,7 +62,7 @@ class ProductController extends AbstractController
         }
 
         if (!$product) {
-            return $this->redirectToRoute('app_produit');
+            return $this->redirectToRoute('app_index');
         }
 
         $user = $security->getUser();

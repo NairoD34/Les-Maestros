@@ -38,6 +38,12 @@ class UserPanelController extends AbstractController
             return $this->redirectToRoute('app_index');
         }
 
+        if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('app_index');
+        }
+        if ($users->getId() !== $security->getUser()->getId()) {
+            return $this->redirectToRoute('app_index');
+        }
         $result = $usersService->UsersForm($users, $request);
         if ($result['validate']) {
             return $this->redirectToRoute('app_user');
