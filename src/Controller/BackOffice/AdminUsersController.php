@@ -14,10 +14,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
+// Classe pour gérer les opérations liées aux utilisateurs dans le back-office.
 #[Route('admin/')]
 class AdminUsersController extends AbstractController
 {
-
+    // Liste des utilisateurs.
     #[Route('user_list', name: 'app_user_list_admin')]
     public function list(
         UsersRepository    $usersRepo,
@@ -26,8 +27,11 @@ class AdminUsersController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
+
+        // Tri des utilisateurs par nom.
         $triLastName = $request->query->get('trilastname', 'asc');
         $triFirstName = $request->query->get('trifirstname', 'asc');
         $users = $usersRepo->searchByClients($request->query->get('lastname', ''), $triLastName, $triFirstName);
@@ -41,6 +45,7 @@ class AdminUsersController extends AbstractController
         ]);
     }
 
+    // Affiche la fiche d'un utilisateur.
     #[Route('show_user/{id}', name: 'app_user_show_admin')]
     public function show(
         ?Users   $users,
@@ -48,10 +53,13 @@ class AdminUsersController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
+
         if (!$users) {
-            return $this->redirectToRoute('app_admin_dashboard');
+            // Redirige vers la liste si l'utilisateur n'existe pas.
+            return $this->redirectToRoute('app_list_user_admin');
         }
 
         return $this->render('BackOffice/User/admin_user_show.html.twig', [
@@ -60,6 +68,7 @@ class AdminUsersController extends AbstractController
         ]);
     }
 
+    // Supprime un utilisateur.
     #[Route('delete_user/{id}', name: 'app_delete_user', methods: ['POST'])]
     public function delete(
         Request                $request,
@@ -69,8 +78,20 @@ class AdminUsersController extends AbstractController
         CartProductRepository  $cartProduct
     ): Response
     {
+        // Vérifie si l'utilisateur a le rôle ADMIN avant de continuer.
+        if (!$security->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_index');
+        }
+
+        if (!$users) {
+            // Redirige vers la liste si l'utilisateur n'existe pas.
+            return $this->redirectToRoute('app_list_user_admin');
+        }
+
         if ($this->isCsrfTokenValid('delete' . $users->getId(), $request->request->get('_token'))) {
+            // Supprime les paniers et les produits associés à l'utilisateur.
             $cart = $cartRepo->findByUserId($users->getId());
+            if ($cart) {
             if ($cart) {
                 $products = $cartProduct->findByCartId($cart[0]->getId());
                 if ($products) {
@@ -87,4 +108,5 @@ class AdminUsersController extends AbstractController
 
         return $this->redirectToRoute('app_user_list_admin', [], Response::HTTP_SEE_OTHER);
     }
+}
 }

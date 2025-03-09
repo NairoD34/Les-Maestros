@@ -11,10 +11,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
+// Contrôleur pour gérer les opérations liées aux messages dans le back-office.
 #[Route('admin/')]
 class AdminMessageController extends AbstractController
 {
 
+    // Affiche les détails d'un message spécifique.
     #[Route('message_show/{id}', name: 'app_message_show_admin')]
     public function show(
         Message  $message,
@@ -23,7 +25,13 @@ class AdminMessageController extends AbstractController
     {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
             return $this->redirectToRoute('app_index');
+        }
+
+        if (!$message) {
+            // Redirige vers la liste si le message n'existe pas.
+            return $this->redirectToRoute('app_message_list_admin');
         }
 
         return $this->render('BackOffice/Message/message_show.html.twig', [
@@ -32,6 +40,8 @@ class AdminMessageController extends AbstractController
         ]);
     }
 
+
+    // Affiche la liste des messages avec une recherche par titre.
     #[Route('message_list', name: 'app_message_list_admin')]
     public function list(
         MessageRepository $messageRepo,
@@ -41,6 +51,7 @@ class AdminMessageController extends AbstractController
     {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
             return $this->redirectToRoute('app_index');
         }
 
@@ -53,6 +64,7 @@ class AdminMessageController extends AbstractController
     }
 
 
+    // Supprime un message.
     #[Route('delete_message/{id}', name: 'app_delete_message', methods: ['POST'])]
     public function delete(
         ?Message               $message,
@@ -61,10 +73,13 @@ class AdminMessageController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
+            
             return $this->redirectToRoute('app_index');
         }
 
         if (!$message) {
+            // Redirige vers la liste si le message n'existe pas.
             return $this->redirectToRoute('app_dashboard_admin');
         }
 

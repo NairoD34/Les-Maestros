@@ -39,19 +39,17 @@ class FormHandlerService
     public function handleSales(Request $request, Sales $sales)
     {
         $form = $this->formFactory->create(SalesFormType::class, $sales);
-        $form->handleRequest($request);
+        $validate = false;
 
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($sales);
             $this->em->flush();
-            return [
-                'validate' => true,
-                'form' => $form,
-            ];
+            $validate = true;
         }
 
         return [
-            'validate' => false,
+            'validate' => $validate,
             'form' => $form,
         ];
     }
@@ -59,6 +57,7 @@ class FormHandlerService
     public function handleProduct($update, Request $request, Product $product, $photo, ?ProductRepository $productRepo)
     {
         $form = $this->formFactory->create(AdminProductFormType::class, $product);
+        $validate = false;
 
         $form->handleRequest($request);
         $audio_name = "";
@@ -66,13 +65,6 @@ class FormHandlerService
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form['upload_file']->getData();
             $audio = $form['upload_audio']->getData();
-
-            if (!$file || !$audio) {
-                return [
-                    'condition' => false,
-                    'form' => $form,
-                ];
-            }
 
             if ($file) {
                 $file_name = $this->upload->uploadProductPhoto($file);
@@ -113,16 +105,11 @@ class FormHandlerService
                     $photo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $file_name);
                 }
             }
-
-            return [
-                'condition' => true,
-                'form' => $form,
-            ];
-
+            $validate = true;
         }
 
         return [
-            'condition' => false,
+            'condition' => $validate,
             'form' => $form,
         ];
     }

@@ -9,9 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+//Classe pour gérer les opérations liées aux messages.
 class MessageController extends AbstractController
 {
 
+    //Route pour afficher la page de nouveau message.
     #[Route('/new_message', name: 'app_new_message')]
     public function new(
         Request        $request,
@@ -19,10 +21,10 @@ class MessageController extends AbstractController
 
     ): Response
     {
-
         $newMessage = new Message();
         $formResult = $formHandler->handleMessage($newMessage, $request);
         if ($formResult["validate"]) {
+            // Redirige vers la page d'accueil si la validation est réussie.
             return $this->redirectToRoute('app_index');
         }
 

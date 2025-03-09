@@ -11,9 +11,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+//Classe pour gérer les opérations liées au panel utilisateur.
+#[Route('/user')]
 class UserPanelController extends AbstractController
 {
-    #[Route('/user', name: 'app_user')]
+    //Affiche la page d'accueil du panel utilisateur.
+    #[Route('/', name: 'app_user')]
     public function indexAccount(
         Security $security,
         ?Adress  $adress
@@ -27,6 +30,7 @@ class UserPanelController extends AbstractController
         ]);
     }
 
+    //Affiche la page de modification des informations du compte utilisateur.
     #[Route('/user/information/{id}', name: 'app_user_account')]
     public function userAccount(
         ?Users       $users,
@@ -34,7 +38,10 @@ class UserPanelController extends AbstractController
         UsersService $usersService,
     ): Response
     {
+        //Recuperation de l'utilisateur connecté
         if (!$users) {
+            //Redirection vers la page d'accueil si l'utilisateur n'est pas connecté
+            $this->addFlash("error", 'Vous n\'avez pas les droits pour effectuer cette action');
             return $this->redirectToRoute('app_index');
         }
 
@@ -46,6 +53,8 @@ class UserPanelController extends AbstractController
         }
         $result = $usersService->UsersForm($users, $request);
         if ($result['validate']) {
+            //Affichage du message de succès et redirige vers la page des informations
+            $this->addFlash("success", 'Vos informations ont été modifiée');
             return $this->redirectToRoute('app_user');
         }
 

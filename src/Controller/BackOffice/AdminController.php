@@ -16,9 +16,12 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+// Contrôleur pour gérer les opérations liées aux administrateurs dans le back-office.
+
 #[Route('admin/')]
 class AdminController extends AbstractController
 {
+    // Liste tous les administrateurs avec une option de tri par nom et prénom.
     #[Route('list_admin', name: 'app_list_admin')]
     public function list(UsersRepository $adminRepo, Request $request): Response
     {
@@ -35,10 +38,12 @@ class AdminController extends AbstractController
         ]);
     }
 
+    // Affiche les détails d'un administrateur spécifique.
     #[Route('show/{id}', name: 'app_show_admin')]
     public function show(?Users $admin): Response
     {
         if (!$admin) {
+            // Redirige vers le tableau de bord si l'administrateur n'existe pas.
             return $this->redirectToRoute('app_admin_dashboard');
         }
 
@@ -48,6 +53,8 @@ class AdminController extends AbstractController
         ]);
     }
 
+    // Crée un nouvel administrateur.
+// Gère le formulaire pour la création d'un nouvel administrateur.
     #[Route('new', name: 'app_new_admin')]
     public function new(
         Request                     $request,
@@ -58,6 +65,8 @@ class AdminController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
+            
             return $this->redirectToRoute('app_index');
         }
         $admin = new Users();
@@ -67,6 +76,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_list_admin');
         }
 
+        // Rend la vue avec les données du formulaire et les erreurs.
         return $this->render('BackOffice/Admin/new.html.twig', [
             'title' => 'Création d\'un nouvel administrateur',
             'form' => $formResult['form']->createView(),
@@ -74,6 +84,7 @@ class AdminController extends AbstractController
         ]);
     }
 
+    // Met à jour un administrateur existant.
     #[Route('update/{id}', name: 'app_update_admin')]
     public function update(
         Request                     $request,
@@ -85,10 +96,12 @@ class AdminController extends AbstractController
     )
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
+            // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
             return $this->redirectToRoute('app_index');
         }
 
         if (!$admin) {
+            // Redirige vers la liste si l'administrateur n'existe pas.
             return $this->redirectToRoute('app_list_admin');
         }
 
@@ -98,12 +111,14 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_list_admin');
         }
 
+        // Rend la vue avec les données du formulaire et les erreurs.
         return $this->render('BackOffice/Admin/new.html.twig', [
             'title' => 'Mise à jour d\'un administrateur',
             'form' => $formResult["form"],
         ]);
     }
 
+    // Supprime un administrateur.
     #[Route('delete/{id}', name: 'app_delete_admin', methods: ['POST'])]
     public function delete(
         Request                $request,
@@ -111,6 +126,15 @@ class AdminController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response
     {
+        // Vérifie si l'utilisateur a le rôle ADMIN avant de continuer.
+        if (!$security->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_index');
+        }
+
+        if (!$admin) {
+            // Redirige vers la liste si l'administrateur n'existe pas.
+            return $this->redirectToRoute('app_list_admin');
+        }
         if ($this->isCsrfTokenValid('delete' . $admin->getId(), $request->request->get('_token'))) {
             $entityManager->remove($admin);
             $entityManager->flush();

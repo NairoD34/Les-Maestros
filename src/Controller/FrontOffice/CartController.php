@@ -14,8 +14,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+//Contrôleur pour gérer le panier d'un utilisateur.
 class CartController extends AbstractController
 {
+    //Affiche le panier si il existe, sinon affiche un message d'erreur.
     #[Route('/cart', name: 'app_panier')]
     public function index(
         Security    $security,
@@ -23,16 +25,22 @@ class CartController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
+            return $this->redirectToRoute('app_index');
+        }
+
+        // Recherche du panier de l'utilisateur.
+        $panier = $CartService->GetUserData()['cart'];
+        if (!$panier) {
+            // Affiche un message d'erreur si le panier n'existe pas.
             return $this->render('FrontOffice/cart/emptyPanier.html.twig');
         }
 
-        $panier = $CartService->GetUserData()['cart'];
-        if (!$panier) {
-            return $this->render('FrontOffice/cart/emptyPanier.html.twig');
-        }
+        // Calcul des produits et du total.
         $products = $CartService->CalculCart()['products'];
         $total = $CartService->CalculCart()['total'];
         if ($total === 0) {
+            // Affiche un message d'erreur si le panier est vide.
             return $this->render('FrontOffice/cart/emptyPanier.html.twig');
         }
         return $this->render('FrontOffice/cart/index.html.twig', [
@@ -42,6 +50,7 @@ class CartController extends AbstractController
         ]);
     }
 
+    // Supprime un produit du panier.
     #[Route('delete_products_cart/{id}', name: 'app_delete_product_cart', methods: ['POST'])]
     public function delete(
         Request                $request,
@@ -52,13 +61,16 @@ class CartController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
 
         if (!$CartProduct) {
+            // Redirige vers la page d'accueil si le produit n'existe pas.
             return $this->redirectToRoute('app_index');
         }
 
+        // Supprime le produit du panier.
         if ($this->isCsrfTokenValid('delete' . $CartProduct->getId(), $request->request->get('_token'))) {
             $entityManager->remove($CartProduct);
             $panier = $cartRepo->findOneBy(['id' => $CartProduct->getCart()->getId()]);
@@ -73,6 +85,7 @@ class CartController extends AbstractController
 
     }
 
+    // Réduit la quantité d'un produit du panier.
     #[Route('remove_products_cart/{id}', name: 'app_remove_product_cart', methods: ['POST'])]
     public function remove(
         Security               $security,
@@ -84,13 +97,16 @@ class CartController extends AbstractController
     )
     {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
 
         if (!$product) {
+            // Redirige vers la page d'accueil si le produit n'existe pas.
             return $this->redirectToRoute('app_index');
         }
 
+        // Recherche du produit dans le panier.
         $idProduct = $product->getId();
         $cart = $cartRepo->getLastCartOrder($security->getUser()->getId());
         $idPanier = $cart->getId();
@@ -101,9 +117,11 @@ class CartController extends AbstractController
             return $this->render('FrontOffice/cart/emptyPanier.html.twig');
         }
 
+        // Supprime le produit du panier.
         if ($this->isCsrfTokenValid('removeToCart' . $product->getId(), $request->request->get('_token'))) {
 
             $qte = $productInPanier->getQuantity();
+            // Si la quantité est supérieure à 1, diminue de 1, sinon supprime le produit du panier.
             if ($qte > 1) {
                 $qte--;
                 $CartProductRepo->updateQuantityInCartProduct($qte, $idProduct, $idPanier);
@@ -116,6 +134,7 @@ class CartController extends AbstractController
 
     }
 
+    // Ajoute la quantité d'un produit au panier.
     #[Route('add_qte_product_cart/{id}', name: 'app_add_qte_product_cart', methods: ['POST'])]
     public function addQuantities(
         Security              $security,
@@ -126,18 +145,28 @@ class CartController extends AbstractController
     )
     {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
         }
 
         if (!$product) {
+            // Redirige vers la page d'accueil si le produit n'existe pas.
             return $this->redirectToRoute('app_index');
         }
 
+        // Recherche du produit dans le panier.
         $idProduct = $product->getId();
         $Panier = $cartRepo->getLastCartOrder($security->getUser()->getId());
         $idPanier = $Panier->getId();
         $productInPanier = $CartProductRepo->getCartProductbyId($product, $Panier);
+        
 
+        if (!$productInPanier) {
+            // Redirige vers la page d'accueil si le produit n'existe pas dans le panier.
+            return $this->redirectToRoute('app_index');
+        }
+
+        // Ajoute la quantité du produit au panier.
         if ($this->isCsrfTokenValid('addQteToCart' . $product->getId(), $request->request->get('_token'))) {
             $qte = $productInPanier->getQuantity();
             $qte++;
