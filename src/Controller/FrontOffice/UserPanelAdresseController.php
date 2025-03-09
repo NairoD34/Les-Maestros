@@ -48,9 +48,13 @@ class UserPanelAdresseController extends AbstractController
         if (!$adress) {
             //Affiche un message d'erreur si l'adresse n'existe pas et redirige vers la page de creation d'adresse
             $this->addFlash('error', 'Adresse non trouvé.');
-            return $this->redirectToRoute('app_create_adresse');
+            return $this->redirectToRoute('app_list_adresse');
         }
 
+        if($adress->getUsersId() !== $security->getUser()->getId() ){
+            // redirige vers la page de creation d'adresse
+            return $this->redirectToRoute('app_list_adresse');
+        }
        
         return $this->render('FrontOffice/user/showAdresse.html.twig', [
             'title' => 'Information de l\'adresse ',
