@@ -1,5 +1,5 @@
-@use '../base/colors';
-
+@use "../base/colors";
+@use "../base/mixins";
 .card-container {
   box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
   box-sizing: border-box;
@@ -16,12 +16,19 @@
     justify-content: end;
     align-items: center;
     background-color: colors.$white;
-
   }
+  .flag-percent-placeholder {
+    height: 30px;
+    width: 100%;
+    visibility: hidden;
+  }
+
   .flag-percent {
-    padding: 5px;
+    height: 30px;
+    width: 100%;
     background-color: colors.$header;
     color: colors.$main;
+    @include mixins.center-flex(center);
     @media screen and (max-width: 800px) {
       width: 25%;
     }
@@ -35,10 +42,11 @@
   }
 
   .flag-news {
-    padding: 5px;
+    height: 30px;
     background-color: colors.$header;
     color: colors.$main;
     font-weight: bold;
+    @include mixins.center-flex(center);
     @media screen and (max-width: 800px) {
       width: 45%;
     }
@@ -46,12 +54,11 @@
       width: 50%;
     }
 
-
     span {
       display: inline-block;
       text-align: center;
       width: 100%;
-    }
+     }
   }
 
   a {
@@ -95,7 +102,6 @@
     }
   }
 
-
   img {
     width: 80%;
     margin: 0 auto;
@@ -106,9 +112,6 @@
   .card-content {
     width: 100%;
     box-sizing: border-box;
-
-   
-
   }
 
   .empty-percent {
