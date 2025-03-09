@@ -48,15 +48,9 @@
                         <p>
                             <span>Adresse de facturation :</span> {{ order.billed.number }} {{ order.billed.street }}
                             , {{ order.billed.city.name }}</p>
-                        {%if order.payment%}
                             <p><span>Moyen de paiement :</span> {{ order.payment.title }}</p>
-                        {%endif%}
-                        {%if order.delivery%}
                             <p><span>Mode de livraison :</span> {{ order.delivery.title }}</p>
-                        {%endif%}
-                        {%if order.state%}
                             <p><span>État de la commande :</span> {{ order.state.title }}</p>
-                        {%endif%}
                     </div>
 
 
