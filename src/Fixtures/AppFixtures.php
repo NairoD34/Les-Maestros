@@ -25,6 +25,15 @@ class AppFixtures extends Fixture
         // Persist l'entité
         $manager->persist($admin);
 
+        $user = new Users();
+        $user->setLastname('User');
+        $user->setFirstname('User');
+        $user->setEmail('user@mail.fr');
+        $user->setPassword(password_hash('lesMaestros34@', PASSWORD_BCRYPT));
+        $user->setRoles([]);
+        // Persist l'entité
+        $manager->persist($user);
+
         $state1 = new State();
         $state1->setTitle('En attente de paiement');
         $manager->persist($state1);

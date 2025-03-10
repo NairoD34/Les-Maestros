@@ -58,6 +58,9 @@ Copiez le fichier .env en .env.local et modifiez les variables d'environnement s
 1. **Inscription / Connexion :**
     Visitez la page d'inscription pour créer un compte.
     Connectez-vous avec vos identifiants.
+    Sinon vous pouvez vous connecter avec ce compte utilisateur : 
+    Email : user@mail.fr
+    Mot de passe : lesMaestros34@
 
 2. **Gestion des produits :**
     Explorez les produits disponibles sur le site.
@@ -79,6 +82,8 @@ Copiez le fichier .env en .env.local et modifiez les variables d'environnement s
 
 1. **Connexion :**
     Connectez-vous avec vos identifiants administratifs pour accéder au tableau de bord.
+    Email : admin@mail.fr
+    Mot de passe : lesMaestros34@
 
 2. **Gestion des utilisateurs :**
     Consultez la liste des utilisateurs enregistrés.
