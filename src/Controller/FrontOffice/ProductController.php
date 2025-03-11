@@ -18,8 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 //Classe pour gérer les opérations liées aux produits.
 class ProductController extends AbstractController
 {
-    //Affiche la liste des produits.
-    #[Route('/products', name: 'app_produit')]
+    #[Route('/product', name: 'app_produit')]
     public function index(ProductRepository $productRepo): Response
     {
         //Recherche des nouveaux produits
@@ -39,7 +38,6 @@ class ProductController extends AbstractController
     ): Response
     {
         if (!$product) {
-            //Redirige vers la home page si le produit n'existe pas.
             return $this->redirectToRoute('app_index');
         }
 
@@ -68,7 +66,6 @@ class ProductController extends AbstractController
         }
 
         if (!$product) {
-            // Redirige vers la home page si le produit n'existe pas.
             return $this->redirectToRoute('app_index');
         }
 

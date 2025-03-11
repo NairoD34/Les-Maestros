@@ -11,8 +11,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+// Classe pour gérer les formulaires pour le reset du mot de passe.
 class ResetPasswordFormType extends AbstractType
 {
+    // Methode pour construire le formulaire.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -37,6 +39,7 @@ class ResetPasswordFormType extends AbstractType
             ]);
     }
 
+    // Methode pour configurer les options du formulaire.
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

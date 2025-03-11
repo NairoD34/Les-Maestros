@@ -3,7 +3,6 @@
 namespace App\Controller\FrontOffice;
 
 use App\Entity\Adress;
-use App\Entity\Users;
 use App\Service\FrontOffice\AdressService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,12 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-//Contrôleur pour gérer les opérations liées aux adresses des utilisateurs dans le panel utilisateur.
-#[Route('/user')]
 class UserPanelAdresseController extends AbstractController
 {
     //Affichage de la liste des adresses
-    #[Route('/list_address', name: 'app_list_adresse')]
+    #[Route('/user/list_address', name: 'app_list_adresse')]
     public function listAddress(
         Request       $request,
         Security      $security,
@@ -37,8 +34,11 @@ class UserPanelAdresseController extends AbstractController
     }
 
     //Affichage d'une adresse
-    #[Route('/address/{id}', name: 'app_show_adresse')]
-    public function showAddress(?Adress $adress)
+    #[Route('/user/address/{id}', name: 'app_show_adresse')]
+    public function showAddress(
+        ?Adress $adress,
+        Security $security,
+    )
     {
         //Recuperation de l'utilisateur connecté
         $user = $this->getUser();
@@ -51,9 +51,13 @@ class UserPanelAdresseController extends AbstractController
         if (!$adress) {
             //Affiche un message d'erreur si l'adresse n'existe pas et redirige vers la page de creation d'adresse
             $this->addFlash('error', 'Adresse non trouvé.');
-            return $this->redirectToRoute('app_create_adresse');
+            return $this->redirectToRoute('app_list_adresse');
         }
 
+        if($adress->getUsers()->getId() !== $security->getUser()->getId() ){
+            // redirige vers la page de creation d'adresse
+            return $this->redirectToRoute('app_list_adresse');
+        }
        
         return $this->render('FrontOffice/user/showAdresse.html.twig', [
             'title' => 'Information de l\'adresse ',

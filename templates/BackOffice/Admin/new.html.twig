@@ -1,55 +1,64 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block title %}
-    {{ title }}
+    {{ title }} {# Titre de la page, récupéré dynamiquement #}
 {% endblock %}
 
 {% block main %}
+    {# Conteneur principal pour le formulaire d'ajout d'un nouvel administrateur #}
     <div class="info_user_container">
         <div class="info_user_content">
             <div class="title-container">
+                {# Lien pour revenir à la liste des catégories #}
                 <a href="{{ path('app_category_list_admin') }}" class="come-back">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
                     <title>Revenir en arrière</title>
-                        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
                         <path fill="#000000"
                               d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
                     </svg>
                 </a>
-                <h2>{{ title }}</h2>
+                <h2>{{ title }}</h2> {# Titre principal de la section #}
             </div>
+            {# Bloc pour afficher les erreurs du formulaire #}
             {% block form_errors %}
                 {% if errors|length > 0 %}
                     <ul class='log-danger'>
                         {% for error in errors %}
-                            <li> {{ error.message }}</li>
+                            <li> {{ error.message }}</li> {# Affiche chaque message d'erreur #}
                         {% endfor %}
                     </ul>
                 {% endif %}
             {% endblock form_errors %}
             <div class="content-form">
+                {# Démarre le formulaire Symfony #}
                 {{ form_start(form) }}
                 <div>
+                    {# Champ pour le nom de l'administrateur #}
                     {{ form_label(form.lastname, 'Nom') }}
                     {{ form_widget(form.lastname) }}
                 </div>
                 <div>
+                    {# Champ pour le prénom de l'administrateur #}
                     {{ form_label(form.firstname, 'Prénom') }}
                     {{ form_widget(form.firstname) }}
                 </div>
                 <div>
+                    {# Champ pour l'adresse email de l'administrateur #}
                     {{ form_label(form.email, 'Adresse email') }}
                     {{ form_widget(form.email) }}
                 </div>
                 <div>
+                    {# Champ pour le mot de passe de l'administrateur #}
                     {{ form_label(form.password, 'Mot de passe') }}
                     {{ form_widget(form.password) }}
                 </div>
 
                 <div class="submit-container">
+                    {# Bouton de soumission pour le formulaire #}
                     <button type='submit'>Soumettre</button>
                 </div>
 
+                {# Termine le formulaire Symfony #}
                 {{ form_end(form) }}
             </div>
         </div>

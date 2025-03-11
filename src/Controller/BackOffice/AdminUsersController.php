@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
-// Classe pour gérer les opérations liées aux utilisateurs dans le back-office.
+//Contrôleur pour gérer les opérations liées aux utilisateurs dans le back-office.
 #[Route('admin/')]
 class AdminUsersController extends AbstractController
 {
@@ -74,9 +74,10 @@ class AdminUsersController extends AbstractController
         Request                $request,
         Users                  $users,
         EntityManagerInterface $entityManager,
+        Security               $security,
         CartRepository         $cartRepo,
         CartProductRepository  $cartProduct
-    ): Response
+    )
     {
         // Vérifie si l'utilisateur a le rôle ADMIN avant de continuer.
         if (!$security->isGranted('ROLE_ADMIN')) {
@@ -90,23 +91,23 @@ class AdminUsersController extends AbstractController
 
         if ($this->isCsrfTokenValid('delete' . $users->getId(), $request->request->get('_token'))) {
             // Supprime les paniers et les produits associés à l'utilisateur.
-            $cart = $cartRepo->findByUserId($users->getId());
-            if ($cart) {
-            if ($cart) {
-                $products = $cartProduct->findByCartId($cart[0]->getId());
-                if ($products) {
-                    foreach ($products as $product) {
-                        $entityManager->remove($product);
+            $carts = $cartRepo->findByUserId($users->getId());
+            if ($carts) {
+                foreach ($carts as $cart) {
+                    $products = $cart->findByCartId($cart->getId());
+                    if ($products) {
+                        foreach ($products as $product) {
+                            $entityManager->remove($product);
+                        }
                     }
+                    $entityManager->remove($cart);
                 }
-                $entityManager->remove($cart[0]);
 
             }
             $entityManager->remove($users);
             $entityManager->flush();
-        }
 
-        return $this->redirectToRoute('app_user_list_admin', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_list_admin');
     }
 }
 }

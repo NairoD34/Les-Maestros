@@ -1,40 +1,48 @@
 {% extends 'base_admin.html.twig' %}
 
+{% block title %}
+    {{ title }} {# Titre de la page, récupéré dynamiquement #}
+{% endblock %}
 
 {% block main %}
+    {# Section principale pour afficher la liste des utilisateurs #}
     <section class="admin-section">
         <div class="title-container">
+            {# Lien pour revenir au tableau de bord #}
             <a href="{{ path('app_admin_dashboard') }}" class="come-back">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
                     <title>Revenir en arrière</title>
-                    <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
                     <path fill="#000000"
                           d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
                 </svg>
             </a>
-            <h2>{{ title }}</h2>
+            <h2>{{ title }}</h2> {# Titre principal de la section #}
         </div>
+        {# Formulaire de recherche par nom #}
         <form class="mt-4 w-50 mx-auto">
-            <input type='text' name='lastname' placeholder='recherchez par le nom' value='{{ lastname }}'>
-            <input type='submit' name='submit' value='rechercher'>
+            <input type='text' name='lastname' placeholder='Recherchez par le nom' value='{{ lastname }}'> {# Champ de recherche pour le nom #}
+            <input type='submit' name='submit' value='Rechercher'> {# Bouton pour soumettre la recherche #}
         </form>
         <div class="details-container">
             <div class="details-content">
+                {# Boucle pour afficher chaque utilisateur #}
                 {% for item in users %}
                     <div class="details-body">
                         <div class="admin-action">
+                            {# Lien vers la page de détails de l'utilisateur #}
                             <a href="{{ path('app_user_show_admin', { 'id': item.id }) }}">
                                 <div>
-                                    <h4>{{ item.lastname }} {{ item.firstname }}</h4>
+                                    <h4>{{ item.lastname }} {{ item.firstname }}</h4> {# Affiche le nom et le prénom de l'utilisateur #}
                                 </div>
                             </a>
                             <div class="action-container">
+                                {# Inclusion du formulaire de suppression de l'utilisateur #}
                                 {{ include('BackOffice/User/user_delete.html.twig', { 'id': item.id }) }}
                             </div>
                         </div>
                     </div>
                 {% else %}
-                    <p>Aucun enregistrement</p>
+                    <p>Aucun enregistrement</p> {# Message si aucun utilisateur n'est trouvé #}
                 {% endfor %}
             </div>
         </div>

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+// Service pour gérer les formulaires de changement de mot de passe et de registration.
 class PasswordService
 {
     public function __construct(
@@ -21,6 +22,7 @@ class PasswordService
         
     }
 
+    // Methode pour traiter le formulaire de création de mot de passe.
     public function CreatePasswordForm($request, Users $user, ValidatorInterface $validatorInterface)
     {
         $form = $this->formFactory->create(RegistrationFormType::class, $user);
@@ -54,6 +56,7 @@ class PasswordService
         ];
     }
 
+    // Methode pour traiter le formulaire de reset de mot de passe.
     public function ResetPasswordForm(
         Request $request,
         Users $users,

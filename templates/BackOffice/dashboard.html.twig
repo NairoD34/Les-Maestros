@@ -1,62 +1,67 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block main %}
-
+    {# Section principale du tableau de bord #}
     <section class="admin-section">
         <div class="first-section-container">
             <div class="content">
                 <div class="title-box">
-                    <h1>Les Maestros de la <span>Symfony</span></h1>
-                    <h3>la musique à portée de clic</h3>
+                    <h1>Les Maestros de la <span>Symfony</span></h1> {# Titre principal du tableau de bord #}
+                    <h3>la musique à portée de clic</h3> {# Sous-titre #}
                 </div>
                 <div class="img-box">
+                    {# Image décorative du tableau de bord #}
                     <img src="{{ asset('build/images/mecquidance.png') }}" alt="image d'un homme dansant en écoutant de la musique c'est une décoration">
                 </div>
             </div>
         </div>
 
+        {# Section des indicateurs clés de performance (KPI) #}
         <div class="kpi-container">
             <div class="kpi-content">
+                {# Affichage du nombre d'utilisateurs #}
                 <div class="kpi-body">
                     <a href="{{ path('app_user_list_admin') }}">
                         <div>
                             <h5>Nombre d'utilisateurs </h5>
-                            <p>{{ data.users }}</p>
+                            <p>{{ data.users }}</p> {# Affiche le nombre d'utilisateurs #}
                         </div>
                     </a>
                 </div>
+                {# Affichage du nombre de commandes #}
                 <div class="kpi-body">
                     <a href="{{ path('app_order_list_admin') }}">
                         <div>
                             <h5>Nombre de commandes </h5>
-                            <p>{{ data.orders }}</p>
+                            <p>{{ data.orders }}</p> {# Affiche le nombre de commandes #}
                         </div>
                     </a>
                 </div>
+                {# Affichage du chiffre d'affaires TTC #}
                 <div class="kpi-body">
                     <a href="{{ path('app_order_list_admin') }}">
                         <div>
                             <h5>Chiffre d'affaire TTC </h5>
-                            <p>{% if data.revenue is same as(null) %} 0  {% else %} {{ data.revenue }} {% endif %}</p>
+                            <p>{% if data.revenue is same as(null) %} 0  {% else %} {{ data.revenue }} {% endif %}</p> {# Affiche le chiffre d'affaires TTC ou 0 s'il est nul #}
                         </div>
                     </a>
                 </div>
+                {# Affichage du nombre de messages enregistrés #}
                 <div class="kpi-body">
                     <a href="{{ path('app_message_list_admin') }}">
                         <div>
                             <h5>Nombres de messages enregistrés </h5>
-                            <p>{{ data.messages }}</p>
+                            <p>{{ data.messages }}</p> {# Affiche le nombre de messages #}
                         </div>
                     </a>
                 </div>
             </div>
         </div>
 
-
+        {# Section de gestion des différentes entités #}
         <div class="admin-container">
-            <!-- Première ligne -->
             <div class="admin-content">
-                <!-- Gestion des catégories -->
+                {# Gestion des catégories #}
                 <div class="admin-body">
                     <a href="{{ path('app_category_list_admin') }}">
                         <div>
@@ -65,7 +70,7 @@
                     </a>
                 </div>
 
-                <!-- Gestion des produits -->
+                {# Gestion des produits #}
                 <div class="admin-body">
                     <a href="{{ path('app_product_list_admin') }}">
                         <div>
@@ -74,7 +79,7 @@
                     </a>
                 </div>
 
-                <!-- Gestion des promotions -->
+                {# Gestion des promotions #}
                 <div class="admin-body">
                     <a href="{{ path('app_sales_list') }}">
                         <div>
@@ -82,7 +87,8 @@
                         </div>
                     </a>
                 </div>
-                <!-- Gestion des commandes -->
+
+                {# Gestion des commandes #}
                 <div class="admin-body">
                     <a href="{{ path('app_order_list_admin') }}">
                         <div>
@@ -90,7 +96,8 @@
                         </div>
                     </a>
                 </div>
-                <!-- Gestion des administrateurs -->
+
+                {# Gestion des administrateurs #}
                 <div class="admin-body">
                     <a href="{{ path('app_list_admin') }}">
                         <div>
@@ -98,7 +105,8 @@
                         </div>
                     </a>
                 </div>
-                <!-- Gestion des clients -->
+
+                {# Gestion des clients #}
                 <div class="admin-body">
                     <a href="{{ path('app_user_list_admin') }}">
                         <div>
@@ -106,6 +114,8 @@
                         </div>
                     </a>
                 </div>
+
+                {# Gestion des messages #}
                 <div class="admin-body">
                     <a href="{{ path('app_message_list_admin') }}">
                         <div>
@@ -116,5 +126,4 @@
             </div>
         </div>
     </section>
-
 {% endblock %}

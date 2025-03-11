@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Livraison[]    findAll()
  * @method Livraison[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+// Classe pour gérer les requêtes liées aux livraisons.
 class DeliveryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

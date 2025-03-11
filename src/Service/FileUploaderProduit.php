@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+//Service pour uploader les images des produits.
 class FileUploaderProduit
 {
     private $targetDirectory;
@@ -15,6 +16,8 @@ class FileUploaderProduit
         $this->targetDirectory = $targetDirectoryProduct;
         $this->slugger = $slugger;
     }
+
+    //Upload des images des produits.
     public function upload(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -28,6 +31,8 @@ class FileUploaderProduit
         }
         return $fileName;
     }
+
+    //Getters.
     public function getTargetDirectory()
     {
         return $this->targetDirectory;

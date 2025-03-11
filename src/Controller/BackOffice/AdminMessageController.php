@@ -41,7 +41,7 @@ class AdminMessageController extends AbstractController
     }
 
 
-    // Affiche la liste des messages avec une recherche par titre.
+    // Affiche la liste des messages.
     #[Route('message_list', name: 'app_message_list_admin')]
     public function list(
         MessageRepository $messageRepo,
@@ -73,14 +73,13 @@ class AdminMessageController extends AbstractController
     ): Response
     {
         if (!$security->isGranted('ROLE_ADMIN')) {
-            // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
-            
+            // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.            
             return $this->redirectToRoute('app_index');
         }
 
         if (!$message) {
-            // Redirige vers la liste si le message n'existe pas.
-            return $this->redirectToRoute('app_dashboard_admin');
+            // Redirige vers la liste des messages si ce dernier n'existe pas.
+            return $this->redirectToRoute('app_message_list_admin');
         }
 
         $em->remove($message);

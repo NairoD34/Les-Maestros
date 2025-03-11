@@ -11,12 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-//Classe pour gérer les opérations liées au panel utilisateur.
-#[Route('/user')]
+
 class UserPanelController extends AbstractController
 {
     //Affiche la page d'accueil du panel utilisateur.
-    #[Route('/', name: 'app_user')]
+    #[Route('/user', name: 'app_user')]
     public function indexAccount(
         Security $security,
         ?Adress  $adress
@@ -36,6 +35,7 @@ class UserPanelController extends AbstractController
         ?Users       $users,
         Request      $request,
         UsersService $usersService,
+        Security     $security,
     ): Response
     {
         //Recuperation de l'utilisateur connecté
@@ -45,7 +45,12 @@ class UserPanelController extends AbstractController
             return $this->redirectToRoute('app_index');
         }
 
-        //Affichage du formulaire pour la modification des informations du compte
+        if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('app_index');
+        }
+        if ($users->getId() !== $security->getUser()->getId()) {
+            return $this->redirectToRoute('app_index');
+        }
         $result = $usersService->UsersForm($users, $request);
         if ($result['validate']) {
             //Affichage du message de succès et redirige vers la page des informations

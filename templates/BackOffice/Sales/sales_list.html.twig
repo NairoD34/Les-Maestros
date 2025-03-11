@@ -1,53 +1,51 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block title %}
-    {{ title }}
+    {{ title }} {# Titre de la page, récupéré dynamiquement #}
 {% endblock %}
 
 {% block main %}
+    {# Section principale pour afficher la liste des promotions #}
     <section class="admin-section">
         <div class="title-container">
+            {# Lien pour revenir au tableau de bord #}
             <a href="{{ path('app_admin_dashboard') }}" class="come-back">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="bouton revenir en arrière" alt="bouton revenir en arrière">
                     <title>Revenir en arrière</title>
-                    <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
                     <path fill="#000000"
                           d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
                 </svg>
             </a>
-            <h2>{{ title }}</h2>
+            <h2>{{ title }}</h2> {# Titre principal de la section #}
         </div>
-        <form class="mt-4 w-50 mx-auto">
-            <div class="form-group">
-                <label for="searchLibelle">Recherchez par libellé</label>
-                <input type='text' id="searchLibelle" class="form-control" name='nom'
-                       placeholder='Recherchez par libellé' value='{{ libelle }}'>
-            </div>
-            <button type="submit" class="btn btn-secondary">Rechercher</button>
-        </form>
         <div class="details-container">
+            {# Lien pour ajouter une nouvelle promotion #}
             <a href="{{ path('app_new_sales') }}">Ajouter une promotion</a>
             <div class="details-content">
+                {# Vérifie si des promotions existent #}
                 {% if sales is empty %}
-                    <p>Aucun enregistrement</p>
+                    <p>Aucun enregistrement</p> {# Message si aucune promotion n'est trouvée #}
                 {% else %}
+                    {# Boucle pour afficher chaque promotion #}
                     {% for item in sales %}
                         <div class="details-body">
                             <div class="admin-action">
+                                {# Lien vers la page de détails de la promotion #}
                                 <a href="{{ path('app_sales_show', { 'id': item.id }) }}">
                                     <div>
-                                        <h4>{{ item.title }}</h4>
+                                        <h4>{{ item.title }}</h4> {# Affiche le titre de la promotion #}
                                     </div>
                                 </a>
                                 <div>
-                                    <h4>{{ item.salesRate }}</h4>
+                                    <h4>{{ item.salesRate }}</h4> {# Affiche le taux de la promotion #}
                                 </div>
                                 <div>
-                                    <h4>{{ item.salesCode }}</h4>
+                                    <h4>{{ item.salesCode }}</h4> {# Affiche le code de la promotion #}
                                 </div>
                                 <div class="action-container">
-                                    <a href="{{ path('app_update_sales', { 'id': item.id }) }}"
-                                    >Mettre à jour</a>
+                                    {# Lien pour mettre à jour la promotion #}
+                                    <a href="{{ path('app_update_sales', { 'id': item.id }) }}">Mettre à jour</a>
+                                    {# Inclusion du formulaire de suppression de la promotion #}
                                     {{ include('BackOffice/Sales/sales_delete.html.twig', { 'id': item.id }) }}
                                 </div>
                             </div>

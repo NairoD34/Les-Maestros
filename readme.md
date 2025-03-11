@@ -13,6 +13,15 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 - [NVM windows](https://github.com/coreybutler/nvm-windows)
 - [NVM linux](https://github.com/nvm-sh/nvm) (pour gérer les versions de node et npm)
 
+## Technologies Utilisées
+
+- Symfony 6.4
+- PHP 8.1
+- MySQL
+- SCSS
+- TypeScript
+- Webpack Encore
+
 ## Installation
 
 1. **Clonez le dépôt :**
@@ -34,6 +43,11 @@ Copiez le fichier .env en .env.local et modifiez les variables d'environnement s
     ```bash
     symfony console make:migration
     symfony console d:m:m
+    symfony console doctrine:fixtures:load
+    cd script
+    php Parse_CSV.php
+    ```
+    
 
 ## Lancez le serveur
     symfony serve -d
@@ -44,6 +58,9 @@ Copiez le fichier .env en .env.local et modifiez les variables d'environnement s
 1. **Inscription / Connexion :**
     Visitez la page d'inscription pour créer un compte.
     Connectez-vous avec vos identifiants.
+    Sinon vous pouvez vous connecter avec ce compte utilisateur : 
+    Email : user@mail.fr
+    Mot de passe : lesMaestros34@
 
 2. **Gestion des produits :**
     Explorez les produits disponibles sur le site.
@@ -65,6 +82,8 @@ Copiez le fichier .env en .env.local et modifiez les variables d'environnement s
 
 1. **Connexion :**
     Connectez-vous avec vos identifiants administratifs pour accéder au tableau de bord.
+    Email : admin@mail.fr
+    Mot de passe : lesMaestros34@
 
 2. **Gestion des utilisateurs :**
     Consultez la liste des utilisateurs enregistrés.

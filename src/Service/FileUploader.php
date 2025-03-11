@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+//Service pour uploader des fichiers.
 class FileUploader
 {
     private $targetDirectory;
@@ -19,6 +20,8 @@ class FileUploader
         $this->slugger = $slugger;
         $this->targetDirectoryProductAudio = $targetDirectoryProductAudio;
     }
+
+    //Upload des images des categories.
     public function uploadCategory(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -33,6 +36,7 @@ class FileUploader
         return $fileName;
     }
 
+    //Upload des images des produits.
     public function uploadProductPhoto(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -46,6 +50,8 @@ class FileUploader
         }
         return $fileName;
     }
+
+    //Upload des audios des produits.
     public function uploadProductAudio(?UploadedFile $file)
     {
         if ($file === null) {
@@ -62,6 +68,8 @@ class FileUploader
         }
         return $fileName;
     }
+
+    //Getters.
     public function getTargetDirectory()
     {
         return $this->targetDirectory;
