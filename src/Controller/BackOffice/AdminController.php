@@ -123,7 +123,8 @@ class AdminController extends AbstractController
     public function delete(
         Request                $request,
         Users                  $admin,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        Security               $security,
     ): Response
     {
         // Vérifie si l'utilisateur a le rôle ADMIN avant de continuer.
@@ -140,6 +141,6 @@ class AdminController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_list_admin', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_list_admin');
     }
 }
