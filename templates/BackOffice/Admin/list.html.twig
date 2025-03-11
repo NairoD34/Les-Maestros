@@ -21,15 +21,15 @@
         <div>
             Nom
             {% if ( trinom == 'desc') %}
-                <a href="{{ path('app_list_admin') }}?nom={{ nom }}&trinom=asc&triprenom={{ triprenom }}">></a>
+                <a aria-label="Trier les noms dans l'ordre inverse alphabétique" href="{{ path('app_list_admin') }}?nom={{ nom }}&trinom=asc&triprenom={{ triprenom }}">></a>
             {% else %}
-                <a href="{{ path('app_list_admin') }}?nom={{ nom }}&trinom=desc&triprenom={{ triprenom }}"><</a>
+                <a aria-label='Trier les noms par ordre alphabétique' href="{{ path('app_list_admin') }}?nom={{ nom }}&trinom=desc&triprenom={{ triprenom }}"><</a>
             {% endif %}
             Prénom
             {% if ( triprenom == 'desc') %}
-                <a href="{{ path('app_list_admin') }}?nom={{ nom }}&triprenom=asc&trinom={{ trinom }}">></a>
+                <a aria-label="Trier les prénoms dans l'ordre inverse alphabétique" href="{{ path('app_list_admin') }}?nom={{ nom }}&triprenom=asc&trinom={{ trinom }}">></a>
             {% else %}
-                <a href="{{ path('app_list_admin') }}?nom={{ nom }}&triprenom=desc&trinom={{ trinom }}"><</a>
+                <a aria-label='Trier les prénoms par ordre alphabétique' href="{{ path('app_list_admin') }}?nom={{ nom }}&triprenom=desc&trinom={{ trinom }}"><</a>
             {% endif %}
             <form>
                 <input type='text' name='nom' placeholder='recherchez par le nom' value='{{ nom }}'>
