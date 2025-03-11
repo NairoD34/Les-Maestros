@@ -71,7 +71,8 @@ class UserPanelAdresseController extends AbstractController
     #[Route('/user/desactivate_address/{id}', name: 'app_desactivate_adresse')]
     public function desactivateAddress(
         ?Adress                $adress,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        Security               $security,
     ): Response
     {
 
@@ -88,6 +89,11 @@ class UserPanelAdresseController extends AbstractController
             //Affiche un message d'erreur si l'adresse n'existe pas et redirige vers la page de creation d'adresse
             $this->addFlash('error', 'Adresse non trouvé.');
             return $this->redirectToRoute('app_user');
+        }
+
+        if($adress->getUsers()->getId() !== $security->getUser()->getId() ){
+            // redirige vers la page de creation d'adresse
+            return $this->redirectToRoute('app_list_adresse');
         }
 
         //Verification que l'adresse est active
@@ -108,7 +114,8 @@ class UserPanelAdresseController extends AbstractController
     #[Route('/user/delete_address/{id}', name: 'app_delete_adresse')]
     public function deleteAddress(
         ?Adress                $adress,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        Security               $security,
     ): Response
     {
 
@@ -127,6 +134,11 @@ class UserPanelAdresseController extends AbstractController
             return $this->redirectToRoute('app_list_adresse');
         }
 
+        if($adress->getUsers()->getId() !== $security->getUser()->getId() ){
+            // redirige vers la page de creation d'adresse
+            return $this->redirectToRoute('app_list_adresse');
+        }
+
         //Suppression de l'adresse
         $em->remove($adress);
         $em->flush();
@@ -137,7 +149,8 @@ class UserPanelAdresseController extends AbstractController
     #[Route('/user/reactivate_address/{id}', name: 'app_reactivate_adresse')]
     public function reactivateAdresse(
         ?Adress                $adress,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        Security               $security,
     ): Response
     {
 
@@ -153,6 +166,11 @@ class UserPanelAdresseController extends AbstractController
         if (!$adress) {
             //Affiche un message d'erreur si l'adresse n'existe pas et redirige vers la page des adresses
             $this->addFlash('error', 'Adresse non trouvé.');
+            return $this->redirectToRoute('app_list_adresse');
+        }
+
+        if($adress->getUsers()->getId() !== $security->getUser()->getId() ){
+            // redirige vers la page de creation d'adresse
             return $this->redirectToRoute('app_list_adresse');
         }
 
@@ -234,7 +252,13 @@ class UserPanelAdresseController extends AbstractController
     {
         //Recuperation de l'utilisateur connecté
         $users = $this->getUser();
-        //Appel du formulaire
+        //Appel du formulaire        
+
+        if($adress->getUsers()->getId() !== $security->getUser()->getId() ){
+            // redirige vers la page de creation d'adresse
+            return $this->redirectToRoute('app_list_adresse');
+        }
+
         return $this->formAddress($adress, $request, $security, $adressService, true);
     }
 
