@@ -53,6 +53,7 @@ class AdminProductFormType extends AbstractType
                             'image/jpg',
                             'image/png',
                             'image/jpeg',
+                            'image/webp',
                             'allowLandScape' => false,
                             'maxWidth' => 600,
                             'maxHeight' => 600

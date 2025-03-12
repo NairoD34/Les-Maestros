@@ -25,8 +25,7 @@ class AdminProductController extends AbstractController
         Request            $request,
         Security           $security,
         PhotosRepository   $photo,
-        ProductRepository  $productRepo,
-        FormHandlerService $formHandler
+        FormHandlerService $formHandler,
     ): Response {
         if (!$security->isGranted('ROLE_ADMIN')) {
             // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
@@ -35,7 +34,7 @@ class AdminProductController extends AbstractController
 
         // Instancie un nouveau produit.
         $product = new Product();
-        $formResult = $formHandler->handleProduct(false, $request, $product, $photo, $productRepo);
+        $formResult = $formHandler->handleProduct(false, $request, $product, $photo);
 
         if ($formResult['condition']) {
             // Redirige vers la liste si le produit a été créé.
@@ -102,7 +101,6 @@ class AdminProductController extends AbstractController
         Security           $security,
         PhotosRepository   $photo,
         FormHandlerService $formHandler,
-        ProductRepository  $productRepo,
     ) {
         if (!$security->isGranted('ROLE_ADMIN')) {
             // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
@@ -114,7 +112,7 @@ class AdminProductController extends AbstractController
             return $this->redirectToRoute('app_product_list_admin');
         }
 
-        $formResult = $formHandler->handleProduct(true, $request, $product, $photo, $productRepo);
+        $formResult = $formHandler->handleProduct(true, $request, $product, $photo);
         if ($formResult['condition']) {
             // Redirige vers la liste si le produit a été mis à jour.
 
