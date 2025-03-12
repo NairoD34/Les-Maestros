@@ -33,7 +33,7 @@ class CartController extends AbstractController
         $panier = $CartService->GetUserData()['cart'];
         if (!$panier) {
             // Affiche un message d'erreur si le panier n'existe pas.
-            return $this->render('FrontOffice/cart/emptyPanier.html.twig');
+            return $this->render('FrontOffice/cart/empty_panier.html.twig');
         }
 
         // Calcul des produits et du total.
@@ -41,7 +41,7 @@ class CartController extends AbstractController
         $total = $CartService->CalculCart()['total'];
         if ($total === 0) {
             // Affiche un message d'erreur si le panier est vide.
-            return $this->render('FrontOffice/cart/emptyPanier.html.twig');
+            return $this->render('FrontOffice/cart/empty_panier.html.twig');
         }
         return $this->render('FrontOffice/cart/index.html.twig', [
             'controller_name' => 'PanierController',
@@ -114,7 +114,7 @@ class CartController extends AbstractController
 
         if (!$productInPanier) {
             //Si le Product n'est pas trouvé dans le panier, redirigez vers empty.html.twig
-            return $this->render('FrontOffice/cart/emptyPanier.html.twig');
+            return $this->render('FrontOffice/cart/empty_panier.html.twig');
         }
 
         // Supprime le produit du panier.

@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserPanelOrderController extends AbstractController
 {
     //Methode pour afficher la liste des commandes de l'utilisateur connecté.
-    #[Route('/user/order_list', name: 'app_commande_list')]
+    #[Route('/user/order_list', name: 'app_order_list')]
     public function list(
         OrderRepository $orderRepo,
         Security        $security,
@@ -34,9 +34,9 @@ class UserPanelOrderController extends AbstractController
 
         if (empty($orders)) {
             //Redirection vers la page des commandes si aucune commande n'existe
-            return $this->render('FrontOffice/user/emptyCommande.html.twig');
+            return $this->render('FrontOffice/user/empty_order.html.twig');
         }
-        return $this->render('FrontOffice/user/commande_list.html.twig', [
+        return $this->render('FrontOffice/user/order_list.html.twig', [
             'title' => 'Liste des commandes',
             'order' => $orders,
             'id' => $request->query->get('id', ''),
@@ -44,7 +44,7 @@ class UserPanelOrderController extends AbstractController
     }
 
     //Methode pour afficher les détails d'une commande.
-    #[Route('/user/order_show/{id}', name: 'app_commande_show')]
+    #[Route('/user/order_show/{id}', name: 'app_order_show')]
     public function show(
         ?Orders  $orders,
         Security $security,
@@ -58,14 +58,14 @@ class UserPanelOrderController extends AbstractController
 
         if (!$orders) {
             //Redirection vers la page des commandes si la commande n'existe pas
-            return $this->redirectToRoute('app_commande_list');
+            return $this->redirectToRoute('app_order_list');
         }
 
         if($orders->getUsers()->getId() !== $security->getUser()->getId()){
             //Redirection vers la page des commandes si la commande n'existe pas
-            return $this->redirectToRoute('app_commande_list');
+            return $this->redirectToRoute('app_order_list');
         }
-        return $this->render('FrontOffice/user/commande_show.html.twig', [
+        return $this->render('FrontOffice/user/order_show.html.twig', [
             'title' => 'Fiche de la commande',
             'order' => $orders,
         ]);

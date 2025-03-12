@@ -26,7 +26,7 @@
                     <div class="btn-container">
                         {{ include('FrontOffice/cart/remove_to_panier.html.twig', {'id': product.produit.id}) }}
                         <span>{{ product.qte }}</span>
-                        {{ include('FrontOffice/cart/addqte.html.twig', {'id': product.produit.id}) }}
+                        {{ include('FrontOffice/cart/add_quantity.html.twig', {'id': product.produit.id}) }}
                         {{ include('FrontOffice/cart/delete.html.twig', { 'id': product.id }) }}
                     </div>
                 </div>

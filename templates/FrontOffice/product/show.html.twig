@@ -94,7 +94,7 @@
                     </p>
                 </div>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {{ include('FrontOffice/product/_addToPanier.html.twig', { 'id': mainProduct.details.products.id }) }}
+                    {{ include('FrontOffice/product/_add_to_cart.html.twig', { 'id': mainProduct.details.products.id }) }}
                 {% else %}
                     <div class="legends button">
                         <a href='{{ path('app_login') }}' class="button-connect">

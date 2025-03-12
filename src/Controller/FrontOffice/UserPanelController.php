@@ -58,7 +58,7 @@ class UserPanelController extends AbstractController
             return $this->redirectToRoute('app_user');
         }
 
-        return $this->render('FrontOffice/user/updateAccount.html.twig', [
+        return $this->render('FrontOffice/user/update_account.html.twig', [
             'title' => 'Vos informations' . ' ' . $users->getFirstname() . ' ' . $users->getLastname(),
             'users' => $users,
             'form' => $result['form'],

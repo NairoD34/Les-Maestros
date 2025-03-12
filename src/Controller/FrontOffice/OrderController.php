@@ -34,7 +34,7 @@ class OrderController extends AbstractController
         if ($cartService->FormOrdersValidation($request)) {
             // Enregistrement de la commande
             $this->addFlash('success', 'Votre commande a bien été validée.');
-            return $this->redirectToRoute('app_commande_list');
+            return $this->redirectToRoute('app_order_list');
         }
 
 

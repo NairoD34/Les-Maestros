@@ -34,7 +34,7 @@ class AdminOrderController extends AbstractController
         $id = $orderRepo->searchByName($request->query->get('id', ''));
         if (empty($orders)) {
             //Affiche la page spécifique aux commandes vides si aucune n'existe.
-            return $this->render('BackOffice/Order/emptyOrder.html.twig');
+            return $this->render('BackOffice/Order/empty_order.html.twig');
         }
 
         return $this->render('BackOffice/Order/order_list.html.twig', [

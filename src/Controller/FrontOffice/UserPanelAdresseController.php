@@ -59,7 +59,7 @@ class UserPanelAdresseController extends AbstractController
             return $this->redirectToRoute('app_list_adresse');
         }
        
-        return $this->render('FrontOffice/user/showAdresse.html.twig', [
+        return $this->render('FrontOffice/user/show_adress.html.twig', [
             'title' => 'Information de l\'adresse ',
             'adresse' => $adress,
             'user' => $user
