@@ -13,6 +13,7 @@ use App\Form\AdminOrderFormType;
 use App\Form\AdminFormType;
 use App\Form\AdminProductFormType;
 use App\Repository\CategoryRepository;
+use App\Repository\PhotosRepository;
 use App\Repository\ProductRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -57,7 +58,7 @@ class FormHandlerService
     }
 
     // Methode pour gérer les opérations liées aux produits dans le back-office.
-    public function handleProduct($update, Request $request, Product $product, $photo, ?ProductRepository $productRepo)
+    public function handleProduct($update, Request $request, Product $product, PhotosRepository $photo, ?ProductRepository $productRepo)
     {
         $form = $this->formFactory->create(AdminProductFormType::class, $product, ['is_update' => $update]);
         $validate = false;
@@ -69,34 +70,18 @@ class FormHandlerService
             $file = $form['upload_file']->getData();
             $audio = $form['upload_audio']->getData();
 
-            if ($file) {
-                $file_name = $this->upload->uploadProductPhoto($file);
-                if ($file_name) // for example
-                {
-                    $directory = $this->upload->getTargetDirectory();
-                    $full_path = $directory . '/' . $file_name;
-                } else {
-                    echo ('une erreur est survenue à l\'image');
-                }
-            }
             if ($audio) {
                 $audio_name = $this->upload->uploadProductAudio($audio);
                 if ($audio_name) {
-                    $audioDirectory = $this->upload->getTargetDirectoryAudio();
-                    $audio_path = $audioDirectory . '/' . $audio_name;
-                } else {
-                    echo ('une erreur est survenue à l\'audio');
-                }
-                $product->setAudio($audio_path);
+                    $product->setAudio('/upload/audio_product/' . $audio_name);
+                } 
             }
             $category = $form['category']->getData();
             $product->setCategory($category);
-            if ($audio) {
-                $product->setAudio('/upload/audio_product/' . $audio_name);
-            }
 
             if ($update) {
                 if ($file) {
+                    $file_name = $this->upload->uploadProductPhoto($file);
                     $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
                 }
                 $this->em->persist($product);
