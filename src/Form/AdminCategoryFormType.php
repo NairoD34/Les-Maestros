@@ -42,10 +42,10 @@ class AdminCategoryFormType extends AbstractType
                 'constraints' => [
                     new ConstraintsFile([
                         'mimeTypes' => [
-                            'img/jpg',
-                            'img/png',
-                            'img/jpeg',
-
+                            'image/jpg',
+                            'image/png',
+                            'image/jpeg',
+                            'image/webp',
                         ],
                         'mimeTypesMessage' => "This document isn't valid.",
                     ])

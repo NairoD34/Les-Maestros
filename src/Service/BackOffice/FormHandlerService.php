@@ -14,15 +14,12 @@ use App\Form\AdminFormType;
 use App\Form\AdminProductFormType;
 use App\Repository\CategoryRepository;
 use App\Repository\PhotosRepository;
-use App\Repository\ProductRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-
-use function PHPUnit\Framework\isType;
 
 // Classe pour gérer les opérations liées aux formulaires dans le back-office.
 class FormHandlerService
@@ -60,7 +57,7 @@ class FormHandlerService
     }
 
     // Methode pour gérer les opérations liées aux produits dans le back-office.
-    public function handleProduct($update, Request $request, Product $product, PhotosRepository $photoRepo, ?ProductRepository $productRepo)
+    public function handleProduct($update, Request $request, Product $product, PhotosRepository $photoRepo)
     {
         $form = $this->formFactory->create(AdminProductFormType::class, $product, ['is_update' => $update]);
         $validate = false;
@@ -85,13 +82,24 @@ class FormHandlerService
 
             if ($audio && is_file($audio)) {
                 $audio_name = $this->upload->uploadProductAudio($audio);
-                if ($audio_name) {
-                    $product->setAudio('/upload/audio_product/' . $audio_name);
+                if ($update) {
+                    $currentAudio = $product->getAudio();
+                    if ($currentAudio) {
+                        $old_audio_name = explode('/', $currentAudio);
+                        unlink($this->upload->getTargetDirectoryAudio() . '/' . end($old_audio_name));
+                    }
                 }
+                $product->setAudio('/upload/audio_product/' . $audio_name);
             }
 
             if ($update) {
                 if ($photo) {
+                    $actualPhoto = $product->getPhotos(); //Récupère une persistent collection 
+                    $URLPhoto = $actualPhoto->getValues()[0]->getURLPhoto(); //Transforme la collection en array, puis récupère l'URL de la photo à l'index 0
+                    if ($URLPhoto) {
+                        $old_photo_name = explode('/', $URLPhoto);
+                        unlink($this->upload->getTargetDirectoryProduct() . '/' . end($old_photo_name));
+                    }
                     $photo_name = $this->upload->uploadProductPhoto($photo);
                     $photoRepo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $photo_name);
                 }
@@ -172,52 +180,55 @@ class FormHandlerService
     }
 
     // Methode pour gérer les opérations liées aux categories dans le back-office.
-    public function handleCategory(bool $update, Request $request, Category $category, $photo, ?CategoryRepository $categoryRepo)
+    public function handleCategory(bool $update, Request $request, Category $category, PhotosRepository $photoRepo, ?CategoryRepository $categoryRepo)
     {
         $form = $this->formFactory->create(AdminCategoryFormType::class, $category, ['is_update' => $update]);
+        $validate = false;
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            $file = $form['upload_file']->getData();
-            if ($update) {
-                if ($file) {
-                    $file_name = $this->upload->uploadCategory($file);
+        $photo_name = "";
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $photo = $form['upload_file']->getData();
 
-                    if ($file_name) {
-                        $directory = $this->upload->getTargetDirectory();
-                        $full_path = $directory . '/' . $file_name;
-                        if (file_exists($full_path)) {
-                            $error = 'une erreur est survenue';
-                        }
+            if (!$update && !is_file($photo)) {
+                return [
+                    'validate' => $validate,
+                    'form' => $form,
+                ];
+            }
+
+            $parentCategory = $form['parent_category']->getData();
+            $category->setParentCategory($parentCategory);
+
+            if ($update) {
+                if ($photo) {
+                    $actualPhoto = $category->getPhotos(); //Récupère une persistent collection 
+                    $URLPhoto = $actualPhoto->getValues()[0]->getURLPhoto(); //Transforme la collection en array, puis récupère l'URL de la photo à l'index 0
+                    if ($URLPhoto) {
+                        $old_photo_name = explode('/', $URLPhoto);
+                        unlink($this->upload->getTargetDirectory() . '/' . end($old_photo_name));
                     }
-                    $this->em->persist($category);
-                    $this->em->flush();
-                    $photo->updatePhotoInCategory($category->getId(), '/upload/photo_category/' . $file_name);
-                }
-            } else {
-                if ($file) {
-                    $file_name = $this->upload->uploadCategory($file);
-                    if ($file_name) {
-                        $directory = $this->upload->getTargetDirectory();
-                        $full_path = $directory . '/' . $file_name;
-                    } else {
-                        $error = 'une erreur est survenue';
-                    }
+                    $photo_name = $this->upload->uploadCategory($photo);
+                    $photoRepo->updatePhotoInCategory($category->getId(), '/upload/photo_category/' . $photo_name);
                 }
                 $this->em->persist($category);
                 $this->em->flush();
-                if ($file) {
-                    $photo->insertPhotoWithCategorie($categoryRepo->getLastId()->getId(), '/upload/photo_category/' . $file_name);
+                $validate = true;
+            } else {
+                if ($photo) {
+                    $photo_name = $this->upload->uploadCategory($photo);
+                    $this->em->persist($category);
+                    $this->em->flush();
+                    $photoRepo->insertPhotoWithCategorie($category->getId(), '/upload/photo_category/' . $photo_name);
+                    $validate = true;
                 }
             }
-            return [
-                "validate" => true,
-                "form" => $form,
-            ];
         }
+
         return [
-            "validate" => false,
-            "form" => $form,
+            'validate' => $validate,
+            'form' => $form,
         ];
     }
 }
