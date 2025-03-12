@@ -73,7 +73,7 @@ class FormHandlerService
             $photo = $form['upload_file']->getData();
             $audio = $form['upload_audio']->getData();
 
-            if (!is_file($photo)) {
+            if (!$update && !is_file($photo)) {
                 return [
                     'condition' => $validate,
                     'form' => $form,
@@ -83,27 +83,27 @@ class FormHandlerService
             $category = $form['category']->getData();
             $product->setCategory($category);
 
-            if ($audio) {
+            if ($audio && is_file($audio)) {
                 $audio_name = $this->upload->uploadProductAudio($audio);
                 if ($audio_name) {
                     $product->setAudio('/upload/audio_product/' . $audio_name);
-                } 
+                }
             }
 
             if ($update) {
                 if ($photo) {
-                    $file_name = $this->upload->uploadProductPhoto($photo);
-                    $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
+                    $photo_name = $this->upload->uploadProductPhoto($photo);
+                    $photoRepo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $photo_name);
                 }
                 $this->em->persist($product);
                 $this->em->flush();
                 $validate = true;
             } else {
                 if ($photo) {
-                    $file_name = $this->upload->uploadProductPhoto($photo);
+                    $photo_name = $this->upload->uploadProductPhoto($photo);
                     $this->em->persist($product);
                     $this->em->flush();
-                    $photoRepo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $photo_name);
+                    $photoRepo->insertPhotoWithProduct($product->getId(), '/upload/photo_product/' . $photo_name);
                     $validate = true;
                 }
             }
