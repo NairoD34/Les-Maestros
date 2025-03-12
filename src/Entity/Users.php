@@ -38,7 +38,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(
         message: 'Vous devez définir une adresse mail',
     )]
-    #[Assert\NoSuspiciousCharacters]
 
     private ?string $email = null;
 
