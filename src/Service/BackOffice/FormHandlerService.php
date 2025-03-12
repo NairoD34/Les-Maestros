@@ -103,8 +103,7 @@ class FormHandlerService
                     $file_name = $this->upload->uploadProductPhoto($photo);
                     $this->em->persist($product);
                     $this->em->flush();
-                    dd($product->getId());
-                    $photoRepo->insertPhotoWithProduct($product->getId(), '/upload/photo_product/' . $photo_name);
+                    $photoRepo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $photo_name);
                     $validate = true;
                 }
             }
