@@ -58,17 +58,21 @@ class FormHandlerService
     }
 
     // Methode pour gérer les opérations liées aux produits dans le back-office.
-    public function handleProduct($update, Request $request, Product $product, PhotosRepository $photo, ?ProductRepository $productRepo)
+    public function handleProduct($update, Request $request, Product $product, PhotosRepository $photoRepo, ?ProductRepository $productRepo)
     {
         $form = $this->formFactory->create(AdminProductFormType::class, $product, ['is_update' => $update]);
         $validate = false;
 
         $form->handleRequest($request);
         $audio_name = "";
-        $file_name = "";
+        $photo_name = "";
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form['upload_file']->getData();
+            $photo = $form['upload_file']->getData();
             $audio = $form['upload_audio']->getData();
+
+            $category = $form['category']->getData();
+            $product->setCategory($category);
 
             if ($audio) {
                 $audio_name = $this->upload->uploadProductAudio($audio);
@@ -76,10 +80,20 @@ class FormHandlerService
                     $product->setAudio('/upload/audio_product/' . $audio_name);
                 } 
             }
-            $category = $form['category']->getData();
-            $product->setCategory($category);
 
-            if ($update) {
+            if ($photo) { //Persiste et flush ici
+                $photo_name = $this->upload->uploadProductPhoto($photo);
+                if ($update) {
+                    $photoRepo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $photo_name);
+                } else {
+                    $photoRepo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $photo_name);
+                }
+                $this->em->persist($product);
+                $this->em->flush();
+                $validate = true;
+            }
+
+            /* if ($update) {
                 if ($file) {
                     $file_name = $this->upload->uploadProductPhoto($file);
                     $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
@@ -89,12 +103,13 @@ class FormHandlerService
                 $validate = true;
             } else {
                 if ($file) {
+                    $file_name = $this->upload->uploadProductPhoto($file);
                     $this->em->persist($product);
                     $this->em->flush();
                     $photo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $file_name);
                     $validate = true;
                 }
-            }
+            } */
         }
 
         return [
