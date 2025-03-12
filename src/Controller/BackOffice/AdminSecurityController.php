@@ -23,9 +23,9 @@ class AdminSecurityController extends AbstractController
 
         // Recupere les données des KPI.
         $data = $kpi->getAllData();
-        return $this->render('BackOffice/dashboard.html.twig' ,[
-            "data" => $data
+        return $this->render('BackOffice/dashboard.html.twig', [
+            "data" => $data,
+            "title" => "Dashboard"
         ]);
     }
-
 }

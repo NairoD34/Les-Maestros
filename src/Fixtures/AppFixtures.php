@@ -15,14 +15,13 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        // Créer une instance de votre entité
         $admin = new Users();
-        $admin->setLastname('Admin'); // Remplacez par vos champs
+        $admin->setLastname('Admin'); 
         $admin->setFirstname('Admin');
         $admin->setEmail('admin@mail.fr');
         $admin->setPassword(password_hash('lesMaestros34@', PASSWORD_BCRYPT));
         $admin->setRoles(['ROLE_ADMIN']);
-        // Persist l'entité
+        
         $manager->persist($admin);
 
         $state1 = new State();
@@ -65,7 +64,7 @@ class AppFixtures extends Fixture
         $delivery2 = new Delivery();
         $delivery2->setTitle('livraison à domicile');
         $manager->persist($delivery2);
-        // Flush pour enregistrer les données dans la base de données
+
         $manager->flush();
 
     }

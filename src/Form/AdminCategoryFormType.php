@@ -17,6 +17,7 @@ class AdminCategoryFormType extends AbstractType
     //Methode pour construire le formulaire.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $isUpdate = $options['is_update'] ?? false;
         $builder
             ->add('title')
             ->add('description', TextareaType::class, [
@@ -37,7 +38,7 @@ class AdminCategoryFormType extends AbstractType
             ->add('upload_file', FileType::class, [
                 'label' => false,
                 'mapped' => false,
-                'required' => false,
+                'required' => !$isUpdate,
                 'constraints' => [
                     new ConstraintsFile([
                         'mimeTypes' => [
@@ -57,6 +58,7 @@ class AdminCategoryFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Category::class,
+            'is_update' => false,
         ]);
     }
 }
