@@ -47,7 +47,7 @@ class CategoryController extends AbstractController
         $parent = $cateRepo->searchParentCategory($category->getTitle());
         $children = $cateRepo->searchChildCategory($category);
 
-        return $this->render('FrontOffice/category/showparent.html.twig', [
+        return $this->render('FrontOffice/category/showParent.html.twig', [
             'title' => 'Catégorie',
             'cate' => $category,
             'parents' => $parent,
@@ -66,7 +66,7 @@ class CategoryController extends AbstractController
         }
 
 
-        return $this->render('FrontOffice/category/showenfant.html.twig', [
+        return $this->render('FrontOffice/category/showEnfant.html.twig', [
             'title' => 'Catégorie',
             'cate' => $category,
 
@@ -99,7 +99,7 @@ class CategoryController extends AbstractController
         $productData = $categoryService->getProducts($products, $photoRepo);
         $productNewData = $categoryService->getProducts($newProducts, $photoRepo);
 
-        return $this->render('FrontOffice/category/produit_categorie.html.twig', [
+        return $this->render('FrontOffice/category/productCategory.html.twig', [
             'produits' => $productData,
             'categorieParente' => $categoryParent,
             'newsProducts' => $productNewData,
