@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\OrderLineRepository;
+use App\Repository\OrderRepository;
+
+
 
 //Contrôleur pour gérer les opérations liées aux utilisateurs dans le back-office.
 #[Route('admin/')]
@@ -76,7 +80,9 @@ class AdminUsersController extends AbstractController
         EntityManagerInterface $entityManager,
         Security               $security,
         CartRepository         $cartRepo,
-        CartProductRepository  $cartProduct
+        CartProductRepository  $cartProductRepo,
+        OrderRepository        $orderRepo,
+        OrderLineRepository    $orderLineRepo
     )
     {
         // Vérifie si l'utilisateur a le rôle ADMIN avant de continuer.
@@ -94,15 +100,30 @@ class AdminUsersController extends AbstractController
             $carts = $cartRepo->findByUserId($users->getId());
             if ($carts) {
                 foreach ($carts as $cart) {
-                    $products = $cart->findByCartId($cart->getId());
-                    if ($products) {
-                        foreach ($products as $product) {
-                            $entityManager->remove($product);
+                    $cartProducts= $cart->getCartProducts();
+                    if ($cartProducts) {
+                        foreach ($cartProducts as $cartProduct) {
+                            $entityManager->remove($cartProduct);
+                            $entityManager->flush();
                         }
                     }
                     $entityManager->remove($cart);
+                    $entityManager->flush();
                 }
-
+            }
+            $orders = $orderRepo->findByUserID($users->getId());
+            if ($orders) {
+                foreach ($orders as $order) {
+                    $orderLines=$orderLineRepo->findByOrderId($order->getId());
+                    if ($orderLines) {
+                        foreach ($orderLines as $orderLine) {
+                            $entityManager->remove($orderLine);
+                            $entityManager->flush();
+                        }
+                    }
+                    $entityManager->remove($order);
+                    $entityManager->flush();
+                }
             }
             $entityManager->remove($users);
             $entityManager->flush();
