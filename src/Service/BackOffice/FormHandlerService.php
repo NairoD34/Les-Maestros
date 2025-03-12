@@ -22,6 +22,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+use function PHPUnit\Framework\isType;
+
 // Classe pour gérer les opérations liées aux formulaires dans le back-office.
 class FormHandlerService
 {
@@ -71,6 +73,13 @@ class FormHandlerService
             $photo = $form['upload_file']->getData();
             $audio = $form['upload_audio']->getData();
 
+            if (!is_file($photo) || !is_file($audio)) {
+                return [
+                    'condition' => $validate,
+                    'form' => $form,
+                ];
+            }
+
             $category = $form['category']->getData();
             $product->setCategory($category);
 
@@ -81,35 +90,23 @@ class FormHandlerService
                 } 
             }
 
-            if ($photo) { //Persiste et flush ici
-                $photo_name = $this->upload->uploadProductPhoto($photo);
-                if ($update) {
-                    $photoRepo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $photo_name);
-                } else {
-                    $photoRepo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $photo_name);
-                }
-                $this->em->persist($product);
-                $this->em->flush();
-                $validate = true;
-            }
-
-            /* if ($update) {
-                if ($file) {
-                    $file_name = $this->upload->uploadProductPhoto($file);
+            if ($update) {
+                if ($photo) {
+                    $file_name = $this->upload->uploadProductPhoto($photo);
                     $photo->updatePhotoInProduct($product->getId(), '/upload/photo_product/' . $file_name);
                 }
                 $this->em->persist($product);
                 $this->em->flush();
                 $validate = true;
             } else {
-                if ($file) {
-                    $file_name = $this->upload->uploadProductPhoto($file);
+                if ($photo) {
+                    $file_name = $this->upload->uploadProductPhoto($photo);
                     $this->em->persist($product);
                     $this->em->flush();
-                    $photo->insertPhotoWithProduct($productRepo->getLastId()->getId(), '/upload/photo_product/' . $file_name);
+                    $photoRepo->insertPhotoWithProduct($product->getId(), '/upload/photo_product/' . $photo_name);
                     $validate = true;
                 }
-            } */
+            }
         }
 
         return [
