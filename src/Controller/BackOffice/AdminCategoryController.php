@@ -18,7 +18,7 @@ use App\Service\BackOffice\FormHandlerService;
 #[Route('admin/')]
 class AdminCategoryController extends AbstractController
 {
-// Affiche les produits d'une catégorie spécifique.
+    // Affiche les produits d'une catégorie spécifique.
     #[Route('category/{id}', name: 'app_product_categorie')]
     public function displayProductsByCategories(
         Category           $categories,
@@ -26,8 +26,7 @@ class AdminCategoryController extends AbstractController
         CategoryRepository $categoryRepo,
         PhotosRepository   $photoRepo,
         Security           $security
-    ): Response
-    {
+    ): Response {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
@@ -45,13 +44,12 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
-// Affiche les détails d'une catégorie spécifique.
+    // Affiche les détails d'une catégorie spécifique.
     #[Route('category_show/{id}', name: 'app_category_show_admin')]
     public function show(
         Category $category,
         Security $security,
-    ): Response
-    {
+    ): Response {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
@@ -62,14 +60,13 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
-// Liste toutes les catégories.
+    // Liste toutes les catégories.
     #[Route('category_list', name: 'app_category_list_admin')]
     public function list(
         CategoryRepository $categoryRepo,
         Security           $security,
         Request            $request
-    ): Response
-    {
+    ): Response {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
@@ -84,7 +81,7 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
-// Gère le formulaire pour la création de la catégorie.
+    // Gère le formulaire pour la création de la catégorie.
     #[Route('new_category', name: 'app_new_category')]
     public function new(
         Request            $request,
@@ -93,8 +90,7 @@ class AdminCategoryController extends AbstractController
         CategoryRepository $categoryRepo,
         FormHandlerService $formHandler,
 
-    ): Response
-    {
+    ): Response {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
@@ -109,7 +105,7 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
-// Met à jour d'une catégorie existante.
+    // Met à jour d'une catégorie existante.
     #[Route('update_category/{id}', name: 'app_update_category')]
     public function update(
         Request            $request,
@@ -119,8 +115,7 @@ class AdminCategoryController extends AbstractController
         PhotosRepository   $photo,
         FormHandlerService $formHandler,
 
-    )
-    {
+    ) {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }
@@ -141,14 +136,13 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
-// Supprime une catégorie existante et détache les produits et les sous-catégories de la catégorie à supprimer.
+    // Supprime une catégorie existante et détache les produits et les sous-catégories de la catégorie à supprimer.
     #[Route('delete_category/{id}', name: 'app_delete_category', methods: ['POST'])]
     public function delete(
         ?Category              $category,
         Security               $security,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         if (!$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_index');
         }

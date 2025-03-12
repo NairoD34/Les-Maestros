@@ -27,8 +27,7 @@ class AdminProductController extends AbstractController
         PhotosRepository   $photo,
         ProductRepository  $productRepo,
         FormHandlerService $formHandler
-    ): Response
-    {
+    ): Response {
         if (!$security->isGranted('ROLE_ADMIN')) {
             // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
@@ -56,8 +55,7 @@ class AdminProductController extends AbstractController
         AdminProductRepository $productRepo,
         Security               $security,
         Request                $request
-    ): Response
-    {
+    ): Response {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
             // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
@@ -79,8 +77,7 @@ class AdminProductController extends AbstractController
     public function showProducts(
         ?Product $product,
         Security $security,
-    ): Response
-    {
+    ): Response {
         if (!$security->isGranted('ROLE_ADMIN')) {
             // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
@@ -106,8 +103,7 @@ class AdminProductController extends AbstractController
         PhotosRepository   $photo,
         FormHandlerService $formHandler,
         ProductRepository  $productRepo,
-    )
-    {
+    ) {
         if (!$security->isGranted('ROLE_ADMIN')) {
             // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
@@ -119,9 +115,9 @@ class AdminProductController extends AbstractController
         }
 
         $formResult = $formHandler->handleProduct(true, $request, $product, $photo, $productRepo);
-
         if ($formResult['condition']) {
             // Redirige vers la liste si le produit a été mis à jour.
+
             return $this->redirectToRoute('app_product_list_admin');
         }
         return $this->render('BackOffice/Product/product_new.html.twig', [
@@ -136,8 +132,7 @@ class AdminProductController extends AbstractController
         ?Product               $product,
         Security               $security,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         if (!$security->isGranted('ROLE_ADMIN')) {
             // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
@@ -156,16 +151,4 @@ class AdminProductController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('app_product_list_admin');
     }
-
-
 }
-    
-   
-
-   
-   
-    
-   
-
-
-    

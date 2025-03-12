@@ -35,7 +35,6 @@ class FormHandlerService
         $this->formFactory = $formFactory;
         $this->upload = $fileUploader;
         $this->em = $emi;
-
     }
 
     // Methode pour gérer les opérations liées aux ventes dans le back-office.
@@ -60,7 +59,7 @@ class FormHandlerService
     // Methode pour gérer les opérations liées aux produits dans le back-office.
     public function handleProduct($update, Request $request, Product $product, $photo, ?ProductRepository $productRepo)
     {
-        $form = $this->formFactory->create(AdminProductFormType::class, $product);
+        $form = $this->formFactory->create(AdminProductFormType::class, $product, ['is_update' => $update]);
         $validate = false;
 
         $form->handleRequest($request);
@@ -70,14 +69,14 @@ class FormHandlerService
             $file = $form['upload_file']->getData();
             $audio = $form['upload_audio']->getData();
 
-            /* if ($file) {
+            if ($file) {
                 $file_name = $this->upload->uploadProductPhoto($file);
                 if ($file_name) // for example
                 {
                     $directory = $this->upload->getTargetDirectory();
                     $full_path = $directory . '/' . $file_name;
                 } else {
-                    echo('une erreur est survenue à l\'image');
+                    echo ('une erreur est survenue à l\'image');
                 }
             }
             if ($audio) {
@@ -86,14 +85,14 @@ class FormHandlerService
                     $audioDirectory = $this->upload->getTargetDirectoryAudio();
                     $audio_path = $audioDirectory . '/' . $audio_name;
                 } else {
-                    echo('une erreur est survenue à l\'audio');
+                    echo ('une erreur est survenue à l\'audio');
                 }
                 $product->setAudio($audio_path);
-            } */
+            }
             $category = $form['category']->getData();
             $product->setCategory($category);
-            if($audio){
-                $product->setAudio('/upload/audio_product/' . $audio_name); 
+            if ($audio) {
+                $product->setAudio('/upload/audio_product/' . $audio_name);
             }
 
             if ($update) {
@@ -147,7 +146,7 @@ class FormHandlerService
             $errorsString = (string) $errors;
             dd($errors); */
         }
-        
+
         return [
             'validate' => $validate,
             'form' => $form,
@@ -178,7 +177,7 @@ class FormHandlerService
     // Methode pour gérer les opérations liées aux categories dans le back-office.
     public function handleCategory(bool $update, Request $request, Category $category, $photo, ?CategoryRepository $categoryRepo)
     {
-        $form = $this->formFactory->create(AdminCategoryFormType::class, $category);
+        $form = $this->formFactory->create(AdminCategoryFormType::class, $category, ['is_update' => $update]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
@@ -218,12 +217,10 @@ class FormHandlerService
                 "validate" => true,
                 "form" => $form,
             ];
-
         }
         return [
             "validate" => false,
             "form" => $form,
         ];
-
     }
 }

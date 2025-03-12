@@ -21,8 +21,7 @@ class AdminMessageController extends AbstractController
     public function show(
         Message  $message,
         Security $security,
-    ): Response
-    {
+    ): Response {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
             // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
@@ -47,8 +46,7 @@ class AdminMessageController extends AbstractController
         MessageRepository $messageRepo,
         Security          $security,
         Request           $request
-    ): Response
-    {
+    ): Response {
 
         if (!$security->isGranted('ROLE_ADMIN')) {
             // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.
@@ -70,8 +68,7 @@ class AdminMessageController extends AbstractController
         ?Message               $message,
         Security               $security,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         if (!$security->isGranted('ROLE_ADMIN')) {
             // Redirige vers l'accueil si l'utilisateur n'a pas le rôle ADMIN.            
             return $this->redirectToRoute('app_index');

@@ -20,6 +20,8 @@ class AdminProductFormType extends AbstractType
     //Methode pour construire le formulaire.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $isUpdate = $options['is_update'] ?? false;
+
         $builder
             ->add('title')
             ->add('description')
@@ -39,12 +41,12 @@ class AdminProductFormType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'title',
             ])
-            
+
             //Methode pour ajouter un fichier image.
             ->add('upload_file', FileType::class, [
                 'label' => false,
                 'mapped' => false,
-                'required' => false,
+                'required' => !$isUpdate,
                 'constraints' => [
                     new ConstraintsFile([
                         'mimeTypes' => [
@@ -67,7 +69,7 @@ class AdminProductFormType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
-                    new ConstraintsFile([ //Nothing else than audio should be uploaded here
+                    new ConstraintsFile([
                         'mimeTypes' => [
                             'audio/mpeg',
                             'audio/wav',
@@ -85,6 +87,7 @@ class AdminProductFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Product::class,
+            'is_update' => false,
         ]);
     }
 }
