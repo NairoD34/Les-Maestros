@@ -2,7 +2,7 @@
     h1 {
         font-size: 18px;
         text-align: center;
-        color: #DFBE31;
+        color: #8B6A4B;
     }
 
     h2 {
@@ -56,7 +56,9 @@
         margin-right: 20px;
     }
 
-
+    .footer{
+        text-align: center;
+    }
 </style>
 
 {% block main %}
@@ -67,10 +69,11 @@
         {# Acheteur #}
         <div class="destC">
             <h2>Client</h2>
-            {% for dataLc in dataCommande.orderLine %}
-                <p>{{ dataLc.userFirstname }} {{ dataLc.userLastname }}</p>
-                <p> {{ dataLc.userEmail }} </p>
-            {% endfor %}
+            {% if dataCommande.orderLine is defined and dataCommande.orderLine|length > 0 %}
+                {% set firstLine = dataCommande.orderLine|first %}
+                <p>{{ firstLine.userFirstname }} {{ firstLine.userLastname }}</p>
+                <p>{{ firstLine.userEmail }}</p>
+            {% endif %}
             {# Adresse de livraison #}
             <h3>Adresse de Livraison</h3>
             <p>{{ deliveryAddress.number }}  {{ deliveryAddress.street }}  {{ deliveryAddress.city.name }} {{ deliveryAddress.city.county.name }} {{ deliveryAddress.city.county.region.name }} </p>
@@ -82,33 +85,40 @@
         <h1>Facture </h1>
 
         {# Produit #}
-        {% for dataP in dataProduit %}
-            <table>
-                <thead>
+         <table>
+            <thead>
                 <tr>
                     <th>Produit</th>
                     <th>Quantité</th>
-                    <th>Prix HT</th>
+                    <th>Prix unitaire HT</th>
                     <th>TVA</th>
-                    <th>Prix TTC</th>
-                    <th>Total de la commande</th>
+                    <th colspan="2">Total TTC</th>
                 </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{{ dataP.productName }}</td>
-                    <td>{{ dataP.quantity }}</td>
-                    {% if dataP.quantity > 1 %}
-                        <td>{{ dataP.productPrice * dataP.quantity }} €</td>
-                    {% else %}
-                        <td>{{ dataP.productPrice }} €</td>
-                    {% endif %}
-                    <td>{{ dataP.taxRate }} %</td>
-                    <td>{{ dataP.productPrice  + (dataP.productPrice * dataP.taxRate)/100 }} €</td>
-                    <td> {{ dataP.totalPrice }} €</td>
+            </thead>
+            <tbody>
+                {% set totalGeneral = 0 %}
+                {% for dataP in dataProduit %}
+                    <tr>
+                        <td>{{ dataP.productName }}</td>
+                        <td>{{ dataP.quantity }}</td>
+                        <td>{{ dataP.productPrice|number_format(2, ',', ' ') }} €</td>
+                        <td>{{ dataP.taxRate }} %</td>
+                        <td colspan="2">{{ (dataP.productPrice + (dataP.productPrice * dataP.taxRate)/100)|number_format(2, ',', ' ') }} €</td>
+                       
+                    </tr>
+                    {% set totalGeneral =  dataP.totalPrice %}
+                {% endfor %}
+                
+                {# Ligne de total général #}
+                <tr class="total-row">
+                    <td colspan="4" style="text-align: center">Total de la commande</td>
+                    <td colspan="2">{{ totalGeneral|number_format(2, ',', ' ') }} €</td>
                 </tr>
-                </tbody>
-            </table>
-        {% endfor %}
+            </tbody>
+        </table>
+        <div class="footer">
+            <p>Merci pour votre commande !</p>
+            <p>Les Maestros - {{ "now"|date("Y") }}</p>
+        </div>
     </div>
 {% endblock %}

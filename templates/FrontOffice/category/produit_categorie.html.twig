@@ -71,10 +71,9 @@
                                             Nouveautés {% if item.produit.sales is not empty %}
                                                 <span>{{ item.produit.sales.title }}</span>{% endif %} </span>
                                     </div>
+                                {% else %}
+                                    <div class="flag-percent-placeholder"></div>
                                 {% endif %}
-                                <div class="empty-percent">
-                                    <span>0%</span>
-                                </div>
                                 <a href="{{ path('app_show_produit', { 'id': item.produit.id }) }}">
                                     {% if item.photos is not empty %}
                                         <img src="{{ item.photos[0].urlPhoto }}" alt="{{item.produit.title}}">

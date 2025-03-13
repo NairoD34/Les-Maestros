@@ -30,7 +30,7 @@ class RegistrationController extends AbstractController
         $result = $passwordService->CreatePasswordForm($request, $user, $validatorInterface);
         if ($result['validate']) {
             //Ajoute un message de succès et redirige vers la page de connexion.
-            $this->addFlash("success", "inscription réaliser avec succès");
+            $this->addFlash("success", "Inscription réalisée avec succès");
             return $this->redirectToRoute('app_login');
         }
         return $this->render('FrontOffice/registration/register.html.twig', [

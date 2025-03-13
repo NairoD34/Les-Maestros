@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 // Classe pour gérer les formulaires pour les commandes.
 class CommandeFormType extends AbstractType
@@ -33,11 +34,25 @@ class CommandeFormType extends AbstractType
                 'class' => Adress::class,
                 'choices' => $adressesUtilisateur,
                 'choice_label' => 'street',
+                'required' => true,
+                'placeholder' => 'Sélectionnez une adresse de facturation',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez sélectionner une adresse de facturation',
+                    ]),
+                ],
             ])
             ->add('delivered', EntityType::class, [
                 'class' => Adress::class,
                 'choices' => $adressesUtilisateur,
                 'choice_label' => 'street',
+                'required' => true,
+                'placeholder' => 'Sélectionnez une adresse de livraison',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez sélectionner une adresse de livraison',
+                    ]),
+                ],
             ]);
     }
 
