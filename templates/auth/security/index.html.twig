@@ -8,11 +8,6 @@
         <div class="log-container">
             <div class="log-content">
                 {# Afficher les messages de succès s'il y en a #}
-                {% for message in app.flashes('success') %}
-                    <div class="log-success">
-                        {{ message }}
-                    </div>
-                {% endfor %}
                 <div class="log-block">
                     <div class="img-block">
                         {# Logo et titre de l'application #}
@@ -27,6 +22,11 @@
                                 <div class="log-danger">{{ error }}</div>
                             {% endif %}
 
+                            {% for message in app.flashes('success') %}
+                                <div class="log-success">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
                             <h1 class="title">Bonjour cher client !</h1>
 
                             <div class="form-block">

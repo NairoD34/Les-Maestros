@@ -11,7 +11,7 @@
   @media screen and (max-width: 1368px) {
     margin: 0 auto;
     display: flex;
-    width: 80%;
+    width: 100%;
     flex-direction: column;
     justify-content: end;
     align-items: center;
@@ -29,9 +29,6 @@
     background-color: colors.$header;
     color: colors.$main;
     @include mixins.center-flex(center);
-    @media screen and (max-width: 800px) {
-      width: 25%;
-    }
 
     span {
       display: inline-block;
@@ -47,18 +44,12 @@
     color: colors.$main;
     font-weight: bold;
     @include mixins.center-flex(center);
-    @media screen and (max-width: 800px) {
-      width: 45%;
-    }
-    @media (min-width: 800px) and (max-width: 1024px) {
-      width: 50%;
-    }
 
     span {
       display: inline-block;
       text-align: center;
       width: 100%;
-     }
+    }
   }
 
   a {

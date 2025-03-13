@@ -50,9 +50,13 @@
                 {% for productData in data|filter(product => product.photos is not empty) %}
                     <div class="card-container">
                         <div class="card-content">
-                            <div class="flag-percent">
-                                <span>{{ productData.produit.sales.title }}</span>
-                            </div>
+                             {% if productData.produit.sales is not empty %}
+                                <div class="flag-percent">
+                                    <span>{{ productData.produit.sales.title }}</span>
+                                </div>
+                            {% else %}
+                                <div class="flag-percent-placeholder"></div>
+                            {% endif %}
                             <a href="{{ path('app_show_produit', { 'id': productData.produit.id }) }}">
                                 {% for photo in productData.photos %}
                                     <img src='{{ photo.URLPhoto }}' alt=''
