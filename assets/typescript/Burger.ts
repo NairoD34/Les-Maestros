@@ -34,12 +34,12 @@ export default class Burger {
         const burgerInputId: HTMLButtonElement = document.querySelector(this.selector) as HTMLButtonElement;
         if (burgerInputId) {
             burgerInputId.addEventListener("click", function (e: MouseEvent) {
-                const div: HTMLDivElement = document.querySelector(".burger-background") as HTMLDivElement;
+                const div = document.querySelector(".burger-background") as HTMLDivElement;
                 const burgerOpen = document.querySelector(".burger-icon") as HTMLElement;
                 const burgerClose = document.querySelector(".close-icon") as HTMLElement;
-                const burgerStyle = window.getComputedStyle(div);
-
+                
                 if (div) {
+                    const burgerStyle = window.getComputedStyle(div);
                     if (burgerStyle.opacity === "0") {
                         div.classList.add("open");
                         if (burgerClose) burgerClose.style.display = "block";
