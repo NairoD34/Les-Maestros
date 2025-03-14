@@ -9,7 +9,7 @@
 
         {% else %}
             <a href="{{ path('app_categorie_show',{ 'id': item.id }) }}"> {{ item.title }} </a>
-        </li>
         {% endif %}
+        </li>
     {% endfor %}
 {% endblock %}
