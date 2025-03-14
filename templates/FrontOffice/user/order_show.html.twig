@@ -35,11 +35,9 @@
                     <!-- Bloc Informations Supplémentaires -->
                     <div class="order-content">
                         <h4>Informations Supplémentaires</h4>
-                        {% for orderInfo in order.orderLine %}
-                            <p><span>Nom :</span> {{ orderInfo.userLastname }}</p>
-                            <p><span>Prénom :</span> {{ orderInfo.userFirstname }}</p>
-                            <p><span>Email :</span> {{ orderInfo.userEmail }}</p>
-                        {% endfor %}
+                        <p><span>Nom :</span> {{ order.users.lastname }}</p>
+                        <p><span>Prénom :</span> {{ order.users.firstname }}</p>
+                        <p><span>Email :</span> {{ order.users.email }}</p>
 
                         <p><span>Total de la commande :</span> {{ order.tiOrderPrice }}€ TTC</p>
                         <p>
