@@ -22,17 +22,12 @@ class CartController extends AbstractController
     public function index(
         Security    $security,
         CartService $CartService,
-    ): Response
-    {
-        if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
-            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
-            return $this->redirectToRoute('app_index');
-        }
+    ): Response {
 
-        // Recherche du panier de l'utilisateur.
         $panier = $CartService->GetUserData()['cart'];
-        if (!$panier) {
-            // Affiche un message d'erreur si le panier n'existe pas.
+
+        if (!$security->isGranted('IS_AUTHENTICATED_FULLY') && !$panier) {
+            // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->render('FrontOffice/cart/empty_panier.html.twig');
         }
 
@@ -58,8 +53,7 @@ class CartController extends AbstractController
         Security               $security,
         CartRepository         $cartRepo,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
@@ -82,7 +76,6 @@ class CartController extends AbstractController
         }
 
         return $this->redirectToRoute('app_panier', [], Response::HTTP_SEE_OTHER);
-
     }
 
     // Réduit la quantité d'un produit du panier.
@@ -94,8 +87,7 @@ class CartController extends AbstractController
         CartProductRepository  $CartProductRepo,
         EntityManagerInterface $em,
         Request                $request,
-    )
-    {
+    ) {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
@@ -131,7 +123,6 @@ class CartController extends AbstractController
             }
         }
         return $this->redirectToRoute('app_panier', [], Response::HTTP_SEE_OTHER);
-
     }
 
     // Ajoute la quantité d'un produit au panier.
@@ -142,8 +133,7 @@ class CartController extends AbstractController
         CartRepository        $cartRepo,
         CartProductRepository $CartProductRepo,
         Request               $request,
-    )
-    {
+    ) {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->redirectToRoute('app_index');
@@ -159,7 +149,7 @@ class CartController extends AbstractController
         $Panier = $cartRepo->getLastCartOrder($security->getUser()->getId());
         $idPanier = $Panier->getId();
         $productInPanier = $CartProductRepo->getCartProductbyId($product, $Panier);
-        
+
 
         if (!$productInPanier) {
             // Redirige vers la page d'accueil si le produit n'existe pas dans le panier.
