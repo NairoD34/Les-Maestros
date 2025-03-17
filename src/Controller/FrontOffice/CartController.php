@@ -24,8 +24,10 @@ class CartController extends AbstractController
         CartService $CartService,
     ): Response {
 
-        $panier = $CartService->GetUserData()['cart'];
+        
+        $panier = $CartService->GetUserData();
 
+        
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY') && !$panier) {
             // Redirige vers la page d'accueil si l'utilisateur n'a pas les droits.
             return $this->render('FrontOffice/cart/empty_panier.html.twig');

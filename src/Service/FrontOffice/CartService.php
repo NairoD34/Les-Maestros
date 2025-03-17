@@ -37,20 +37,23 @@ class CartService
     public function GetUserData()
     {
         $user = $this->security->getUser();
-        $id = $user->getId();
-        $orders = new Orders();
-        $userAdresses = $this->adressRepo->findBy(['users' => $user]);
-        $form = $this->formFactory->create(CommandeFormType::class, $orders, [
-            'adressesUtilisateur' => $userAdresses,
-        ]);
-        $cart = $this->cartRepo->getLastCartOrder($id);
-        $result = [
-            'form' => $form,
-            'Orders' => $orders,
-            'id' => $id,
-            'cart' => $cart,
-        ];
-        return $result;
+        if ($user) {
+            $id = $user->getId();
+            $orders = new Orders();
+            $userAdresses = $this->adressRepo->findBy(['users' => $user]);
+            $form = $this->formFactory->create(CommandeFormType::class, $orders, [
+                'adressesUtilisateur' => $userAdresses,
+            ]);
+            $cart = $this->cartRepo->getLastCartOrder($id);
+            $result = [
+                'form' => $form,
+                'Orders' => $orders,
+                'id' => $id,
+                'cart' => $cart,
+            ];
+            return $result;
+        }
+        return false;
     }
 
     /**
@@ -63,18 +66,22 @@ class CartService
         $carts = $this->GetUserData()['cart'];
         $total = 0;
         $products = [];
-        foreach ($carts->getCartProducts() as $cart) {
 
-            $products[] = [
-                'id' => $cart->getId(),
-                'produit' => $cart->getProduct(),
-                'qte' => $cart->getQuantity(),
-                'photo' => $this->photoRepo->searchOnePhotoByProduct($cart->getProduct()->getId()),
-                'prixTTC' => $cart->getProduct()->getTaxFreePrice() + ($cart->getProduct()->getTaxFreePrice() * $cart->getProduct()->getTaxRate()->getTaxRate() / 100),
-            ];
-            $total += ($cart->getProduct()->getTaxFreePrice() + ($cart->getProduct()->getTaxFreePrice() * $cart->getProduct()->getTaxRate()->getTaxRate() / 100)) * $cart->getQuantity();
-            $total = number_format($total, 2, '.', '');
+        if ($carts) {
+            foreach ($carts->getCartProducts() as $cart) {
+    
+                $products[] = [
+                    'id' => $cart->getId(),
+                    'produit' => $cart->getProduct(),
+                    'qte' => $cart->getQuantity(),
+                    'photo' => $this->photoRepo->searchOnePhotoByProduct($cart->getProduct()->getId()),
+                    'prixTTC' => $cart->getProduct()->getTaxFreePrice() + ($cart->getProduct()->getTaxFreePrice() * $cart->getProduct()->getTaxRate()->getTaxRate() / 100),
+                ];
+                $total += ($cart->getProduct()->getTaxFreePrice() + ($cart->getProduct()->getTaxFreePrice() * $cart->getProduct()->getTaxRate()->getTaxRate() / 100)) * $cart->getQuantity();
+                $total = number_format($total, 2, '.', '');
+            }
         }
+        
         return [
             'total' => $total,
             'products' => $products,
