@@ -32,7 +32,8 @@ class CartProductRepository extends ServiceEntityRepository
         $stmt = $conn->prepare($sql);
         $stmt->executeQuery();
     }
-// Methode pour rechercher un produit dans le panier.
+    
+    // Methode pour rechercher un produit dans le panier.
     public function getCartProductbyId($Product, $Cart)
     {
         return $this->createQueryBuilder('p')
